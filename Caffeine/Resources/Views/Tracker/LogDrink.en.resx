@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Új Ital Rögzítése" xml:space="preserve"><value>Log New Drink</value></data>
+    <data name="Vissza a Dashboardra" xml:space="preserve"><value>Back to Dashboard</value></data>
+    <data name="Mit ittál? ☕⚡" xml:space="preserve"><value>What did you drink? ☕⚡</value></data>
+    <data name="Választott Ital" xml:space="preserve"><value>Selected Drink</value></data>
+    <data name="-- Válassz a listából --" xml:space="preserve"><value>-- Select from list --</value></data>
+    <data name="Mennyiség (ml)" xml:space="preserve"><value>Amount (ml)</value></data>
+    <data name="pl. 250" xml:space="preserve"><value>e.g. 250</value></data>
+    <data name="Mikor?" xml:space="preserve"><value>When?</value></data>
+    <data name="Naplóhoz adom" xml:space="preserve"><value>Add to Log</value></data>
+</root>

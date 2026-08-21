@@ -1,0 +1,132 @@
+﻿@model Caffeine.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Mai Nap";
+}
+
+<!-- FEJLÉC: Aktuális Koffeinszint -->
+<div class="glass rounded-3xl p-8 text-center mb-6 shadow-2xl relative overflow-hidden">
+    <!-- Finom háttér-fény a kártya tetején -->
+    <div class="absolute top-0 left-1/4 w-1/2 h-1/2 bg-cyan-500/20 blur-[50px] rounded-full"></div>
+    
+    <h2 class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-2 relative z-10">Aktív Szint</h2>
+    
+    <!-- A C# által generált Glow effect osztály betöltése -->
+    <div class="text-7xl font-black mb-3 transition-colors duration-500 relative z-10 @Model.StatusColor">
+        @Model.CurrentActiveCaffeineMg <span class="text-3xl font-medium opacity-50">mg</span>
+    </div>
+    
+    <p class="text-sm text-slate-400 relative z-10">
+        @if (Model.SleepReadinessTime.HasValue)
+        {
+            <span>Alvásküszöb (25mg) elérése: <strong class="text-white">@Model.SleepReadinessTime.Value.ToString("HH:mm")</strong></span>
+        }
+        else
+        {
+            <span class="text-emerald-400">Biztonságos alvásküszöb alatt vagy! 😴</span>
+        }
+    </p>
+</div>
+
+<!-- STATISZTIKA: Mai napi adatok -->
+<div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="glass rounded-2xl p-4 text-center flex flex-col justify-center">
+        <div class="text-xs text-slate-400 mb-1">Mai Összes Bevitel</div>
+        <div class="text-xl font-bold text-white">@Model.TotalConsumedTodayMg mg</div>
+        <!-- Progress bár a 400mg-os limithez -->
+        <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3">
+            @{ var percent = Math.Min((Model.TotalConsumedTodayMg / 400.0) * 100, 100); }
+            <div class="bg-cyan-500 h-1.5 rounded-full" style="width: @percent.ToString(System.Globalization.CultureInfo.InvariantCulture)%"></div>
+        </div>
+    </div>
+    
+    <div class="glass rounded-2xl p-4 flex flex-col justify-center">
+        <div class="text-xs text-slate-400 mb-2 text-center">Rögzített Italok</div>
+        <div class="text-2xl font-bold text-white text-center">@Model.TodayLogs.Count() <span class="text-sm font-normal text-slate-500">db</span></div>
+    </div>
+</div>
+
+<!-- GRAFIKON: Chart.js -->
+<div class="glass rounded-3xl p-4 mb-6">
+    <h3 class="text-sm text-slate-300 font-semibold mb-3 ml-2">24 Órás Aktivitás</h3>
+    <div class="h-48 w-full">
+        <canvas id="caffeineChart"></canvas>
+    </div>
+</div>
+
+<!-- LEBEGŐ GOMB (Floating Action Button) az Új Italhoz -->
+<a asp-controller="Tracker" asp-action="LogDrink" 
+   class="fixed bottom-6 right-1/2 translate-x-[9.5rem] md:translate-x-[12rem] w-16 h-16 bg-cyan-500 hover:bg-cyan-400 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-transform hover:scale-110 active:scale-95 z-50">
+    <svg class="w-8 h-8 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+    </svg>
+</a>
+
+@section Scripts {
+    <script>
+        // 1. Megkapjuk az adatokat a C# ViewModel-ből JSON formátumban
+        const rawData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ChartData));
+        
+        // 2. Szétválasztjuk a címkéket (időpontok) és az értékeket (mg)
+        const labels = rawData.map(d => d.TimeLabel);
+        const data = rawData.map(d => d.ActiveCaffeine);
+
+        const ctx = document.getElementById('caffeineChart').getContext('2d');
+        
+        // 3. Létrehozunk egy szép átmenetes (gradiens) kitöltést a görbe alá
+        let gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, 'rgba(34, 211, 238, 0.4)'); // Fent cián
+        gradient.addColorStop(1, 'rgba(34, 211, 238, 0)');   // Lent átlátszó
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Aktív Koffein (mg)',
+                    data: data,
+                    borderColor: '#22d3ee', // Cián vonal
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    pointRadius: 0, // Nem kellenek pöttyök, úgy modernebb
+                    pointHitRadius: 20, // De ujjbeggyel könnyű legyen rábökni
+                    fill: true,
+                    tension: 0.4 // Szép lágy ívek a töréspontok helyett
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        titleColor: '#94a3b8',
+                        bodyColor: '#fff',
+                        padding: 10,
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) { return context.parsed.y + ' mg'; }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#64748b', maxTicksLimit: 5 } // Ne írja ki az összes feél órát
+                    },
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#64748b', stepSize: 50 },
+                        beginAtZero: true,
+                        suggestedMax: 150
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                }
+            }
+        });
+    </script>
+}

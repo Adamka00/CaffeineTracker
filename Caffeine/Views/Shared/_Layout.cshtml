@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Localization
+
+<!DOCTYPE html>
+<html lang="hu" class="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@ViewData["Title"] - Caffeine Tracker</title>
+    
+    <!-- Tailwind CSS (CDN verzió, fejlesztéshez tökéletes) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Modern Glassmorphism (Üveghatás) stílus a kártyákhoz */
+        .glass {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200 font-sans min-h-screen pb-24 selection:bg-cyan-500 selection:text-white">
+    
+    <!-- A max-w-md miatt asztali gépen is egy telefon képernyőnyi méretet mutat középen -->
+    <main class="container mx-auto p-4 max-w-md">
+        
+        <!-- NYELVVÁLASZTÓ GOMB (Jobb felső sarok) -->
+        @{
+            // Lekérdezzük, mi a jelenlegi nyelv (alapból "hu")
+            var requestCultureFeature = Context.Features.Get<IRequestCultureFeature>();
+            var currentCulture = requestCultureFeature?.RequestCulture.UICulture.TwoLetterISOLanguageName ?? "hu";
+            
+            // Meghatározzuk, hogy mi legyen a "másik" nyelv, amire válthat
+            var targetCulture = currentCulture == "hu" ? "en" : "hu";
+            var buttonText = currentCulture == "hu" ? "🇬🇧 EN" : "🇭🇺 HU";
+        }
+        <div class="flex justify-end mb-4 relative z-50">
+            <form asp-controller="Tracker" asp-action="SetLanguage" method="post">
+                <input type="hidden" name="culture" value="@targetCulture" />
+                <!-- Visszairányítjuk a felhasználót arra az oldalra, ahol épp volt -->
+                <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                
+                <button type="submit" class="glass rounded-full px-4 py-2 text-sm font-bold text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all shadow-lg border border-slate-600/50 flex items-center gap-2">
+                    @buttonText
+                </button>
+            </form>
+        </div>
+        <!-- NYELVVÁLASZTÓ GOMB VÉGE -->
+
+        <!-- Itt töltődik be az Index.cshtml (Dashboard) vagy a LogDrink.cshtml (Űrlap) -->
+        @RenderBody()
+        
+    </main>
+
+    <!-- Itt töltődnek be a nézet-specifikus JS kódok (pl. a grafikonunk vagy a validáció) -->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

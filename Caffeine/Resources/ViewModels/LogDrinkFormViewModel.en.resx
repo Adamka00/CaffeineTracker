@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Kérlek válassz egy italt!" xml:space="preserve"><value>Please select a drink!</value></data>
+    <data name="Az elfogyasztott mennyiség megadása kötelező!" xml:space="preserve"><value>The consumed amount is required!</value></data>
+    <data name="A mennyiségnek 1 és 2000 ml között kell lennie." xml:space="preserve"><value>The amount must be between 1 and 2000 ml.</value></data>
+</root>
