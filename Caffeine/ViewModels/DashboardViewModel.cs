@@ -1,39 +1,43 @@
 using Caffeine.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Caffeine.ViewModels
 {
     public class DashboardViewModel
     {
-        // Napi összes fogyasztás (pl. 400 mg a limit)
-        public double TotalConsumedTodayMg { get; set; }
-        
-        // Jelenleg pörgő aktív koffein a vérben
-        public double CurrentActiveCaffeineMg { get; set; }
-        
-        // Mikorra esik 25mg alá?
-        public DateTime? SleepReadinessTime { get; set; }
-        
-        // Mai fogyasztások listája a "History" kártyákhoz
+        // --- NAPI ALAPADATOK ---
         public IEnumerable<CaffeineLog> TodayLogs { get; set; } = new List<CaffeineLog>();
+        public double TotalConsumedTodayMg { get; set; }
+        public double CurrentActiveCaffeineMg { get; set; }
+        public DateTime? SleepReadinessTime { get; set; }
 
-        // Chart.js számára generált adatpontok (Időpont -> Koffein szint)
+        // --- ALVÁS ELŐREJELZÉS ---
+        public string TargetSleepTimeStr { get; set; } = "23:00";
+        public double CaffeineAtTargetSleepTime { get; set; }
+        public string SleepQualityKey { get; set; } = string.Empty;
+        public string SleepQualityColor { get; set; } = string.Empty;
+
+        // --- GRAFIKON ADATOK ---
         public List<ChartDataPoint> ChartData { get; set; } = new List<ChartDataPoint>();
-        
-        // Színkód a UI-nak (pl. zöld, sárga, piros) a jelenlegi szint alapján
-        public string StatusColor => CurrentActiveCaffeineMg switch
+
+        // Dinamikus szín a jelenlegi szint alapján (pl. zöld ha kevés, piros ha sok)
+        public string StatusColor
         {
-            < 50 => "text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]", // Nyugodt
-            < 200 => "text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]",   // Fókusz
-            _ => "text-rose-500 drop-shadow-[0_0_15px_rgba(244,63,94,0.9)]"         // Túlpörgés
-        };
+            get
+            {
+                if (CurrentActiveCaffeineMg < 25) return "text-emerald-400";
+                if (CurrentActiveCaffeineMg < 150) return "text-cyan-400";
+                if (CurrentActiveCaffeineMg < 300) return "text-yellow-400";
+                return "text-rose-500 text-shadow-[0_0_15px_rgba(244,63,94,0.5)]";
+            }
+        }
     }
 
-    // Segédosztály a grafikonhoz
     public class ChartDataPoint
     {
-        public string TimeLabel { get; set; } = string.Empty; // pl "14:00"
+        public string TimeLabel { get; set; } = string.Empty;
         public double ActiveCaffeine { get; set; }
     }
 }

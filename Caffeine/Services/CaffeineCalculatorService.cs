@@ -29,23 +29,35 @@ namespace Caffeine.Services
             return totalActive;
         }
 
-        public DateTime? EstimateSleepReadiness(IEnumerable<CaffeineLog> dailyLogs, DateTime currentTime, double thresholdMg = 25.0)
+        public DateTime? EstimateSleepReadiness(IEnumerable<CaffeineLog> logs, DateTime now, double threshold)
         {
-            if (dailyLogs == null || !dailyLogs.Any()) return currentTime;
+            if (!logs.Any()) return null;
 
-            var currentLevel = GetCurrentTotalActiveCaffeine(dailyLogs, currentTime);
-            if (currentLevel <= thresholdMg) return currentTime;
+            // 1. Keresd meg a legutolsó ital idejét, és add hozzá a 45 perc felszívódást!
+            var lastDrinkTime = logs.Max(l => l.ConsumedAt);
+            var peakTime = lastDrinkTime.AddMinutes(45);
 
-            // Szimuláció: Elindulunk a jelenből, és 15 percenként lépkedünk előre, amíg le nem esik a szint.
-            // (Ez a legtisztább módszer többszöri fogyasztás szuperpozíciója esetén)
-            var simulatedTime = currentTime;
-            while (currentLevel > thresholdMg && simulatedTime < currentTime.AddHours(24))
+            // 2. A keresést mindig a "most" ÉS a "legutóbbi csúcs" közül a KÉSŐBBITŐL indítjuk!
+            // Így nem veri át a rendszert az, hogy épp most iszod és még nem szívódott fel.
+            var searchStartTime = now > peakTime ? now : peakTime;
+
+            // 3. Ha a csúcson is a küszöb alatt vagyunk, akkor azonnal mehetünk aludni
+            if (GetCurrentTotalActiveCaffeine(logs, searchStartTime) <= threshold)
             {
-                simulatedTime = simulatedTime.AddMinutes(15);
-                currentLevel = GetCurrentTotalActiveCaffeine(dailyLogs, simulatedTime);
+                return null;
             }
 
-            return simulatedTime;
+            // 4. Pörgetjük az időt előre, amíg be nem esik a küszöb alá
+            var time = searchStartTime;
+            while (GetCurrentTotalActiveCaffeine(logs, time) > threshold)
+            {
+                time = time.AddMinutes(5); // 5 perces lépésköz a pontosságért
+        
+                // Biztonsági fék, hogy ne pörögjön végtelen ciklusba extrém túladagolás esetén
+                if (time > now.AddDays(2)) break; 
+            }
+
+            return time;
         }
     }
 }

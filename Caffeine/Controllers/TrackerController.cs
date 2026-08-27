@@ -1,13 +1,16 @@
+using Caffeine.Data;
 using Caffeine.Models;
 using Caffeine.Repositories;
 using Caffeine.Services;
 using Caffeine.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Caffeine.Data;
-using Caffeine.ViewModels;
-using Microsoft.AspNetCore.Localization; // Ha a Beverages-hez egyelőre a kontextust használjuk
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Caffeine.Controllers
 {
@@ -15,7 +18,7 @@ namespace Caffeine.Controllers
     {
         private readonly ICaffeineLogRepository _logRepository;
         private readonly ICaffeineCalculatorService _calculatorService;
-        private readonly AppDbContext _context; // Itt használhatnánk IBeverageRepository-t is a tisztaság kedvéért
+        private readonly AppDbContext _context;
 
         public TrackerController(
             ICaffeineLogRepository logRepository, 
@@ -32,33 +35,58 @@ namespace Caffeine.Controllers
         public async Task<IActionResult> Index()
         {
             var now = DateTime.Now;
-    
-            // UI-hoz: Csak a mai naptári nap (éjféltől mostanáig) a listázáshoz
             var todayLogs = await _logRepository.GetLogsForDateAsync(now);
-    
-            // Számoláshoz: Az elmúlt 24 óra! (Itt van Junnie javítása)
             var activeLogs = await _logRepository.GetLogsSinceAsync(now.AddHours(-24));
+
+            // --- ALVÁS ELŐREJELZÉS LOGIKA ---
+            string targetTimeStr = Request.Cookies["TargetSleepTime"] ?? "23:00";
+            if (!TimeSpan.TryParse(targetTimeStr, out TimeSpan parsedTime))
+            {
+                parsedTime = new TimeSpan(23, 0, 0); 
+            }
+
+            DateTime targetSleepDateTime = now.Date.Add(parsedTime);
+            if (targetSleepDateTime < now) 
+            {
+                targetSleepDateTime = targetSleepDateTime.AddDays(1);
+            }
+
+            double caffeineAtSleep = Math.Round(_calculatorService.GetCurrentTotalActiveCaffeine(activeLogs, targetSleepDateTime), 1);
+
+            string qualityKey, qualityColor;
+            if (caffeineAtSleep < 10) {
+                qualityKey = "Tökéletes, mély alvás várható.";
+                qualityColor = "text-emerald-400";
+            } else if (caffeineAtSleep <= 25) {
+                qualityKey = "Jó alvás, a küszöb alatt vagy.";
+                qualityColor = "text-cyan-400";
+            } else if (caffeineAtSleep <= 50) {
+                qualityKey = "Felszínesebb alvás, forgolódás várható.";
+                qualityColor = "text-yellow-400";
+            } else {
+                qualityKey = "Nehéz elalvás, megzavart pihenés!";
+                qualityColor = "text-rose-500";
+            }
 
             var viewModel = new DashboardViewModel
             {
                 TodayLogs = todayLogs,
-                // Napi limitbe (pl 400mg) csak a MA megivott mennyiség számít bele
-                TotalConsumedTodayMg = todayLogs.Sum(l => l.TotalCaffeineMg),
-        
-                // DE a vérben lévő szinthez az aktív (elmúlt 24 órás) naplót használjuk!
+                TotalConsumedTodayMg = Math.Round(todayLogs.Sum(l => l.TotalCaffeineMg), 1),
                 CurrentActiveCaffeineMg = Math.Round(_calculatorService.GetCurrentTotalActiveCaffeine(activeLogs, now), 1),
-                SleepReadinessTime = _calculatorService.EstimateSleepReadiness(activeLogs, now, 25.0)
+                SleepReadinessTime = _calculatorService.EstimateSleepReadiness(activeLogs, now, 25.0),
+                TargetSleepTimeStr = targetTimeStr,
+                CaffeineAtTargetSleepTime = caffeineAtSleep,
+                SleepQualityKey = qualityKey,
+                SleepQualityColor = qualityColor
             };
 
-            // 24 órás Chart adatpontok (00:00 - 23:59)
+            // Chart adatpontok (48 db félórás lépés)
             var startOfDay = now.Date;
             for (int i = 0; i < 48; i++)
             {
                 var timePoint = startOfDay.AddMinutes(i * 30);
-        
-                // A görbe kirajzolásánál is a 24 órás adatokat használjuk a pontos átfedésekért
                 var activeMg = _calculatorService.GetCurrentTotalActiveCaffeine(activeLogs, timePoint);
-        
+                
                 viewModel.ChartData.Add(new ChartDataPoint
                 {
                     TimeLabel = timePoint.ToString("HH:mm"),
@@ -69,62 +97,95 @@ namespace Caffeine.Controllers
             return View(viewModel);
         }
 
+        // --- ALVÁSIDŐ BEÁLLÍTÁSA (Süti mentése) ---
+        [HttpPost]
+        public IActionResult SetTargetSleepTime(string time)
+        {
+            if (TimeSpan.TryParse(time, out _))
+            {
+                Response.Cookies.Append("TargetSleepTime", time, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
         // --- ÚJ ITAL RÖGZÍTÉSE (Űrlap betöltése) ---
         [HttpGet]
         public async Task<IActionResult> LogDrink()
         {
             var beverages = await _context.Beverages.OrderBy(b => b.Name).ToListAsync();
-            
             var viewModel = new LogDrinkFormViewModel
             {
-                // A ViewBag/ViewData helyett szigorúan típusosan adjuk át a listát!
-                BeverageOptions = beverages.Select(b => new SelectListItem 
-                { 
-                    Value = b.Id.ToString(), 
-                    Text = b.Name 
-                })
+                BeverageOptions = beverages.Select(b => new SelectListItem { Value = b.Id.ToString(), Text = b.Name })
             };
-
             return View(viewModel);
         }
 
-        // --- ÚJ ITAL RÖGZÍTÉSE (Adatküldés) ---
+        // --- ÚJ ITAL RÖGZÍTÉSE (Feldolgozás és Mentés) ---
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogDrink(LogDrinkFormViewModel model)
         {
+            if (model.IsCustomDrink)
+            {
+                if (string.IsNullOrWhiteSpace(model.CustomBeverageName) || model.CustomCaffeinePer100Ml == null || model.CustomCaffeinePer100Ml <= 0)
+                {
+                    ModelState.AddModelError("", "Kérlek add meg a saját ital nevét és koffeintartalmát (mg/100ml)!");
+                }
+            }
+            else
+            {
+                if (model.SelectedBeverageId == null || model.SelectedBeverageId == 0)
+                {
+                    ModelState.AddModelError("SelectedBeverageId", "Kérlek válassz egy italt a listából, vagy pipáld be az Egyedi ital opciót!");
+                }
+            }
+
             if (!ModelState.IsValid)
             {
-                // Hiba esetén újra kell tölteni a dropdown listát
                 var beverages = await _context.Beverages.OrderBy(b => b.Name).ToListAsync();
                 model.BeverageOptions = beverages.Select(b => new SelectListItem { Value = b.Id.ToString(), Text = b.Name });
                 return View(model);
             }
 
-            // Kikeressük a kiválasztott italt, hogy megtudjuk a koffeintartalmát
-            var selectedBeverage = await _context.Beverages.FindAsync(model.SelectedBeverageId);
-            if (selectedBeverage == null) return NotFound();
+            Beverage beverageToLog;
+            double calculatedCaffeine;
 
-            // Kiszámoljuk a pontos koffeinmennyiséget: (Mg/100ml * elfogyasztott mennyiség / 100)
-            double calculatedCaffeine = (selectedBeverage.CaffeinePer100Ml * model.AmountMl) / 100.0;
+            if (model.IsCustomDrink)
+            {
+                beverageToLog = new Beverage
+                {
+                    Name = model.CustomBeverageName!,
+                    Category = "Custom",
+                    CaffeinePer100Ml = model.CustomCaffeinePer100Ml!.Value,
+                    DefaultPortionMl = model.AmountMl
+                };
+                
+                _context.Beverages.Add(beverageToLog);
+                await _context.SaveChangesAsync();
 
-            // Létrehozzuk a Domain Entitást
+                calculatedCaffeine = (model.CustomCaffeinePer100Ml.Value * model.AmountMl) / 100.0;
+            }
+            else
+            {
+                beverageToLog = await _context.Beverages.FindAsync(model.SelectedBeverageId);
+                if (beverageToLog == null) return NotFound();
+
+                calculatedCaffeine = (beverageToLog.CaffeinePer100Ml * model.AmountMl) / 100.0;
+            }
+
             var newLog = new CaffeineLog
             {
-                BeverageId = selectedBeverage.Id,
+                BeverageId = beverageToLog.Id,
                 ConsumedAmountMl = model.AmountMl,
                 ConsumedAt = model.ConsumedAt,
-                TotalCaffeineMg = calculatedCaffeine
+                TotalCaffeineMg = Math.Round(calculatedCaffeine, 1)
             };
 
-            // Mentés az adatbázisba a Repository-n keresztül
             await _logRepository.AddLogAsync(newLog);
-
-            // Vissza a Dashboardra
             return RedirectToAction(nameof(Index));
         }
 
-        // --- TÖRLÉS (Ha véletlenül rögzített valamit) ---
+        // --- TÖRLÉS ---
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteLog(int id)
@@ -132,19 +193,18 @@ namespace Caffeine.Controllers
             await _logRepository.DeleteLogAsync(id);
             return RedirectToAction(nameof(Index));
         }
-        
+
+        // --- NYELVVÁLTÓ (Süti beállítása) ---
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) } // 1 évig megjegyzi
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
 
             return LocalRedirect(returnUrl);
         }
     }
-    
-    
 }

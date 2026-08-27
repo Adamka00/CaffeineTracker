@@ -3,4 +3,7 @@
     <data name="Kérlek válassz egy italt!" xml:space="preserve"><value>Please select a drink!</value></data>
     <data name="Az elfogyasztott mennyiség megadása kötelező!" xml:space="preserve"><value>The consumed amount is required!</value></data>
     <data name="A mennyiségnek 1 és 2000 ml között kell lennie." xml:space="preserve"><value>The amount must be between 1 and 2000 ml.</value></data>
+
+    <data name="Kérlek add meg a saját ital nevét és koffeintartalmát (mg/100ml)!" xml:space="preserve"><value>Please enter the name and caffeine content (mg/100ml) of your custom drink!</value></data>
+    <data name="Kérlek válassz egy italt a listából, vagy pipáld be az Egyedi ital opciót!" xml:space="preserve"><value>Please select a drink from the list or check the Custom drink option!</value></data>
 </root>

@@ -218,3 +218,4 @@
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/en/Caffeine.resources.dll
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.ViewModels.LogDrinkFormViewModel.en.resources
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.Views.Tracker.LogDrink.en.resources
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.sourcelink.json
