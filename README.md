@@ -7,7 +7,9 @@ A modern, mobile-first ASP.NET Core MVC web application that helps you track you
 ## ✨ Features
 * **Active Level Calculation:** Calculates the exact amount of caffeine currently active in your bloodstream based on the superposition of multiple drinks.
 * **Biological Math Model:** Uses a 45-minute linear absorption peak and an exponential decay model with a 5-hour half-life.
-* **Sleep Readiness Indicator:** Calculates the exact time your active caffeine level will drop below the safe sleep threshold (25 mg).
+* **Sleep Readiness Indicator:** Calculates the exact time your active caffeine level will drop below the safe sleep threshold (25 mg). The prediction is locked from the absorption peak for maximum stability.
+* **Sleep Quality Forecast:** Set your planned bedtime, and the app predicts your active caffeine level at that exact time, providing a personalized sleep quality forecast.
+* **Custom Drink Creator:** Not on the list? Add your own custom beverages by easily entering their mg/100ml ratio. Custom drinks are permanently saved to your database for future use.
 * **24-Hour Interactive Chart:** Visualizes your caffeine levels throughout the day using Chart.js.
 * **Rich Database:** Pre-seeded with 38 popular drinks (Energy drinks, Nespresso/Dolce Gusto capsules, Coffees, Teas, Sodas) with accurate mg/100ml data.
 * **Modern UI:** Dark mode, glassmorphism design built with Tailwind CSS.
@@ -29,7 +31,9 @@ Egy modern, mobilra optimalizált ASP.NET Core MVC webalkalmazás, amely segít 
 ## ✨ Funkciók
 * **Aktív Szint Számítás:** Pontosan kiszámolja, mennyi koffein pörög épp a véredben, figyelembe véve a többszöri fogyasztások összeadódását.
 * **Biológiai Modell:** 45 perces lineáris felszívódási csúccsal és 5 órás exponenciális felezési idővel számol.
-* **Alvásbarométer (Sleep Readiness):** Kiszámolja azt a pontos időpontot, amikor a koffeinszinted a biztonságos alvásküszöb (25 mg) alá esik.
+* **Alvásbarométer (Sleep Readiness):** Kiszámolja azt a pontos időpontot, amikor a koffeinszinted a biztonságos alvásküszöb (25 mg) alá esik. A számítás a felszívódási csúcsból indul, így az előrejelzés teljesen stabil.
+* **Alvásminőség Előrejelzés:** Állítsd be, mikor tervezel elaludni, az app pedig kiszámolja a várható koffeinszintedet, és előrejelzést ad az alvásod várható minőségéről.
+* **Saját Ital Létrehozása:** Nem találod az italodat a listában? Add hozzá a sajátodat a mg/100ml érték megadásával. A rendszer elmenti az adatbázisba, így bármikor újra választhatod.
 * **24 Órás Interaktív Grafikon:** Vonaldiagramon ábrázolja a napi koffeinszinted alakulását a Chart.js segítségével.
 * **Gazdag Adatbázis:** 38 népszerű itallal (Energiaitalok, Nespresso/Dolce Gusto kapszulák, Kávék, Kólák) előre feltöltve, valós mg/100ml adatokkal.
 * **Modern UI:** Sötét témájú, üveghatású (glassmorphism) dizájn Tailwind CSS-el.
