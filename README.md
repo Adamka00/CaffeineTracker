@@ -1,6 +1,6 @@
 # ☕ Caffeine Tracker
 
-🌍 **Live App:** [adamka00.hu/koffein](https://adamka00.hu/koffein)
+🌍 **Live App:** [koffein.adamka00.hu](https://koffein.adamka00.hu)
 
 *(Scroll down for the Hungarian version / Magyar verzió lejjebb)*
 
@@ -30,7 +30,7 @@ A modern, mobile-first ASP.NET Core MVC Progressive Web App (PWA) that helps you
 
 # ☕ Caffeine Tracker (Magyar verzió)
 
-🌍 **Éles alkalmazás:** [adamka00.hu/koffein](https://adamka00.hu/koffein)
+🌍 **Éles alkalmazás:** [koffein.adamka00.hu](https://koffein.adamka00.hu)
 
 Egy modern, mobilra optimalizált ASP.NET Core MVC Progressive Web App (PWA), amely segít nyomon követni a napi koffeinbeviteledet. Biológiai és matematikai modellek alapján kiszámolja az aktív koffeinszintedet, a felszívódási csúcsot, és megmondja, mikor tudsz nyugodtan aludni.
 
