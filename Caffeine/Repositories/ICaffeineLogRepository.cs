@@ -7,11 +7,11 @@ namespace Caffeine.Repositories
 {
     public interface ICaffeineLogRepository
     {
+        Task<IEnumerable<CaffeineLog>> GetLogsForDateAsync(DateTime date, string userId);
+        Task<IEnumerable<CaffeineLog>> GetLogsSinceAsync(DateTime since, string userId);
         Task AddLogAsync(CaffeineLog log);
-        Task<IEnumerable<CaffeineLog>> GetLogsForDateAsync(DateTime date);
-        Task<IEnumerable<CaffeineLog>> GetRecentLogsAsync(int count);
-        Task DeleteLogAsync(int id);
-        
-        Task<IEnumerable<CaffeineLog>> GetLogsSinceAsync(DateTime since);
+        Task DeleteLogAsync(int id, string userId);
+        Task TransferLogsAsync(string oldUserId, string newUserId);
+        Task DeleteAllLogsForUserAsync(string userId);
     }
 }

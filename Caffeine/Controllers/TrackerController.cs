@@ -21,7 +21,7 @@ namespace Caffeine.Controllers
         private readonly AppDbContext _context;
 
         public TrackerController(
-            ICaffeineLogRepository logRepository, 
+            ICaffeineLogRepository logRepository,
             ICaffeineCalculatorService calculatorService,
             AppDbContext context)
         {
@@ -30,23 +30,46 @@ namespace Caffeine.Controllers
             _context = context;
         }
 
-        // --- DASHBOARD (Főoldal) ---
+
+        private string GetCurrentUserId()
+        {
+
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return User.Claims.First(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+            }
+
+
+            var guestId = Request.Cookies["GuestId"];
+            if (string.IsNullOrEmpty(guestId))
+            {
+
+                guestId = "Guest_" + Guid.NewGuid().ToString();
+                Response.Cookies.Append("GuestId", guestId, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+            }
+            return guestId;
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var now = DateTime.Now;
-            var todayLogs = await _logRepository.GetLogsForDateAsync(now);
-            var activeLogs = await _logRepository.GetLogsSinceAsync(now.AddHours(-24));
+            var userId = GetCurrentUserId();
 
-            // --- ALVÁS ELŐREJELZÉS LOGIKA ---
+
+            var todayLogs = await _logRepository.GetLogsForDateAsync(now, userId);
+            var activeLogs = await _logRepository.GetLogsSinceAsync(now.AddHours(-24), userId);
+
+
             string targetTimeStr = Request.Cookies["TargetSleepTime"] ?? "23:00";
             if (!TimeSpan.TryParse(targetTimeStr, out TimeSpan parsedTime))
             {
-                parsedTime = new TimeSpan(23, 0, 0); 
+                parsedTime = new TimeSpan(23, 0, 0);
             }
 
             DateTime targetSleepDateTime = now.Date.Add(parsedTime);
-            if (targetSleepDateTime < now) 
+            if (targetSleepDateTime < now)
             {
                 targetSleepDateTime = targetSleepDateTime.AddDays(1);
             }
@@ -80,13 +103,13 @@ namespace Caffeine.Controllers
                 SleepQualityColor = qualityColor
             };
 
-            // Chart adatpontok (48 db félórás lépés)
+
             var startOfDay = now.Date;
             for (int i = 0; i < 48; i++)
             {
                 var timePoint = startOfDay.AddMinutes(i * 30);
                 var activeMg = _calculatorService.GetCurrentTotalActiveCaffeine(activeLogs, timePoint);
-                
+
                 viewModel.ChartData.Add(new ChartDataPoint
                 {
                     TimeLabel = timePoint.ToString("HH:mm"),
@@ -97,7 +120,7 @@ namespace Caffeine.Controllers
             return View(viewModel);
         }
 
-        // --- ALVÁSIDŐ BEÁLLÍTÁSA (Süti mentése) ---
+
         [HttpPost]
         public IActionResult SetTargetSleepTime(string time)
         {
@@ -108,7 +131,7 @@ namespace Caffeine.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // --- ÚJ ITAL RÖGZÍTÉSE (Űrlap betöltése) ---
+
         [HttpGet]
         public async Task<IActionResult> LogDrink()
         {
@@ -120,7 +143,7 @@ namespace Caffeine.Controllers
             return View(viewModel);
         }
 
-        // --- ÚJ ITAL RÖGZÍTÉSE (Feldolgozás és Mentés) ---
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogDrink(LogDrinkFormViewModel model)
@@ -159,7 +182,7 @@ namespace Caffeine.Controllers
                     CaffeinePer100Ml = model.CustomCaffeinePer100Ml!.Value,
                     DefaultPortionMl = model.AmountMl
                 };
-                
+
                 _context.Beverages.Add(beverageToLog);
                 await _context.SaveChangesAsync();
 
@@ -178,23 +201,25 @@ namespace Caffeine.Controllers
                 BeverageId = beverageToLog.Id,
                 ConsumedAmountMl = model.AmountMl,
                 ConsumedAt = model.ConsumedAt,
-                TotalCaffeineMg = Math.Round(calculatedCaffeine, 1)
+                TotalCaffeineMg = Math.Round(calculatedCaffeine, 1),
+                UserId = GetCurrentUserId()
             };
 
             await _logRepository.AddLogAsync(newLog);
             return RedirectToAction(nameof(Index));
         }
 
-        // --- TÖRLÉS ---
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteLog(int id)
         {
-            await _logRepository.DeleteLogAsync(id);
+
+            await _logRepository.DeleteLogAsync(id, GetCurrentUserId());
             return RedirectToAction(nameof(Index));
         }
 
-        // --- NYELVVÁLTÓ (Süti beállítása) ---
+
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {

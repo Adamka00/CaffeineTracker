@@ -4,10 +4,10 @@
 
 namespace Caffeine.Migrations
 {
-    /// <inheritdoc />
+
     public partial class _30 : Migration
     {
-        /// <inheritdoc />
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.UpdateData(
@@ -60,7 +60,7 @@ namespace Caffeine.Migrations
                 value: 40.0);
         }
 
-        /// <inheritdoc />
+
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.UpdateData(

@@ -2,24 +2,24 @@ using System.Globalization;
 using Caffeine.Data;
 using Caffeine.Repositories;
 using Caffeine.Services;
-using CaffeineTracker.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. MVC Controllerek és View-k hozzáadása
+
 builder.Services.AddControllersWithViews();
 
-// 2. Adatbázis (SQLite) bekötése
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") 
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
                       ?? "Data Source=caffeine.db"));
 
-// 3. Repository-k (Adatelérés) regisztrálása
+
 builder.Services.AddScoped<ICaffeineLogRepository, CaffeineLogRepository>();
 
-// 4. Szervizek (Üzleti logika / Kalkulátor) regisztrálása
+
 builder.Services.AddScoped<ICaffeineDecayStrategy, StandardCaffeineDecayStrategy>();
 builder.Services.AddScoped<ICaffeineCalculatorService, CaffeineCalculatorService>();
 
@@ -27,6 +27,15 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 builder.Services.AddControllersWithViews()
     .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
     .AddDataAnnotationsLocalization();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.Cookie.Name = "CaffeineAuth";
+        options.ExpireTimeSpan = TimeSpan.FromDays(30);
+    });
 
 var app = builder.Build();
 
@@ -39,9 +48,12 @@ var localizationOptions = new RequestLocalizationOptions
 };
 app.UseRequestLocalization(localizationOptions);
 
-// ... (Köztes rétegek: app.UseHttpsRedirection(), app.UseStaticFiles(), stb.)
+
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -5,9 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Caffeine.Repositories;
 
-namespace CaffeineTracker.Repositories
+namespace Caffeine.Repositories
 {
     public class CaffeineLogRepository : ICaffeineLogRepository
     {
@@ -18,55 +17,56 @@ namespace CaffeineTracker.Repositories
             _context = context;
         }
 
-        // 1. Új napló hozzáadása
+        public async Task<IEnumerable<CaffeineLog>> GetLogsForDateAsync(DateTime date, string userId)
+        {
+            var startOfDay = date.Date;
+            var endOfDay = startOfDay.AddDays(1).AddTicks(-1);
+
+            return await _context.CaffeineLogs
+                .Include(l => l.Beverage)
+                .Where(l => l.UserId == userId && l.ConsumedAt >= startOfDay && l.ConsumedAt <= endOfDay)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<CaffeineLog>> GetLogsSinceAsync(DateTime since, string userId)
+        {
+            return await _context.CaffeineLogs
+                .Include(l => l.Beverage)
+                .Where(l => l.UserId == userId && l.ConsumedAt >= since)
+                .ToListAsync();
+        }
+
         public async Task AddLogAsync(CaffeineLog log)
         {
-            await _context.CaffeineLogs.AddAsync(log);
+            _context.CaffeineLogs.Add(log);
             await _context.SaveChangesAsync();
         }
 
-        // 2. EZ HIÁNYZOTT: Lekérdezi egy adott naptári nap adatait (éjféltől éjfélig)
-        public async Task<IEnumerable<CaffeineLog>> GetLogsForDateAsync(DateTime date)
+        public async Task DeleteLogAsync(int id, string userId)
         {
-            var startOfDay = date.Date; // A nap kezdete (00:00:00)
-            var endOfDay = startOfDay.AddDays(1); // A következő nap kezdete
-
-            return await _context.CaffeineLogs
-                .Include(l => l.Beverage)
-                .Where(l => l.ConsumedAt >= startOfDay && l.ConsumedAt < endOfDay)
-                .OrderBy(l => l.ConsumedAt)
-                .ToListAsync();
-        }
-
-        // 3. Junnie javítása: Visszamenőleges lekérdezés (pl. az elmúlt 24 óra) a pontos kalkulációhoz
-        public async Task<IEnumerable<CaffeineLog>> GetLogsSinceAsync(DateTime since)
-        {
-            return await _context.CaffeineLogs
-                .Include(l => l.Beverage)
-                .Where(l => l.ConsumedAt >= since)
-                .OrderBy(l => l.ConsumedAt)
-                .ToListAsync();
-        }
-
-        // 4. Legutóbbi X darab napló lekérdezése
-        public async Task<IEnumerable<CaffeineLog>> GetRecentLogsAsync(int count)
-        {
-            return await _context.CaffeineLogs
-                .Include(l => l.Beverage)
-                .OrderByDescending(l => l.ConsumedAt)
-                .Take(count)
-                .ToListAsync();
-        }
-
-        // 5. Törlés
-        public async Task DeleteLogAsync(int id)
-        {
-            var log = await _context.CaffeineLogs.FindAsync(id);
+            var log = await _context.CaffeineLogs.FirstOrDefaultAsync(l => l.Id == id && l.UserId == userId);
             if (log != null)
             {
                 _context.CaffeineLogs.Remove(log);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task TransferLogsAsync(string oldUserId, string newUserId)
+        {
+            var logs = await _context.CaffeineLogs.Where(l => l.UserId == oldUserId).ToListAsync();
+            foreach (var log in logs)
+            {
+                log.UserId = newUserId;
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAllLogsForUserAsync(string userId)
+        {
+            var logs = await _context.CaffeineLogs.Where(l => l.UserId == userId).ToListAsync();
+            _context.CaffeineLogs.RemoveRange(logs);
+            await _context.SaveChangesAsync();
         }
     }
 }

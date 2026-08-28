@@ -138,7 +138,6 @@
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/scopedcss/projectbundle/Caffeine.bundle.scp.css
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/qsv714aajt-{0}-lugek5hnai-lugek5hnai.gz
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/065tz2ycc8-{0}-61n19gt1b8-61n19gt1b8.gz
-/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/9h7xq5a8ei-{0}-fr7q2aak1r-fr7q2aak1r.gz
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/eilj5848cj-{0}-bqjiyaj88i-bqjiyaj88i.gz
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/gd23incsqa-{0}-c2jlpeoesf-c2jlpeoesf.gz
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/n4v949lw9a-{0}-erw9l3u2r3-erw9l3u2r3.gz
@@ -198,8 +197,6 @@
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/ezilxpg9zv-{0}-muycvpuwrr-muycvpuwrr.gz
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/dbvcb8t2sp-{0}-87fc7y1x7t-87fc7y1x7t.gz
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/pwyv02f6yr-{0}-jfsiqqwiad-jfsiqqwiad.gz
-/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/ry1rb5bvdg-{0}-ckyjto19jq-ckyjto19jq.gz
-/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/veha05nurj-{0}-ckyjto19jq-ckyjto19jq.gz
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/staticwebassets.build.json
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/staticwebassets.build.json.cache
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/staticwebassets.development.json
@@ -219,3 +216,13 @@
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.ViewModels.LogDrinkFormViewModel.en.resources
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.Views.Tracker.LogDrink.en.resources
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.sourcelink.json
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.ViewModels.LoginViewModel.en.resources
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.ViewModels.RegisterViewModel.en.resources
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.Views.Account.Login.en.resources
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.Views.Account.Register.en.resources
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.Views.Shared._Layout.en.resources
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/g350fzpwpu-{0}-c9zp1wmns6-c9zp1wmns6.gz
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/9h7xq5a8ei-{0}-an357h32mr-an357h32mr.gz
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/j0hj6yrrvw-{0}-xk60w5ivcr-xk60w5ivcr.gz
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/ry1rb5bvdg-{0}-lyiiju1cn5-lyiiju1cn5.gz
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/veha05nurj-{0}-lyiiju1cn5-lyiiju1cn5.gz

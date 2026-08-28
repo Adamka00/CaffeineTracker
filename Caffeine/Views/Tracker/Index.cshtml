@@ -6,7 +6,7 @@
 ViewData["Title"] = Localizer["Mai Nap"];
 }
 
-<!-- 1. FEJLÉC: Aktuális Koffeinszint és Alvásküszöb -->
+
 <div class="glass rounded-3xl p-8 text-center mb-6 shadow-2xl relative overflow-hidden">
     <div class="absolute top-0 left-1/4 w-1/2 h-1/2 bg-cyan-500/20 blur-[50px] rounded-full"></div>
     <h2 class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-2 relative z-10">@Localizer["Aktív Szint"]</h2>
@@ -25,7 +25,7 @@ ViewData["Title"] = Localizer["Mai Nap"];
     </p>
 </div>
 
-<!-- 2. TERVEZETT ALVÁS ELŐREJELZÉS -->
+
 <div class="glass rounded-3xl p-6 mb-6 relative overflow-hidden">
     <form asp-controller="Tracker" asp-action="SetTargetSleepTime" method="post" class="flex items-center justify-between mb-4 relative z-10">
         <label class="text-sm font-semibold text-slate-300">@Localizer["Tervezett alvásidő:"]</label>
@@ -47,7 +47,7 @@ ViewData["Title"] = Localizer["Mai Nap"];
     </div>
 </div>
 
-<!-- 3. STATISZTIKA -->
+
 <div class="grid grid-cols-2 gap-4 mb-6">
     <div class="glass rounded-2xl p-4 text-center flex flex-col justify-center">
         <div class="text-xs text-slate-400 mb-1">@Localizer["Mai Összes Bevitel"]</div>
@@ -63,7 +63,7 @@ ViewData["Title"] = Localizer["Mai Nap"];
     </div>
 </div>
 
-<!-- 4. GRAFIKON -->
+
 <div class="glass rounded-3xl p-4 mb-6">
     <h3 class="text-sm text-slate-300 font-semibold mb-3 ml-2">@Localizer["24 Órás Aktivitás"]</h3>
     <div class="h-48 w-full">
@@ -71,7 +71,7 @@ ViewData["Title"] = Localizer["Mai Nap"];
     </div>
 </div>
 
-<!-- 5. MAI FOGYASZTÁSOK LISTÁJA -->
+
 <div class="glass rounded-3xl p-6 mb-24 relative overflow-hidden">
     <h3 class="text-lg text-white font-bold mb-4 relative z-10">@Localizer["Mai Napló"]</h3>
 
@@ -111,7 +111,7 @@ ViewData["Title"] = Localizer["Mai Nap"];
     }
 </div>
 
-<!-- LEBEGŐ ÚJ ITAL GOMB -->
+
 <a asp-controller="Tracker" asp-action="LogDrink" class="fixed bottom-6 right-1/2 translate-x-[9.5rem] md:translate-x-[12rem] w-16 h-16 bg-cyan-500 hover:bg-cyan-400 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-transform hover:scale-110 active:scale-95 z-50">
     <svg class="w-8 h-8 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
 </a>

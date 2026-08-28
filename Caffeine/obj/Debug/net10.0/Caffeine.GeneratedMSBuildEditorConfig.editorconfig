@@ -30,6 +30,14 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
+[/Users/adamka00/Projects/Coffeine/Caffeine/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/adamka00/Projects/Coffeine/Caffeine/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/adamka00/Projects/Coffeine/Caffeine/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -68,6 +76,26 @@ build_metadata.AdditionalFiles.CssScope = b-590q33csa5
 
 [/Users/adamka00/Projects/Coffeine/Caffeine/Resources/ViewModels/LogDrinkFormViewModel.en.resx]
 build_metadata.AdditionalFiles.TargetPath = Resources/ViewModels/LogDrinkFormViewModel.en.resx
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/adamka00/Projects/Coffeine/Caffeine/Resources/ViewModels/LoginViewModel.en.resx]
+build_metadata.AdditionalFiles.TargetPath = Resources/ViewModels/LoginViewModel.en.resx
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/adamka00/Projects/Coffeine/Caffeine/Resources/ViewModels/RegisterViewModel.en.resx]
+build_metadata.AdditionalFiles.TargetPath = Resources/ViewModels/RegisterViewModel.en.resx
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/adamka00/Projects/Coffeine/Caffeine/Resources/Views/Account/Login.en.resx]
+build_metadata.AdditionalFiles.TargetPath = Resources/Views/Account/Login.en.resx
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/adamka00/Projects/Coffeine/Caffeine/Resources/Views/Account/Register.en.resx]
+build_metadata.AdditionalFiles.TargetPath = Resources/Views/Account/Register.en.resx
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/adamka00/Projects/Coffeine/Caffeine/Resources/Views/Shared/_Layout.en.resx]
+build_metadata.AdditionalFiles.TargetPath = Resources/Views/Shared/_Layout.en.resx
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/adamka00/Projects/Coffeine/Caffeine/Resources/Views/Tracker/Index.en.resx]

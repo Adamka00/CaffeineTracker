@@ -20,7 +20,7 @@ ViewData["Title"] = Localizer["Új Ital Rögzítése"];
     <form asp-action="LogDrink" method="post" class="relative z-10">
         <div asp-validation-summary="ModelOnly" class="text-rose-500 mb-4 text-sm bg-rose-500/10 p-3 rounded-lg border border-rose-500/20"></div>
 
-        <!-- KAPCSOLÓ: Egyedi ital? -->
+
         <div class="mb-6 flex items-center">
             <input asp-for="IsCustomDrink" type="checkbox" id="IsCustomDrink" onchange="toggleCustomDrink()" class="w-5 h-5 text-cyan-500 bg-slate-800 border-slate-600 rounded focus:ring-cyan-500 focus:ring-2 cursor-pointer" />
             <label asp-for="IsCustomDrink" for="IsCustomDrink" class="ml-3 text-sm font-medium text-slate-300 cursor-pointer select-none">
@@ -28,7 +28,7 @@ ViewData["Title"] = Localizer["Új Ital Rögzítése"];
             </label>
         </div>
 
-        <!-- NORMÁL LISTA -->
+
         <div id="dropdown-section" class="mb-5 transition-all">
             <label asp-for="SelectedBeverageId" class="block text-sm font-medium text-slate-300 mb-2">@Localizer["Választott Ital"]</label>
             <select asp-for="SelectedBeverageId" asp-items="Model.BeverageOptions" class="w-full bg-slate-800/70 border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors appearance-none cursor-pointer">
@@ -37,7 +37,7 @@ ViewData["Title"] = Localizer["Új Ital Rögzítése"];
             <span asp-validation-for="SelectedBeverageId" class="text-rose-500 text-xs mt-1 block"></span>
         </div>
 
-        <!-- EGYEDI ITAL SZEKCIÓ (Alapból rejtve) -->
+
         <div id="custom-section" class="hidden space-y-5 mb-5 bg-slate-800/40 p-4 rounded-xl border border-slate-700">
             <div>
                 <label asp-for="CustomBeverageName" class="block text-sm font-medium text-cyan-400 mb-2">@Localizer["Ital neve"]</label>
@@ -45,12 +45,12 @@ ViewData["Title"] = Localizer["Új Ital Rögzítése"];
             </div>
             <div>
                 <label asp-for="CustomCaffeinePer100Ml" class="block text-sm font-medium text-cyan-400 mb-2">@Localizer["Mennyi koffein (mg) van 100 ml-ben?"]</label>
-                <!-- Kicserélve a mg/100ml inputra -->
+
                 <input asp-for="CustomCaffeinePer100Ml" type="number" step="0.1" class="w-full bg-slate-800/70 border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500" placeholder="@Localizer["pl. 32"]" />
             </div>
         </div>
 
-        <!-- MENNYISÉG -->
+
         <div class="mb-5">
             <label asp-for="AmountMl" class="block text-sm font-medium text-slate-300 mb-2">@Localizer["Mennyiség (ml)"]</label>
             <div class="relative">
@@ -60,14 +60,14 @@ ViewData["Title"] = Localizer["Új Ital Rögzítése"];
             <span asp-validation-for="AmountMl" class="text-rose-500 text-xs mt-1 block"></span>
         </div>
 
-        <!-- IDŐPONT -->
+
         <div class="mb-8">
             <label asp-for="ConsumedAt" class="block text-sm font-medium text-slate-300 mb-2">@Localizer["Mikor?"]</label>
             <input asp-for="ConsumedAt" type="datetime-local" value="@Model.ConsumedAt.ToString("yyyy-MM-ddTHH:mm")" class="w-full bg-slate-800/70 border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 [color-scheme:dark]" />
             <span asp-validation-for="ConsumedAt" class="text-rose-500 text-xs mt-1 block"></span>
         </div>
 
-        <!-- MENTÉS GOMB -->
+
         <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold text-lg py-4 rounded-xl shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-all active:scale-95 flex justify-center items-center">
             <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
             @Localizer["Naplóhoz adom"]
@@ -79,7 +79,7 @@ ViewData["Title"] = Localizer["Új Ital Rögzítése"];
 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 <script>
-    // Ez a JS váltogatja a nézetet a Custom Drink checkbox alapján
+
     function toggleCustomDrink() {
         const isCustom = document.getElementById('IsCustomDrink').checked;
         const dropdown = document.getElementById('dropdown-section');
@@ -94,7 +94,7 @@ ViewData["Title"] = Localizer["Új Ital Rögzítése"];
         }
     }
 
-    // Oldal betöltéskor fusson le (pl. ha hiba miatt újra betölti az űrlapot)
+
     document.addEventListener("DOMContentLoaded", function() {
         toggleCustomDrink();
     });
