@@ -62,6 +62,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVHJhY2tlci9Mb2dEcmluay5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/adamka00/Projects/Coffeine/Caffeine/Views/Tracker/Week.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVHJhY2tlci9XZWVrLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/adamka00/Projects/Coffeine/Caffeine/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -73,6 +77,14 @@ build_metadata.AdditionalFiles.CssScope =
 [/Users/adamka00/Projects/Coffeine/Caffeine/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-590q33csa5
+
+[/Users/adamka00/Projects/Coffeine/Caffeine/Resources/SharedResource.en.resx]
+build_metadata.AdditionalFiles.TargetPath = Resources/SharedResource.en.resx
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/adamka00/Projects/Coffeine/Caffeine/Resources/SharedResource.hu.resx]
+build_metadata.AdditionalFiles.TargetPath = Resources/SharedResource.hu.resx
+build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/adamka00/Projects/Coffeine/Caffeine/Resources/ViewModels/LogDrinkFormViewModel.en.resx]
 build_metadata.AdditionalFiles.TargetPath = Resources/ViewModels/LogDrinkFormViewModel.en.resx

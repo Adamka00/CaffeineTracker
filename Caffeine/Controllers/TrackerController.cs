@@ -3,233 +3,518 @@ using Caffeine.Models;
 using Caffeine.Repositories;
 using Caffeine.Services;
 using Caffeine.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
+using System.Globalization;
 
-namespace Caffeine.Controllers
+namespace Caffeine.Controllers;
+
+public class TrackerController(AppDbContext context, ICaffeineLogRepository logs,
+    ICaffeineCalculatorService calculator, CurrentTrackerUser currentUser, TrackerClock clock,
+    IStringLocalizer<SharedResource> text) : Controller
 {
-    public class TrackerController : Controller
+    private static readonly DateTime Earliest = new(2000, 1, 1);
+
+    private IQueryable<Beverage> AvailableDrinks(string userId) => context.Beverages.Where(b =>
+        (b.OwnerId == null && b.Category != "Custom") || b.OwnerId == userId);
+
+    private DateTime? ParseDay(string? date)
     {
-        private readonly ICaffeineLogRepository _logRepository;
-        private readonly ICaffeineCalculatorService _calculatorService;
-        private readonly AppDbContext _context;
+        if (string.IsNullOrEmpty(date))
+            return clock.Now.Date;
 
-        public TrackerController(
-            ICaffeineLogRepository logRepository,
-            ICaffeineCalculatorService calculatorService,
-            AppDbContext context)
+        return DateTime.TryParseExact(
+                   date,
+                   "yyyy-MM-dd",
+                   CultureInfo.InvariantCulture,
+                   DateTimeStyles.None,
+                   out var day)
+               && day >= Earliest
+               && day <= clock.Now.Date
+            ? day
+            : null;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Index(string? date)
+    {
+        var selected = ParseDay(date);
+        if (selected == null)
+            return BadRequest();
+
+        var day = selected.Value;
+        var now = clock.Now;
+        var end = day.AddDays(1);
+        var userId = currentUser.GetId();
+
+        // Include previous days' residual caffeine, including when browsing history.
+        var activeLogs = await context.CaffeineLogs
+            .AsNoTracking()
+            .Include(l => l.Beverage)
+            .Where(l =>
+                l.UserId == userId &&
+                l.ConsumedAt < end &&
+                l.ConsumedAt <= now)
+            .OrderBy(l => l.ConsumedAt)
+            .ToListAsync();
+
+        var todayLogs = activeLogs
+            .Where(l => l.ConsumedAt >= day)
+            .ToList();
+
+        var target = Request.Cookies["TargetSleepTime"];
+
+        if (!TimeOnly.TryParseExact(
+                target,
+                "HH:mm",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out var sleep))
         {
-            _logRepository = logRepository;
-            _calculatorService = calculatorService;
-            _context = context;
+            sleep = new TimeOnly(23, 0);
         }
 
+        var sleepAt = now.Date.Add(sleep.ToTimeSpan());
 
-        private string GetCurrentUserId()
+        if (sleepAt < now)
+            sleepAt = sleepAt.AddDays(1);
+
+        var model = new DashboardViewModel
         {
+            SelectedDate = day,
+            Today = now.Date,
+            TodayLogs = todayLogs,
 
-            if (User.Identity != null && User.Identity.IsAuthenticated)
+            TotalConsumedTodayMg =
+                Math.Round(todayLogs.Sum(l => l.TotalCaffeineMg), 1),
+
+            CurrentActiveCaffeineMg =
+                Math.Round(
+                    calculator.GetCurrentTotalActiveCaffeine(activeLogs, now),
+                    1),
+
+            SleepReadinessTime = day == now.Date
+                ? calculator.EstimateSleepReadiness(activeLogs, now, 25)
+                : null,
+
+            TargetSleepTimeStr =
+                sleep.ToString("HH:mm", CultureInfo.InvariantCulture),
+
+            CaffeineAtTargetSleepTime =
+                Math.Round(
+                    calculator.GetCurrentTotalActiveCaffeine(activeLogs, sleepAt),
+                    1),
+
+            Favorites = await context.FavoriteDrinks
+                .AsNoTracking()
+                .Include(f => f.Beverage)
+                .Where(f =>
+                    f.UserId == userId &&
+                    (
+                        (f.Beverage.OwnerId == null &&
+                         f.Beverage.Category != "Custom")
+                        || f.Beverage.OwnerId == userId
+                    ))
+                .OrderBy(f => f.Id)
+                .ToListAsync()
+        };
+
+        for (var i = 0; i <= 48; i++)
+        {
+            var point = day.AddMinutes(i * 30);
+
+            model.ChartData.Add(new ChartDataPoint
             {
-                return User.Claims.First(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value;
-            }
+                TimeLabel = i == 48
+                    ? "24:00"
+                    : point.ToString("HH:mm"),
 
-
-            var guestId = Request.Cookies["GuestId"];
-            if (string.IsNullOrEmpty(guestId))
-            {
-
-                guestId = "Guest_" + Guid.NewGuid().ToString();
-                Response.Cookies.Append("GuestId", guestId, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
-            }
-            return guestId;
+                ActiveCaffeine = Math.Round(
+                    calculator.GetCurrentTotalActiveCaffeine(
+                        activeLogs,
+                        point),
+                    1)
+            });
         }
 
+        return View(model);
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
+    [HttpGet]
+    public async Task<IActionResult> Week(string? date)
+    {
+        var selected = ParseDay(date);
+
+        if (selected == null)
+            return BadRequest();
+
+        var day = selected.Value;
+
+        var start =
+            day.AddDays(-((int)day.DayOfWeek + 6) % 7);
+
+        var end = start.AddDays(7);
+        var userId = currentUser.GetId();
+
+        var entries = await context.CaffeineLogs
+            .AsNoTracking()
+            .Include(l => l.Beverage)
+            .Where(l =>
+                l.UserId == userId &&
+                l.ConsumedAt >= start &&
+                l.ConsumedAt < end &&
+                l.ConsumedAt <= clock.Now)
+            .ToListAsync();
+
+        var model = new WeekViewModel
         {
-            var now = DateTime.Now;
-            var userId = GetCurrentUserId();
+            Start = start,
+            Today = clock.Now.Date
+        };
 
+        for (var i = 0; i < 7; i++)
+        {
+            var dateOfDay = start.AddDays(i);
 
-            var todayLogs = await _logRepository.GetLogsForDateAsync(now, userId);
-            var activeLogs = await _logRepository.GetLogsSinceAsync(now.AddHours(-24), userId);
+            var items = entries
+                .Where(l => l.ConsumedAt.Date == dateOfDay)
+                .ToList();
 
-
-            string targetTimeStr = Request.Cookies["TargetSleepTime"] ?? "23:00";
-            if (!TimeSpan.TryParse(targetTimeStr, out TimeSpan parsedTime))
+            model.Days.Add(new DaySummary
             {
-                parsedTime = new TimeSpan(23, 0, 0);
-            }
+                Date = dateOfDay,
+                Count = items.Count,
+                TotalMg = Math.Round(
+                    items.Sum(l => l.TotalCaffeineMg),
+                    1)
+            });
+        }
 
-            DateTime targetSleepDateTime = now.Date.Add(parsedTime);
-            if (targetSleepDateTime < now)
+        model.MostFrequent = entries
+            .GroupBy(l => l.BeverageId)
+            .OrderByDescending(g => g.Count())
+            .ThenBy(g => g.Key)
+            .FirstOrDefault()
+            ?.First()
+            .Beverage;
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public IActionResult SetTargetSleepTime(string time)
+    {
+        if (!TimeOnly.TryParseExact(
+                time,
+                "HH:mm",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out _))
+        {
+            return BadRequest();
+        }
+
+        Response.Cookies.Append(
+            "TargetSleepTime",
+            time,
+            new CookieOptions
             {
-                targetSleepDateTime = targetSleepDateTime.AddDays(1);
-            }
+                HttpOnly = true,
+                Secure = Request.IsHttps,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTimeOffset.UtcNow.AddYears(1),
+                IsEssential = true
+            });
 
-            double caffeineAtSleep = Math.Round(_calculatorService.GetCurrentTotalActiveCaffeine(activeLogs, targetSleepDateTime), 1);
+        return RedirectToAction(nameof(Index));
+    }
 
-            string qualityKey, qualityColor;
-            if (caffeineAtSleep < 10) {
-                qualityKey = "Tökéletes, mély alvás várható.";
-                qualityColor = "text-emerald-400";
-            } else if (caffeineAtSleep <= 25) {
-                qualityKey = "Jó alvás, a küszöb alatt vagy.";
-                qualityColor = "text-cyan-400";
-            } else if (caffeineAtSleep <= 50) {
-                qualityKey = "Felszínesebb alvás, forgolódás várható.";
-                qualityColor = "text-yellow-400";
-            } else {
-                qualityKey = "Nehéz elalvás, megzavart pihenés!";
-                qualityColor = "text-rose-500";
-            }
+    private async Task PopulateDrinks(
+        LogDrinkFormViewModel model)
+    {
+        model.Beverages =
+            (await AvailableDrinks(currentUser.GetId())
+                .AsNoTracking()
+                .ToListAsync())
+            .OrderBy(BeverageDisplay.Name)
+            .ToList();
 
-            var viewModel = new DashboardViewModel
-            {
-                TodayLogs = todayLogs,
-                TotalConsumedTodayMg = Math.Round(todayLogs.Sum(l => l.TotalCaffeineMg), 1),
-                CurrentActiveCaffeineMg = Math.Round(_calculatorService.GetCurrentTotalActiveCaffeine(activeLogs, now), 1),
-                SleepReadinessTime = _calculatorService.EstimateSleepReadiness(activeLogs, now, 25.0),
-                TargetSleepTimeStr = targetTimeStr,
-                CaffeineAtTargetSleepTime = caffeineAtSleep,
-                SleepQualityKey = qualityKey,
-                SleepQualityColor = qualityColor
-            };
-
-
-            var startOfDay = now.Date;
-            for (int i = 0; i < 48; i++)
-            {
-                var timePoint = startOfDay.AddMinutes(i * 30);
-                var activeMg = _calculatorService.GetCurrentTotalActiveCaffeine(activeLogs, timePoint);
-
-                viewModel.ChartData.Add(new ChartDataPoint
+        model.BeverageOptions =
+            model.Beverages.Select(b =>
+                new SelectListItem
                 {
-                    TimeLabel = timePoint.ToString("HH:mm"),
-                    ActiveCaffeine = Math.Round(activeMg, 1)
+                    Value = b.Id.ToString(
+                        CultureInfo.InvariantCulture),
+
+                    Text = BeverageDisplay.Name(b)
                 });
-            }
+    }
 
-            return View(viewModel);
+    [HttpGet]
+    public async Task<IActionResult> LogDrink(string? date)
+    {
+        var selected = ParseDay(date);
+
+        if (selected == null)
+            return BadRequest();
+
+        var model = new LogDrinkFormViewModel
+        {
+            ConsumedAt = selected == clock.Now.Date
+                ? clock.Now
+                : selected.Value.AddHours(12),
+
+            AmountMl = 250
+        };
+
+        await PopulateDrinks(model);
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> LogDrink(
+        LogDrinkFormViewModel model)
+    {
+        if (model.ConsumedAt < Earliest ||
+            model.ConsumedAt > clock.Now)
+        {
+            ModelState.AddModelError(
+                nameof(model.ConsumedAt),
+                text["InvalidConsumptionTime"]);
         }
 
-
-        [HttpPost]
-        public IActionResult SetTargetSleepTime(string time)
+        if (model.IsCustomDrink &&
+            (
+                string.IsNullOrWhiteSpace(
+                    model.CustomBeverageName)
+                ||
+                !model.CustomCaffeinePer100Ml.HasValue
+                ||
+                !double.IsFinite(
+                    model.CustomCaffeinePer100Ml.Value)
+            ))
         {
-            if (TimeSpan.TryParse(time, out _))
-            {
-                Response.Cookies.Append("TargetSleepTime", time, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
-            }
-            return RedirectToAction(nameof(Index));
+            ModelState.AddModelError(
+                "",
+                text["InvalidCustomDrink"]);
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> LogDrink()
+        if (!model.IsCustomDrink &&
+            !model.SelectedBeverageId.HasValue)
         {
-            var beverages = await _context.Beverages.OrderBy(b => b.Name).ToListAsync();
-            var viewModel = new LogDrinkFormViewModel
+            ModelState.AddModelError(
+                nameof(model.SelectedBeverageId),
+                text["ChooseDrink"]);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            await PopulateDrinks(model);
+            return View(model);
+        }
+
+        var userId = currentUser.GetId();
+        Beverage? beverage;
+
+        if (model.IsCustomDrink)
+        {
+            beverage = new Beverage
             {
-                BeverageOptions = beverages.Select(b => new SelectListItem { Value = b.Id.ToString(), Text = b.Name })
+                Name = model.CustomBeverageName!.Trim(),
+                Category = "Custom",
+                OwnerId = userId,
+
+                CaffeinePer100Ml =
+                    model.CustomCaffeinePer100Ml!.Value,
+
+                DefaultPortionMl = model.AmountMl
             };
-            return View(viewModel);
+
+            context.Beverages.Add(beverage);
+        }
+        else
+        {
+            beverage = await AvailableDrinks(userId)
+                .FirstOrDefaultAsync(
+                    b => b.Id ==
+                         model.SelectedBeverageId);
+
+            if (beverage == null)
+                return NotFound();
         }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogDrink(LogDrinkFormViewModel model)
-        {
-            if (model.IsCustomDrink)
+        context.CaffeineLogs.Add(
+            new CaffeineLog
             {
-                if (string.IsNullOrWhiteSpace(model.CustomBeverageName) || model.CustomCaffeinePer100Ml == null || model.CustomCaffeinePer100Ml <= 0)
-                {
-                    ModelState.AddModelError("", "Kérlek add meg a saját ital nevét és koffeintartalmát (mg/100ml)!");
-                }
-            }
-            else
-            {
-                if (model.SelectedBeverageId == null || model.SelectedBeverageId == 0)
-                {
-                    ModelState.AddModelError("SelectedBeverageId", "Kérlek válassz egy italt a listából, vagy pipáld be az Egyedi ital opciót!");
-                }
-            }
-
-            if (!ModelState.IsValid)
-            {
-                var beverages = await _context.Beverages.OrderBy(b => b.Name).ToListAsync();
-                model.BeverageOptions = beverages.Select(b => new SelectListItem { Value = b.Id.ToString(), Text = b.Name });
-                return View(model);
-            }
-
-            Beverage beverageToLog;
-            double calculatedCaffeine;
-
-            if (model.IsCustomDrink)
-            {
-                beverageToLog = new Beverage
-                {
-                    Name = model.CustomBeverageName!,
-                    Category = "Custom",
-                    CaffeinePer100Ml = model.CustomCaffeinePer100Ml!.Value,
-                    DefaultPortionMl = model.AmountMl
-                };
-
-                _context.Beverages.Add(beverageToLog);
-                await _context.SaveChangesAsync();
-
-                calculatedCaffeine = (model.CustomCaffeinePer100Ml.Value * model.AmountMl) / 100.0;
-            }
-            else
-            {
-                beverageToLog = await _context.Beverages.FindAsync(model.SelectedBeverageId);
-                if (beverageToLog == null) return NotFound();
-
-                calculatedCaffeine = (beverageToLog.CaffeinePer100Ml * model.AmountMl) / 100.0;
-            }
-
-            var newLog = new CaffeineLog
-            {
-                BeverageId = beverageToLog.Id,
+                Beverage = beverage,
                 ConsumedAmountMl = model.AmountMl,
                 ConsumedAt = model.ConsumedAt,
-                TotalCaffeineMg = Math.Round(calculatedCaffeine, 1),
-                UserId = GetCurrentUserId()
-            };
 
-            await _logRepository.AddLogAsync(newLog);
-            return RedirectToAction(nameof(Index));
-        }
+                TotalCaffeineMg = Math.Round(
+                    beverage.CaffeinePer100Ml *
+                    model.AmountMl / 100,
+                    1),
 
+                UserId = userId
+            });
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteLog(int id)
+        if (model.SaveAsFavorite &&
+            (
+                beverage.Id == 0 ||
+                !await context.FavoriteDrinks.AnyAsync(f =>
+                    f.UserId == userId &&
+                    f.BeverageId == beverage.Id &&
+                    f.AmountMl == model.AmountMl)
+            ))
         {
-
-            await _logRepository.DeleteLogAsync(id, GetCurrentUserId());
-            return RedirectToAction(nameof(Index));
+            context.FavoriteDrinks.Add(
+                new FavoriteDrink
+                {
+                    UserId = userId,
+                    Beverage = beverage,
+                    AmountMl = model.AmountMl
+                });
         }
 
+        await context.SaveChangesAsync();
 
-        [HttpPost]
-        public IActionResult SetLanguage(string culture, string returnUrl)
+        return RedirectToAction(
+            nameof(Index),
+            new
+            {
+                date = model.ConsumedAt
+                    .ToString("yyyy-MM-dd")
+            });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> QuickAdd(int id)
+    {
+        var userId = currentUser.GetId();
+
+        var favorite = await context.FavoriteDrinks
+            .Include(f => f.Beverage)
+            .FirstOrDefaultAsync(f =>
+                f.Id == id &&
+                f.UserId == userId);
+
+        if (favorite == null ||
+            !await AvailableDrinks(userId)
+                .AnyAsync(b =>
+                    b.Id == favorite.BeverageId))
         {
-            Response.Cookies.Append(
-                CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-            );
-
-            return LocalRedirect(returnUrl);
+            return NotFound();
         }
+
+        var entry = new CaffeineLog
+        {
+            UserId = userId,
+            BeverageId = favorite.BeverageId,
+            ConsumedAmountMl = favorite.AmountMl,
+            ConsumedAt = clock.Now,
+
+            TotalCaffeineMg = Math.Round(
+                favorite.Beverage.CaffeinePer100Ml *
+                favorite.AmountMl / 100,
+                1)
+        };
+
+        await logs.AddLogAsync(entry);
+
+        TempData["QuickAddedId"] = entry.Id;
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UndoQuickAdd(int id)
+    {
+        var userId = currentUser.GetId();
+
+        var entry = await context.CaffeineLogs
+            .FirstOrDefaultAsync(l =>
+                l.Id == id &&
+                l.UserId == userId);
+
+        if (entry == null)
+            return NotFound();
+
+        if (clock.Now - entry.ConsumedAt >
+            TimeSpan.FromSeconds(30))
+        {
+            return BadRequest();
+        }
+
+        context.CaffeineLogs.Remove(entry);
+        await context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveFavorite(int id)
+    {
+        var userId = currentUser.GetId();
+
+        var favorite = await context.FavoriteDrinks
+            .FirstOrDefaultAsync(f =>
+                f.Id == id &&
+                f.UserId == userId);
+
+        if (favorite == null)
+            return NotFound();
+
+        context.FavoriteDrinks.Remove(favorite);
+        await context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteLog(
+        int id,
+        string? date)
+    {
+        await logs.DeleteLogAsync(
+            id,
+            currentUser.GetId());
+
+        return RedirectToAction(
+            nameof(Index),
+            new
+            {
+                date = ParseDay(date)?
+                    .ToString("yyyy-MM-dd")
+            });
+    }
+
+    [HttpPost]
+    public IActionResult SetLanguage(
+        string culture,
+        string returnUrl)
+    {
+        if (culture is not ("hu" or "en"))
+            return BadRequest();
+
+        Response.Cookies.Append(
+            CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(
+                new RequestCulture(culture)),
+            new CookieOptions
+            {
+                Expires =
+                    DateTimeOffset.UtcNow.AddYears(1),
+
+                IsEssential = true
+            });
+
+        return LocalRedirect(
+            Url.IsLocalUrl(returnUrl)
+                ? returnUrl
+                : "/");
     }
 }

@@ -1,155 +1,374 @@
 ﻿@model Caffeine.ViewModels.DashboardViewModel
-@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer Localizer
+@using Caffeine.Services
+@using System.Text.Json
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{ ViewData["Title"] = T["Daily"]; var date = Model.SelectedDate.ToString("yyyy-MM-dd"); }
 
-@{
-ViewData["Title"] = Localizer["Mai Nap"];
+<nav class="flex gap-2 mb-5" aria-label="@T["Views"]">
+    <a asp-action="Index" asp-route-date="@date" aria-current="page" class="nav-tab active">@T["Daily"]</a>
+    <a asp-action="Week" asp-route-date="@date" class="nav-tab">@T["Weekly"]</a>
+</nav>
+
+<div class="flex items-center gap-2 mb-6">
+    @if (Model.SelectedDate > new DateTime(2000, 1, 1))
+    {
+    <a asp-action="Index"
+       asp-route-date="@Model.SelectedDate.AddDays(-1).ToString("yyyy-MM-dd")"
+       class="nav-tab"
+       aria-label="@T["PreviousDay"]">‹</a>
+    }
+
+    <form method="get" class="flex-1 flex gap-2 min-w-0">
+        <label class="sr-only" for="history-date">@T["ChooseDate"]</label>
+
+        <input id="history-date"
+               type="date"
+               name="date"
+               value="@date"
+               min="2000-01-01"
+               max="@Model.Today.ToString("yyyy-MM-dd")"
+               class="field min-w-0 w-full" />
+
+        <button class="nav-tab" type="submit">@T["Go"]</button>
+    </form>
+
+    @if (!Model.IsToday)
+    {
+    <a asp-action="Index"
+       asp-route-date="@Model.SelectedDate.AddDays(1).ToString("yyyy-MM-dd")"
+       class="nav-tab"
+       aria-label="@T["NextDay"]">›</a>
+    }
+</div>
+
+@if (!Model.IsToday)
+{
+<div class="flex justify-between items-center mb-5">
+    <h1 class="text-xl font-bold">@Model.SelectedDate.ToString("D")</h1>
+    <a asp-action="Index" class="text-cyan-400">@T["Today"]</a>
+</div>
 }
 
+@if (TempData["QuickAddedId"] is int addedId)
+{
+<div class="glass rounded-2xl p-4 mb-5 flex justify-between gap-3"
+     role="status"
+     id="undo-notice">
 
-<div class="glass rounded-3xl p-8 text-center mb-6 shadow-2xl relative overflow-hidden">
-    <div class="absolute top-0 left-1/4 w-1/2 h-1/2 bg-cyan-500/20 blur-[50px] rounded-full"></div>
-    <h2 class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-2 relative z-10">@Localizer["Aktív Szint"]</h2>
-    <div class="text-7xl font-black mb-3 transition-colors duration-500 relative z-10 @Model.StatusColor">
-        @Model.CurrentActiveCaffeineMg <span class="text-3xl font-medium opacity-50">mg</span>
+    <span>@T["DrinkAdded"]</span>
+
+    <form asp-action="UndoQuickAdd" method="post">
+        <input type="hidden" name="id" value="@addedId" />
+        <button class="text-cyan-400" type="submit">@T["Undo"]</button>
+    </form>
+</div>
+}
+
+@if (Model.IsToday)
+{
+<section class="glass rounded-3xl p-7 text-center mb-5 shadow-2xl">
+    <h1 class="text-xs uppercase tracking-widest text-slate-400">
+        @T["ActiveEstimate"]
+    </h1>
+
+    <div class="text-6xl font-black my-4 @Model.StatusColor">
+        @Model.CurrentActiveCaffeineMg
+        <span class="text-2xl opacity-60">mg</span>
     </div>
-    <p class="text-sm text-slate-400 relative z-10">
+
+    <p class="text-sm text-slate-300">
+        @T["Threshold"]
+
         @if (Model.SleepReadinessTime.HasValue)
         {
-        <span>@Localizer["Alvásküszöb (25mg) elérése:"] <strong class="text-white">@Model.SleepReadinessTime.Value.ToString("HH:mm")</strong></span>
+        <strong>
+            @Model.SleepReadinessTime.Value.ToString(
+            Model.SleepReadinessTime.Value.Date == Model.Today
+            ? "HH:mm"
+            : "MM.dd. HH:mm")
+        </strong>
         }
         else
         {
-        <span class="text-emerald-400">@Localizer["Biztonságos alvásküszöb alatt vagy! 😴"]</span>
+        <strong>@T["BelowThreshold"]</strong>
         }
     </p>
-</div>
+</section>
 
+<section class="glass rounded-3xl p-5 mb-5">
+    <form asp-action="SetTargetSleepTime"
+          method="post"
+          class="flex flex-wrap gap-3 items-center justify-between">
 
-<div class="glass rounded-3xl p-6 mb-6 relative overflow-hidden">
-    <form asp-controller="Tracker" asp-action="SetTargetSleepTime" method="post" class="flex items-center justify-between mb-4 relative z-10">
-        <label class="text-sm font-semibold text-slate-300">@Localizer["Tervezett alvásidő:"]</label>
-        <input type="time" name="time" value="@Model.TargetSleepTimeStr"
-               class="bg-slate-800/70 border border-slate-600 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-cyan-500 [color-scheme:dark]"
-               onchange="this.form.submit()" />
+        <label for="sleep-time">@T["PlannedSleep"]</label>
+
+        <div class="flex gap-2">
+            <input id="sleep-time"
+                   class="field"
+                   type="time"
+                   name="time"
+                   value="@Model.TargetSleepTimeStr"
+                   required />
+
+            <button class="nav-tab" type="submit">@T["Save"]</button>
+        </div>
     </form>
 
-    <div class="flex items-center justify-between border-t border-slate-700/50 pt-4 mt-2 relative z-10">
-        <div>
-            <div class="text-xs text-slate-400 mb-1">@Localizer["Várható szint:"]</div>
-            <div class="text-2xl font-bold text-white">@Model.CaffeineAtTargetSleepTime <span class="text-sm font-normal text-slate-500">mg</span></div>
-        </div>
-        <div class="text-right max-w-[55%]">
-            <div class="text-sm font-medium @Model.SleepQualityColor leading-snug">
-                @Localizer[Model.SleepQualityKey]
-            </div>
-        </div>
-    </div>
-</div>
+    <p class="mt-4 text-slate-300">
+        @T["ExpectedLevel"]
+        <strong class="text-cyan-400">
+            @Model.CaffeineAtTargetSleepTime mg
+        </strong>
+    </p>
 
+    <p class="text-xs text-slate-400 mt-3">
+        @T["ModelNote"]
+    </p>
+</section>
 
-<div class="grid grid-cols-2 gap-4 mb-6">
-    <div class="glass rounded-2xl p-4 text-center flex flex-col justify-center">
-        <div class="text-xs text-slate-400 mb-1">@Localizer["Mai Összes Bevitel"]</div>
-        <div class="text-xl font-bold text-white">@Model.TotalConsumedTodayMg mg</div>
-        <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3">
-            @{ var percent = Math.Min((Model.TotalConsumedTodayMg / 400.0) * 100, 100); }
-            <div class="bg-cyan-500 h-1.5 rounded-full" style="width: @percent.ToString(System.Globalization.CultureInfo.InvariantCulture)%"></div>
-        </div>
-    </div>
-    <div class="glass rounded-2xl p-4 flex flex-col justify-center">
-        <div class="text-xs text-slate-400 mb-2 text-center">@Localizer["Rögzített Italok"]</div>
-        <div class="text-2xl font-bold text-white text-center">@Model.TodayLogs.Count() <span class="text-sm font-normal text-slate-500">@Localizer["db"]</span></div>
-    </div>
-</div>
+<section class="mb-5">
+    <h2 class="text-sm font-semibold mb-3">
+        ★ @T["Favorites"]
+    </h2>
 
-
-<div class="glass rounded-3xl p-4 mb-6">
-    <h3 class="text-sm text-slate-300 font-semibold mb-3 ml-2">@Localizer["24 Órás Aktivitás"]</h3>
-    <div class="h-48 w-full">
-        <canvas id="caffeineChart"></canvas>
-    </div>
-</div>
-
-
-<div class="glass rounded-3xl p-6 mb-24 relative overflow-hidden">
-    <h3 class="text-lg text-white font-bold mb-4 relative z-10">@Localizer["Mai Napló"]</h3>
-
-    @if (!Model.TodayLogs.Any())
+    @if (Model.Favorites.Count == 0)
     {
-    <div class="text-center text-slate-400 py-6 relative z-10">
-        <div class="text-4xl mb-2">😴</div>
-        @Localizer["Még nem ittál ma semmi koffeineset."]
-    </div>
+    <p class="text-sm text-slate-400">
+        @T["NoFavorites"]
+    </p>
     }
-    else
-    {
-    <div class="space-y-3 relative z-10">
-        @foreach (var log in Model.TodayLogs.OrderByDescending(l => l.ConsumedAt))
+
+    <div class="space-y-2">
+        @foreach (var favorite in Model.Favorites)
         {
-        <div class="bg-slate-800/50 rounded-2xl p-4 flex justify-between items-center border border-slate-700/50 hover:bg-slate-800 transition-colors">
-            <div class="flex-1">
-                <div class="text-white font-semibold text-[15px] mb-1">
-                    @log.Beverage.Name
-                </div>
-                <div class="text-xs text-slate-400 flex flex-wrap gap-x-4 gap-y-1">
-                    <span class="flex items-center"><span class="mr-1">🕒</span> @log.ConsumedAt.ToString("HH:mm")</span>
-                    <span class="flex items-center"><span class="mr-1">💧</span> @log.ConsumedAmountMl ml</span>
-                    <span class="flex items-center text-cyan-400 font-medium"><span class="mr-1">⚡</span> @Math.Round(log.TotalCaffeineMg, 1) mg</span>
-                </div>
-            </div>
-            <form asp-controller="Tracker" asp-action="DeleteLog" method="post" class="ml-3">
-                <input type="hidden" name="id" value="@log.Id" />
-                <button type="submit" onclick="return confirm('@Localizer["Biztosan törlöd ezt a tételt a naplóból?"]');"
-                        class="w-10 h-10 rounded-full bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white flex items-center justify-center transition-all focus:outline-none shadow-sm shrink-0">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+        <div class="glass rounded-2xl p-3 flex gap-2 items-center">
+
+            <form asp-action="QuickAdd"
+                  method="post"
+                  class="flex-1"
+                  data-single-submit>
+
+                <input type="hidden"
+                       name="id"
+                       value="@favorite.Id" />
+
+                <button class="text-left w-full py-1"
+                        type="submit">
+
+                    <span class="text-cyan-400 mr-2">＋</span>
+                    @BeverageDisplay.Name(favorite.Beverage)
+
+                    <span class="block text-xs text-slate-400 ml-6">
+                                @favorite.AmountMl ml ·
+                        @Math.Round(
+                        favorite.Beverage.CaffeinePer100Ml *
+                        favorite.AmountMl / 100,
+                        1) mg ·
+                        @T["AddNow"]
+                            </span>
+                </button>
+            </form>
+
+            <form asp-action="RemoveFavorite" method="post">
+                <input type="hidden"
+                       name="id"
+                       value="@favorite.Id" />
+
+                <button type="submit"
+                        class="p-3 text-slate-400"
+                        aria-label="@T["RemoveFavorite"]">
+                    ×
                 </button>
             </form>
         </div>
         }
     </div>
-    }
+</section>
+}
+
+<div class="grid grid-cols-2 gap-3 mb-5">
+    <div class="glass rounded-2xl p-5">
+        <div class="text-xs text-slate-400 mb-2">
+            @T["DailyIntake"]
+        </div>
+
+        <strong class="text-2xl">
+            @Model.TotalConsumedTodayMg mg
+        </strong>
+    </div>
+
+    <div class="glass rounded-2xl p-5">
+        <div class="text-xs text-slate-400 mb-2">
+            @T["LoggedDrinks"]
+        </div>
+
+        <strong class="text-2xl">
+            @Model.TodayLogs.Count()
+        </strong>
+    </div>
 </div>
 
+<section class="glass rounded-3xl p-5 mb-5">
+    <h2 class="font-semibold mb-3">
+        @T["DayCurve"]
+    </h2>
 
-<a asp-controller="Tracker" asp-action="LogDrink" class="fixed bottom-6 right-1/2 translate-x-[9.5rem] md:translate-x-[12rem] w-16 h-16 bg-cyan-500 hover:bg-cyan-400 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-transform hover:scale-110 active:scale-95 z-50">
-    <svg class="w-8 h-8 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-</a>
+    <div class="h-48">
+        <canvas id="caffeineChart"
+                role="img"
+                aria-label="@T["DayCurve"]">
+        </canvas>
+    </div>
+
+    <details class="mt-3 text-xs text-slate-400">
+        <summary>@T["ChartData"]</summary>
+
+        <table class="w-full mt-2">
+            <thead>
+            <tr>
+                <th>@T["Time"]</th>
+                <th>mg</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var point in Model.ChartData)
+            {
+            <tr>
+                <td>@point.TimeLabel</td>
+                <td class="text-center">
+                    @point.ActiveCaffeine
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </details>
+</section>
+
+<section class="glass rounded-3xl p-5 mb-6">
+
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="font-semibold">
+            @T["Diary"]
+        </h2>
+
+        <a asp-action="LogDrink"
+           asp-route-date="@date"
+           class="text-cyan-400 font-semibold">
+            ＋ @T["AddDrink"]
+        </a>
+    </div>
+
+    @if (!Model.TodayLogs.Any())
+    {
+    <p class="text-slate-400 text-sm py-4">
+        @T["NoLogs"]
+    </p>
+    }
+
+    @foreach (var log in Model.TodayLogs.OrderByDescending(l => l.ConsumedAt))
+    {
+    <div class="border-t border-slate-700 py-4 flex justify-between items-center gap-3">
+
+        <div>
+            <div class="font-medium">
+                @BeverageDisplay.Name(log.Beverage)
+            </div>
+
+            <div class="text-xs text-slate-400 mt-1">
+                @log.ConsumedAt.ToString("HH:mm") ·
+                @log.ConsumedAmountMl ml ·
+                <span class="text-cyan-400">
+                        @log.TotalCaffeineMg mg
+                    </span>
+            </div>
+        </div>
+
+        <form asp-action="DeleteLog"
+              method="post"
+              data-confirm="@T["ConfirmDeleteLog"]">
+
+            <input type="hidden"
+                   name="id"
+                   value="@log.Id" />
+
+            <input type="hidden"
+                   name="date"
+                   value="@date" />
+
+            <button type="submit"
+                    class="text-rose-400 p-2"
+                    aria-label="@T["Delete"]">
+                ×
+            </button>
+        </form>
+    </div>
+    }
+</section>
 
 @section Scripts {
 <script>
-    const rawData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ChartData));
-    const labels = rawData.map(d => d.TimeLabel);
-    const data = rawData.map(d => d.ActiveCaffeine);
+    const points = @Html.Raw(JsonSerializer.Serialize(Model.ChartData));
 
-    const ctx = document.getElementById('caffeineChart').getContext('2d');
-    let gradient = ctx.createLinearGradient(0, 0, 0, 200);
-    gradient.addColorStop(0, 'rgba(34, 211, 238, 0.4)');
-    gradient.addColorStop(1, 'rgba(34, 211, 238, 0)');
+    if (window.Chart)
+        new Chart(
+            document.getElementById('caffeineChart'),
+            {
+                type: 'line',
 
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '@Localizer["Aktív Koffein (mg)"]',
-                data: data,
-                borderColor: '#22d3ee',
-                backgroundColor: gradient,
-                borderWidth: 3,
-                pointRadius: 0,
-                pointHitRadius: 20,
-                fill: true,
-                tension: 0.4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', titleColor: '#94a3b8', bodyColor: '#fff', padding: 10, displayColors: false, callbacks: { label: function(context) { return context.parsed.y + ' mg'; } } } },
-            scales: { x: { grid: { display: false }, ticks: { color: '#64748b', maxTicksLimit: 5 } }, y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#64748b', stepSize: 50 }, beginAtZero: true, suggestedMax: 150 } },
-            interaction: { intersect: false, mode: 'index' }
-        }
-    });
+                data: {
+                    labels: points.map(p => p.TimeLabel),
+
+                    datasets: [{
+                        data: points.map(p => p.ActiveCaffeine),
+                        borderColor: '#22d3ee',
+                        backgroundColor: 'rgba(34,211,238,.12)',
+                        fill: true,
+                        pointRadius: 0,
+                        pointHitRadius: 16,
+                        tension: 0
+                    }]
+                },
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            displayColors: false
+                        },
+},
+
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#94a3b8',
+                                maxTicksLimit: 5
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        }
+                    }
+                }
+            });
+
+    setTimeout(
+        () => document
+            .getElementById('undo-notice')
+            ?.remove(),
+        25000);
 </script>
 }

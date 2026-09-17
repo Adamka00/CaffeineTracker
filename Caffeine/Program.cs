@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using Caffeine.Data;
 using Caffeine.Repositories;
@@ -9,7 +11,21 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddScoped<TrackerClock>();
+builder.Services.AddScoped<CurrentTrackerUser>();
+
+var dataProtection = builder.Services
+    .AddDataProtection()
+    .SetApplicationName("CaffeineTracker");
+
+var keyPath = builder.Configuration["DataProtection:KeyPath"];
+
+if (!string.IsNullOrWhiteSpace(keyPath))
+    dataProtection.PersistKeysToFileSystem(new DirectoryInfo(keyPath));
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -24,8 +40,10 @@ builder.Services.AddScoped<ICaffeineDecayStrategy, StandardCaffeineDecayStrategy
 builder.Services.AddScoped<ICaffeineCalculatorService, CaffeineCalculatorService>();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
 builder.Services.AddControllersWithViews()
-    .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+    .AddViewLocalization(
+        Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
     .AddDataAnnotationsLocalization();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -39,13 +57,29 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
+if (args.Contains("--migrate"))
+{
+    using var scope = app.Services.CreateScope();
+
+    await DatabaseUpgrade.ApplyAsync(
+        scope.ServiceProvider.GetRequiredService<AppDbContext>());
+
+    return;
+}
+
 var supportedCultures = new[] { "hu", "en" };
+
 var localizationOptions = new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture("hu"),
-    SupportedCultures = supportedCultures.Select(c => new CultureInfo(c)).ToList(),
-    SupportedUICultures = supportedCultures.Select(c => new CultureInfo(c)).ToList()
+    SupportedCultures = supportedCultures
+        .Select(c => new CultureInfo(c))
+        .ToList(),
+    SupportedUICultures = supportedCultures
+        .Select(c => new CultureInfo(c))
+        .ToList()
 };
+
 app.UseRequestLocalization(localizationOptions);
 
 
@@ -61,3 +95,5 @@ app.MapControllerRoute(
     pattern: "{controller=Tracker}/{action=Index}/{id?}");
 
 app.Run();
+
+public partial class Program { }

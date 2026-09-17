@@ -1,3 +1,5 @@
+using Caffeine.Services;
+using Microsoft.AspNetCore.Authorization;
 using Caffeine.Data;
 using Caffeine.Models;
 using Caffeine.Repositories;
@@ -16,28 +18,40 @@ namespace Caffeine.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly CurrentTrackerUser _currentUser;
         private readonly AppDbContext _context;
         private readonly ICaffeineLogRepository _logRepository;
         private readonly PasswordHasher<AppUser> _passwordHasher;
 
-        public AccountController(AppDbContext context, ICaffeineLogRepository logRepository)
+        public AccountController(
+            AppDbContext context,
+            ICaffeineLogRepository logRepository,
+            CurrentTrackerUser currentUser)
         {
             _context = context;
+            _currentUser = currentUser;
             _logRepository = logRepository;
             _passwordHasher = new PasswordHasher<AppUser>();
         }
 
+
         [HttpGet]
-        public IActionResult Register() => View(new RegisterViewModel());
+        public IActionResult Register() =>
+            View(new RegisterViewModel());
+
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+                return View(model);
 
             if (await _context.Users.AnyAsync(u => u.Email == model.Email))
             {
-                ModelState.AddModelError("Email", "Ezzel az email címmel már regisztráltak!");
+                ModelState.AddModelError(
+                    "Email",
+                    "Ezzel az email címmel már regisztráltak!");
+
                 return View(model);
             }
 
@@ -47,103 +61,183 @@ namespace Caffeine.Controllers
                 Email = model.Email
             };
 
-            user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
+            user.PasswordHash =
+                _passwordHasher.HashPassword(
+                    user,
+                    model.Password);
 
             _context.Users.Add(user);
+
             await _context.SaveChangesAsync();
 
             await SignInUserAsync(user);
-            await TransferGuestLogs(user.Id.ToString());
 
-            return RedirectToAction("Index", "Tracker");
+            await TransferGuestLogs(
+                user.Id.ToString());
+
+            return RedirectToAction(
+                "Index",
+                "Tracker");
         }
 
+
         [HttpGet]
-        public IActionResult Login() => View(new LoginViewModel());
+        public IActionResult Login() =>
+            View(new LoginViewModel());
+
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+                return View(model);
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            var user =
+                await _context.Users
+                    .FirstOrDefaultAsync(
+                        u => u.Email == model.Email);
+
             if (user == null)
             {
-                ModelState.AddModelError("", "Hibás email vagy jelszó!");
+                ModelState.AddModelError(
+                    "",
+                    "Hibás email vagy jelszó!");
+
                 return View(model);
             }
 
+            var result =
+                _passwordHasher.VerifyHashedPassword(
+                    user,
+                    user.PasswordHash,
+                    model.Password);
 
-            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
-            if (result == PasswordVerificationResult.Failed)
+            if (result ==
+                PasswordVerificationResult.Failed)
             {
-                ModelState.AddModelError("", "Hibás email vagy jelszó!");
+                ModelState.AddModelError(
+                    "",
+                    "Hibás email vagy jelszó!");
+
                 return View(model);
             }
 
             await SignInUserAsync(user);
-            await TransferGuestLogs(user.Id.ToString());
 
-            return RedirectToAction("Index", "Tracker");
+            await TransferGuestLogs(
+                user.Id.ToString());
+
+            return RedirectToAction(
+                "Index",
+                "Tracker");
         }
 
+
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Tracker");
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults
+                    .AuthenticationScheme);
+
+            return RedirectToAction(
+                "Index",
+                "Tracker");
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteAccount()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId =
+                User.FindFirstValue(
+                    ClaimTypes.NameIdentifier);
+
             if (userId != null)
             {
+                await _logRepository
+                    .DeleteAllLogsForUserAsync(userId);
 
-                await _logRepository.DeleteAllLogsForUserAsync(userId);
+                var user =
+                    await _context.Users.FindAsync(
+                        int.Parse(userId));
 
-
-                var user = await _context.Users.FindAsync(int.Parse(userId));
                 if (user != null)
                 {
                     _context.Users.Remove(user);
-                    await _context.SaveChangesAsync();
+
+                    await _context
+                        .SaveChangesAsync();
                 }
 
-
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                await HttpContext.SignOutAsync(
+                    CookieAuthenticationDefaults
+                        .AuthenticationScheme);
             }
-            return RedirectToAction("Index", "Tracker");
+
+            return RedirectToAction(
+                "Index",
+                "Tracker");
         }
 
-        private async Task SignInUserAsync(AppUser user)
+
+        private async Task SignInUserAsync(
+            AppUser user)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Email, user.Email)
+                new(
+                    ClaimTypes.NameIdentifier,
+                    user.Id.ToString()),
+
+                new(
+                    ClaimTypes.Name,
+                    user.Username),
+
+                new(
+                    ClaimTypes.Email,
+                    user.Email)
             };
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
+            var identity =
+                new ClaimsIdentity(
+                    claims,
+                    CookieAuthenticationDefaults
+                        .AuthenticationScheme);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
-            {
-                IsPersistent = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
-            });
+            var principal =
+                new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults
+                    .AuthenticationScheme,
+                principal,
+                new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc =
+                        DateTimeOffset.UtcNow
+                            .AddDays(30)
+                });
         }
 
 
-        private async Task TransferGuestLogs(string newUserId)
+        private async Task TransferGuestLogs(
+            string newUserId)
         {
-            var guestId = Request.Cookies["GuestId"];
+            var guestId =
+                _currentUser.GetGuestId();
+
             if (!string.IsNullOrEmpty(guestId))
             {
-                await _logRepository.TransferLogsAsync(guestId, newUserId);
-                Response.Cookies.Delete("GuestId");
+                await _logRepository
+                    .TransferLogsAsync(
+                        guestId,
+                        newUserId);
+
+                _currentUser.ClearGuest();
             }
         }
     }

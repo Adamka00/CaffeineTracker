@@ -226,3 +226,9 @@
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/j0hj6yrrvw-{0}-xk60w5ivcr-xk60w5ivcr.gz
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/ry1rb5bvdg-{0}-lyiiju1cn5-lyiiju1cn5.gz
 /Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/veha05nurj-{0}-lyiiju1cn5-lyiiju1cn5.gz
+/Users/adamka00/Projects/Coffeine/Caffeine/bin/Debug/net10.0/hu/Caffeine.resources.dll
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.SharedResource.en.resources
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/Caffeine.Resources.SharedResource.hu.resources
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/hu/Caffeine.resources.cs
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/hu/Caffeine.resources.dll
+/Users/adamka00/Projects/Coffeine/Caffeine/obj/Debug/net10.0/compressed/ce1w0lo0zw-{0}-2j90ac3yau-2j90ac3yau.gz

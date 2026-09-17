@@ -1,0 +1,303 @@
+@model Caffeine.ViewModels.WeekViewModel
+@using Caffeine.Services
+@using System.Text.Json
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+@{
+    ViewData["Title"] = T["Weekly"];
+}
+
+
+<nav class="flex gap-2 mb-5" aria-label="@T["Views"]">
+
+    <a asp-action="Index"
+       asp-route-date="@(Model.Start < new DateTime(2000, 1, 1)
+                            ? "2000-01-01"
+                            : Model.Start.ToString("yyyy-MM-dd"))"
+       class="nav-tab">
+        @T["Daily"]
+    </a>
+
+    <a asp-action="Week"
+       class="nav-tab active"
+       aria-current="page">
+        @T["Weekly"]
+    </a>
+
+</nav>
+
+
+<div class="flex justify-between items-center gap-3 mb-5">
+
+    @if (Model.Start.AddDays(-7) >= new DateTime(2000, 1, 1))
+    {
+        <a asp-action="Week"
+           asp-route-date="@Model.Start.AddDays(-7).ToString("yyyy-MM-dd")"
+           class="nav-tab"
+           aria-label="@T["PreviousWeek"]">
+            ‹
+        </a>
+    }
+
+    <h1 class="font-bold text-lg">
+        @Model.Start.ToString("yyyy.MM.dd.") –
+        @Model.Start.AddDays(6).ToString("MM.dd.")
+    </h1>
+
+    @if (Model.Start.AddDays(7) <= Model.Today)
+    {
+        <a asp-action="Week"
+           asp-route-date="@Model.Start.AddDays(7).ToString("yyyy-MM-dd")"
+           class="nav-tab"
+           aria-label="@T["NextWeek"]">
+            ›
+        </a>
+    }
+
+</div>
+
+
+<a asp-action="Week"
+   class="text-cyan-400 text-sm">
+    @T["ThisWeek"]
+</a>
+
+
+<section class="glass rounded-3xl p-5 mt-5 mb-5">
+
+    <h2 class="font-semibold mb-4">
+        @T["WeeklyIntake"]
+    </h2>
+
+    <div class="h-56">
+
+        <canvas id="weekChart"
+                role="img"
+                aria-label="@T["WeeklyIntake"]">
+        </canvas>
+
+    </div>
+
+</section>
+
+
+<div class="grid grid-cols-2 gap-3 mb-5">
+
+    <div class="glass rounded-2xl p-4">
+
+        <p class="text-xs text-slate-400">
+            @T["WeeklyTotal"]
+        </p>
+
+        <p class="text-2xl font-bold mt-2">
+            @Math.Round(Model.Total, 1) mg
+        </p>
+
+    </div>
+
+
+    <div class="glass rounded-2xl p-4">
+
+        <p class="text-xs text-slate-400">
+            @T["DailyAverage"]
+        </p>
+
+        <p class="text-2xl font-bold mt-2">
+            @Math.Round(Model.Average, 1) mg
+        </p>
+
+    </div>
+
+
+    <div class="glass rounded-2xl p-4">
+
+        <p class="text-xs text-slate-400">
+            @T["LoggedDrinks"]
+        </p>
+
+        <p class="text-2xl font-bold mt-2">
+            @Model.DrinkCount
+        </p>
+
+    </div>
+
+
+    <div class="glass rounded-2xl p-4">
+
+        <p class="text-xs text-slate-400">
+            @T["DaysWithLogs"]
+        </p>
+
+        <p class="text-2xl font-bold mt-2">
+            @Model.LoggedDays / @Model.ElapsedDays
+        </p>
+
+    </div>
+
+</div>
+
+
+<p class="text-xs text-slate-400 mb-5">
+    @T["AverageNote"]
+</p>
+
+
+@if (Model.Highest is { } highest)
+{
+    <p class="text-sm mb-2">
+
+        @T["HighestDay"]
+
+        <strong>
+            @highest.Date.ToString("dddd") ·
+            @highest.TotalMg mg
+        </strong>
+
+    </p>
+}
+
+
+@if (Model.MostFrequent is { } drink)
+{
+    <p class="text-sm mb-5">
+
+        @T["MostFrequent"]
+
+        <strong>
+            @BeverageDisplay.Name(drink)
+        </strong>
+
+    </p>
+}
+
+
+<section class="glass rounded-3xl p-5">
+
+    <h2 class="font-semibold mb-3">
+        @T["Days"]
+    </h2>
+
+
+    @foreach (var day in Model.Days)
+    {
+        <div class="border-t border-slate-700 py-3 flex justify-between gap-3">
+
+            @if (day.Date <= Model.Today &&
+                 day.Date >= new DateTime(2000, 1, 1))
+            {
+                <a asp-action="Index"
+                   asp-route-date="@day.Date.ToString("yyyy-MM-dd")"
+                   class="text-cyan-400">
+                    @day.Date.ToString("dddd, MM.dd.")
+                </a>
+            }
+            else
+            {
+                <span class="text-slate-500">
+                    @day.Date.ToString("dddd, MM.dd.")
+                </span>
+            }
+
+
+            <span>
+                @(day.Date > Model.Today
+                    ? "—"
+                    : day.Count == 0
+                        ? T["NoEntry"].Value
+                        : $"{day.TotalMg} mg")
+            </span>
+
+        </div>
+    }
+
+</section>
+
+
+@section Scripts
+{
+    <script>
+
+        const days =
+            @Html.Raw(
+                JsonSerializer.Serialize(
+                    Model.Days.Select(d => new
+                    {
+                        label = d.Date.ToString("ddd"),
+
+                        value = d.Date > Model.Today
+                            ? (double?)null
+                            : d.TotalMg,
+
+                        date = d.Date.ToString("yyyy-MM-dd")
+                    })
+                )
+            );
+
+
+        if (window.Chart)
+        {
+            new Chart(
+                document.getElementById('weekChart'),
+                {
+                    type: 'bar',
+
+                    data:
+                    {
+                        labels: days.map(d => d.label),
+
+                        datasets:
+                        [
+                            {
+                                data: days.map(d => d.value),
+                                backgroundColor: '#22d3ee',
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+
+                    options:
+                    {
+                        responsive: true,
+                        maintainAspectRatio: false,
+
+                        plugins:
+                        {
+                            legend:
+                            {
+                                display: false
+                            }
+                        },
+
+                        scales:
+                        {
+                            x:
+                            {
+                                ticks:
+                                {
+                                    color: '#94a3b8'
+                                },
+
+                                grid:
+                                {
+                                    display: false
+                                }
+                            },
+
+                            y:
+                            {
+                                beginAtZero: true,
+
+                                ticks:
+                                {
+                                    color: '#94a3b8'
+                                }
+                            }
+                        }
+                    }
+                }
+            );
+        }
+
+    </script>
+}

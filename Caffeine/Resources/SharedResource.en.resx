@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+    <data name="Daily" xml:space="preserve">
+    <value>Day</value>
+  </data>
+    <data name="Weekly" xml:space="preserve">
+    <value>Week</value>
+  </data>
+    <data name="Views" xml:space="preserve">
+    <value>Views</value>
+  </data>
+    <data name="PreviousDay" xml:space="preserve">
+    <value>Previous day</value>
+  </data>
+    <data name="NextDay" xml:space="preserve">
+    <value>Next day</value>
+  </data>
+    <data name="PreviousWeek" xml:space="preserve">
+    <value>Previous week</value>
+  </data>
+    <data name="NextWeek" xml:space="preserve">
+    <value>Next week</value>
+  </data>
+    <data name="ChooseDate" xml:space="preserve">
+    <value>Choose a date</value>
+  </data>
+    <data name="Go" xml:space="preserve">
+    <value>Go</value>
+  </data>
+    <data name="Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+    <data name="ThisWeek" xml:space="preserve">
+    <value>This week</value>
+  </data>
+    <data name="DrinkAdded" xml:space="preserve">
+    <value>Drink added.</value>
+  </data>
+    <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+    <data name="ActiveEstimate" xml:space="preserve">
+    <value>Estimated active caffeine</value>
+  </data>
+    <data name="Threshold" xml:space="preserve">
+    <value>25 mg threshold:</value>
+  </data>
+    <data name="BelowThreshold" xml:space="preserve">
+    <value>below threshold</value>
+  </data>
+    <data name="PlannedSleep" xml:space="preserve">
+    <value>Planned bedtime</value>
+  </data>
+    <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+    <data name="ExpectedLevel" xml:space="preserve">
+    <value>Estimated level at bedtime:</value>
+  </data>
+    <data name="ModelNote" xml:space="preserve">
+    <value>Simplified estimate with 45-minute absorption and a 5-hour half-life. This does not measure sleep quality.</value>
+  </data>
+    <data name="Favorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+    <data name="NoFavorites" xml:space="preserve">
+    <value>Save your usual portion as a favorite when logging a drink.</value>
+  </data>
+    <data name="AddNow" xml:space="preserve">
+    <value>add now</value>
+  </data>
+    <data name="RemoveFavorite" xml:space="preserve">
+    <value>Remove favorite</value>
+  </data>
+    <data name="SaveFavorite" xml:space="preserve">
+    <value>Save this drink and portion as a favorite</value>
+  </data>
+    <data name="DailyIntake" xml:space="preserve">
+    <value>Daily logged intake</value>
+  </data>
+    <data name="LoggedDrinks" xml:space="preserve">
+    <value>Logged drinks</value>
+  </data>
+    <data name="DayCurve" xml:space="preserve">
+    <value>Estimated daily caffeine curve</value>
+  </data>
+    <data name="ChartData" xml:space="preserve">
+    <value>Chart data</value>
+  </data>
+    <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+    <data name="Diary" xml:space="preserve">
+    <value>Diary</value>
+  </data>
+    <data name="AddDrink" xml:space="preserve">
+    <value>Add drink</value>
+  </data>
+    <data name="NoLogs" xml:space="preserve">
+    <value>No drinks logged for this day.</value>
+  </data>
+    <data name="ConfirmDeleteLog" xml:space="preserve">
+    <value>Delete this log entry?</value>
+  </data>
+    <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+    <data name="WeeklyIntake" xml:space="preserve">
+    <value>Daily intake this week</value>
+  </data>
+    <data name="WeeklyTotal" xml:space="preserve">
+    <value>Weekly total</value>
+  </data>
+    <data name="DailyAverage" xml:space="preserve">
+    <value>Daily average</value>
+  </data>
+    <data name="DaysWithLogs" xml:space="preserve">
+    <value>Days with entries</value>
+  </data>
+    <data name="AverageNote" xml:space="preserve">
+    <value>The average includes elapsed days of the week, including today. An empty day means 0 mg logged, not a confirmed caffeine-free day.</value>
+  </data>
+    <data name="HighestDay" xml:space="preserve">
+    <value>Highest intake:</value>
+  </data>
+    <data name="MostFrequent" xml:space="preserve">
+    <value>Most frequent drink:</value>
+  </data>
+    <data name="Days" xml:space="preserve">
+    <value>Days</value>
+  </data>
+    <data name="NoEntry" xml:space="preserve">
+    <value>No entry</value>
+  </data>
+    <data name="InvalidConsumptionTime" xml:space="preserve">
+    <value>Consumption must be between 2000-01-01 and now.</value>
+  </data>
+    <data name="InvalidCustomDrink" xml:space="preserve">
+    <value>Enter the drink name and caffeine content.</value>
+  </data>
+    <data name="ChooseDrink" xml:space="preserve">
+    <value>Choose a drink.</value>
+  </data>
+    <data name="UserProvided" xml:space="preserve">
+    <value>Your own value</value>
+  </data>
+    <data name="ManufacturerValue" xml:space="preserve">
+    <value>Manufacturer value; check the variant on the label</value>
+  </data>
+    <data name="PreparationEstimate" xml:space="preserve">
+    <value>Estimate; varies by preparation and variant</value>
+  </data>
+    <data name="CheckLabel" xml:space="preserve">
+    <value>Indicative value; check the label</value>
+  </data>
+</root>

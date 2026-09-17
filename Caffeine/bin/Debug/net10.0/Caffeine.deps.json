@@ -17,6 +17,9 @@
         "resources": {
           "en/Caffeine.resources.dll": {
             "locale": "en"
+          },
+          "hu/Caffeine.resources.dll": {
+            "locale": "hu"
           }
         }
       },

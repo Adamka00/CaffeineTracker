@@ -7,21 +7,22 @@ namespace Caffeine.ViewModels
 {
     public class DashboardViewModel
     {
+        public DateTime SelectedDate { get; set; }
+        public DateTime Today { get; set; }
+        public bool IsToday => SelectedDate == Today;
+        public List<FavoriteDrink> Favorites { get; set; } = [];
 
         public IEnumerable<CaffeineLog> TodayLogs { get; set; } = new List<CaffeineLog>();
         public double TotalConsumedTodayMg { get; set; }
         public double CurrentActiveCaffeineMg { get; set; }
         public DateTime? SleepReadinessTime { get; set; }
 
-
         public string TargetSleepTimeStr { get; set; } = "23:00";
         public double CaffeineAtTargetSleepTime { get; set; }
         public string SleepQualityKey { get; set; } = string.Empty;
         public string SleepQualityColor { get; set; } = string.Empty;
 
-
         public List<ChartDataPoint> ChartData { get; set; } = new List<ChartDataPoint>();
-
 
         public string StatusColor
         {
