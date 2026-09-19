@@ -1,6 +1,6 @@
 # ☕ Caffeine Tracker
 
-🌍 **Live App:** [koffein.adamka00.hu](https://koffein.adamka00.hu)
+🌍 **Live App:** [koffi.hu](https://koffi.hu)
 
 *(Scroll down for the Hungarian version / Magyar verzió lejjebb)*
 
@@ -87,7 +87,7 @@ Database schema changes are handled through EF Core migrations and the applicati
 
 # ☕ Caffeine Tracker (Magyar verzió)
 
-🌍 **Éles alkalmazás:** [koffein.adamka00.hu](https://koffein.adamka00.hu)
+🌍 **Éles alkalmazás:** [koffi.hu](https://koffi.hu)
 
 Egy modern, mobilra optimalizált ASP.NET Core MVC Progressive Web App (PWA) a koffeinbevitel követésére és a szervezetben lévő aktív koffeinszint időbeli becslésére. A biológiai koffeinmodellt napi és heti előzményekkel, kedvencekkel, saját italokkal, alvásidő-előrejelzéssel, vendégmóddal és felhasználói fiókokkal egészíti ki.
 
