@@ -1,5 +1,7 @@
 # ☕ Koffi
 
+💙 **Support:** [buymeacoffe.com](https://buymeacoffee.com/adamka00)
+
 🌍 **Live App:** [koffi.hu](https://koffi.hu)
 
 *(Scroll down for the Hungarian version / Magyar verzió lejjebb)*
@@ -143,6 +145,8 @@ Database schema changes are handled through Entity Framework Core migrations and
 ---
 
 # ☕ Koffi – Magyar verzió
+
+💙 **Támogatás:** [buymeacoffe.com](https://buymeacoffee.com/adamka00)
 
 🌍 **Éles alkalmazás:** [koffi.hu](https://koffi.hu)
 
