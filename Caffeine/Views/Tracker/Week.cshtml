@@ -203,9 +203,11 @@
             <span>
                 @(day.Date > Model.Today
                     ? "—"
-                    : day.Count == 0
-                        ? T["NoEntry"].Value
-                        : $"{day.TotalMg} mg")
+                    : day.IsCaffeineFree
+                        ? T["CaffeineFreeDay"].Value
+                        : day.Count == 0
+                            ? T["NoEntry"].Value
+                            : $"{day.TotalMg} mg")
             </span>
 
         </div>

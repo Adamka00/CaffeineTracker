@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+
+    <meta name="referrer"
+          content="no-referrer" />
+
+    <title>
+        @ViewData["Title"] – Koffi
+    </title>
+
+    <link rel="stylesheet"
+          href="~/css/recovery.css"
+          asp-append-version="true" />
+</head>
+
+<body>
+
+<main>
+
+    <a href="/">
+        Koffi
+    </a>
+
+    @RenderBody()
+
+</main>
+
+</body>
+
+</html>

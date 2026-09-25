@@ -7,7 +7,7 @@
 @model Caffeine.ViewModels.LogDrinkFormViewModel
 
 @{
-ViewData["Title"] = Localizer["Új Ital Rögzítése"];
+    ViewData["Title"] = Localizer["Új Ital Rögzítése"];
 }
 
 
@@ -90,6 +90,22 @@ ViewData["Title"] = Localizer["Új Ital Rögzítése"];
             </label>
 
 
+            <!-- DRINK SEARCH -->
+
+            <label for="drink-search"
+                   class="sr-only">
+                @T["SearchDrinks"]
+            </label>
+
+            <input id="drink-search"
+                   type="search"
+                   class="field w-full mb-3"
+                   autocomplete="off"
+                   placeholder="@T["SearchDrinks"]"
+                   data-drink-search="SelectedBeverageId"
+                   data-results="@T["SearchResults"]" />
+
+
             <select asp-for="SelectedBeverageId"
                     class="w-full bg-slate-800/70 border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors appearance-none cursor-pointer">
 
@@ -100,14 +116,14 @@ ViewData["Title"] = Localizer["Új Ital Rögzítése"];
 
                 @foreach (var beverage in Model.Beverages)
                 {
-                <option value="@beverage.Id"
-                        data-portion="@beverage.DefaultPortionMl"
-                        data-caffeine="@beverage.CaffeinePer100Ml.ToString(System.Globalization.CultureInfo.InvariantCulture)"
-                        data-evidence="@T[BeverageDisplay.EvidenceKey(beverage)]">
+                    <option value="@beverage.Id"
+                            data-portion="@beverage.DefaultPortionMl"
+                            data-caffeine="@beverage.CaffeinePer100Ml.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                            data-evidence="@T[BeverageDisplay.EvidenceKey(beverage)]">
 
-                    @BeverageDisplay.Name(beverage)
+                        @BeverageDisplay.Name(beverage)
 
-                </option>
+                    </option>
                 }
 
             </select>
@@ -271,86 +287,86 @@ ViewData["Title"] = Localizer["Új Ital Rögzítése"];
 
 @section Scripts
 {
-@{
-await Html.RenderPartialAsync("_ValidationScriptsPartial");
-}
-
-
-<script>
-
-    function toggleCustomDrink()
-    {
-        const isCustom =
-            document.getElementById('IsCustomDrink').checked;
-
-        const dropdown =
-            document.getElementById('dropdown-section');
-
-        const custom =
-            document.getElementById('custom-section');
-
-
-        if (isCustom)
-        {
-            dropdown.style.display = 'none';
-            custom.style.display = 'block';
-        }
-        else
-        {
-            dropdown.style.display = 'block';
-            custom.style.display = 'none';
-        }
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function ()
+    <script>
+
+        function toggleCustomDrink()
         {
-            toggleCustomDrink();
+            const isCustom =
+                document.getElementById('IsCustomDrink').checked;
+
+            const dropdown =
+                document.getElementById('dropdown-section');
+
+            const custom =
+                document.getElementById('custom-section');
 
 
-            const select =
-                document.getElementById('SelectedBeverageId');
-
-            const amount =
-                document.getElementById('AmountMl');
-
-
-            function drinkInfo(setAmount)
+            if (isCustom)
             {
-                const option =
-                    select.selectedOptions[0];
-
-
-                document
-                    .getElementById('drink-info')
-                    .textContent =
-                    option?.dataset.caffeine
-                        ? option.dataset.caffeine +
-                        ' mg/100 ml · ' +
-                        option.dataset.evidence
-                        : '';
-
-
-                if (setAmount &&
-                    option?.dataset.portion)
-                {
-                    amount.value =
-                        option.dataset.portion;
-                }
+                dropdown.style.display = 'none';
+                custom.style.display = 'block';
             }
-
-
-            select.addEventListener(
-                'change',
-                () => drinkInfo(true)
-            );
-
-
-            drinkInfo(false);
+            else
+            {
+                dropdown.style.display = 'block';
+                custom.style.display = 'none';
+            }
         }
-    );
 
-</script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function ()
+            {
+                toggleCustomDrink();
+
+
+                const select =
+                    document.getElementById('SelectedBeverageId');
+
+                const amount =
+                    document.getElementById('AmountMl');
+
+
+                function drinkInfo(setAmount)
+                {
+                    const option =
+                        select.selectedOptions[0];
+
+
+                    document
+                        .getElementById('drink-info')
+                        .textContent =
+                        option?.dataset.caffeine
+                            ? option.dataset.caffeine +
+                            ' mg/100 ml · ' +
+                            option.dataset.evidence
+                            : '';
+
+
+                    if (setAmount &&
+                        option?.dataset.portion)
+                    {
+                        amount.value =
+                            option.dataset.portion;
+                    }
+                }
+
+
+                select.addEventListener(
+                    'change',
+                    () => drinkInfo(true)
+                );
+
+
+                drinkInfo(false);
+            }
+        );
+
+    </script>
 }

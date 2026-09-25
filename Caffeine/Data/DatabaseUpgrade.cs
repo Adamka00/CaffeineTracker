@@ -65,20 +65,28 @@ public static class DatabaseUpgrade
                         await usersTable.ExecuteScalarAsync()) > 0;
             }
 
+            if (!hasUserId)
+                await db.Database.ExecuteSqlRawAsync(
+                    "ALTER TABLE CaffeineLogs ADD COLUMN UserId TEXT NOT NULL DEFAULT '';");
+
+            if (!hasUsersTable)
+                await db.Database.ExecuteSqlRawAsync("""
+                    CREATE TABLE IF NOT EXISTS Users (
+                        Id INTEGER NOT NULL CONSTRAINT PK_Users PRIMARY KEY AUTOINCREMENT,
+                        Username TEXT NOT NULL,
+                        Email TEXT NOT NULL,
+                        PasswordHash TEXT NOT NULL,
+                        CreatedAt TEXT NOT NULL);
+                    """);
+
             applied = (await db.Database.GetAppliedMigrationsAsync()).ToList();
 
             var userProfileMigrationApplied =
                 applied.Contains(userProfileMigration);
 
-            // Special released-schema case:
-            //
-            // The production database already has the schema introduced by
-            // AddUserProfileSystem, but its migration history entry is missing.
-            //
-            // Do NOT run that migration again. Instead, record it as applied.
-            if (hasUserId &&
-                hasUsersTable &&
-                !userProfileMigrationApplied)
+            // The profile migration is absent from the released source tree.
+            // Its schema now exists (preserved or created above); record it once.
+            if (!userProfileMigrationApplied)
             {
                 await db.Database.ExecuteSqlRawAsync(
                     """

@@ -16,7 +16,7 @@ using Xunit;
 
 namespace Caffeine.Tests;
 
-public sealed class TrackerTests : IDisposable
+public sealed partial class TrackerTests : IDisposable
 {
     private readonly TestApp app = new();
     private readonly HttpClient client;

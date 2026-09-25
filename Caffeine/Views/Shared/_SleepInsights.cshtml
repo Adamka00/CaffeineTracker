@@ -1,0 +1,29 @@
+@model IEnumerable<Caffeine.Services.SleepInsight>
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+<section class="glass rounded-3xl p-5 mt-5 mb-5">
+    <h2 class="font-bold mb-3">
+        @T["SleepInsights"]
+    </h2>
+
+    <p class="text-xs text-slate-400 mb-4">
+        @T["SleepInsightNote"]
+    </p>
+
+    @foreach (var item in Model)
+    {
+        <div class="border-t border-slate-700 py-3">
+            <h3 class="text-sm font-semibold">
+                @T[item.MetricKey]
+            </h3>
+
+            <p class="text-sm mt-2">
+                @T[item.MessageKey]
+            </p>
+
+            <p class="text-xs text-slate-400 mt-2">
+                @T["SleepSample", item.Count]
+            </p>
+        </div>
+    }
+</section>

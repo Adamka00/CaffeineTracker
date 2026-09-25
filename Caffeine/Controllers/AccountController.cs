@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Caffeine.Controllers
 {
-    public class AccountController : Controller
+    public partial class AccountController : FeatureController
     {
         private readonly CurrentTrackerUser _currentUser;
         private readonly AppDbContext _context;
@@ -136,6 +136,24 @@ namespace Caffeine.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
+            var deviceHash =
+                Request.Cookies["KoffiPushDevice"];
+
+            if (!string.IsNullOrEmpty(deviceHash))
+            {
+                await _context
+                    .BrowserPushSubscriptions
+                    .Where(s =>
+                        s.UserId ==
+                        _currentUser.GetId() &&
+                        s.EndpointHash ==
+                        deviceHash)
+                    .ExecuteDeleteAsync();
+            }
+
+            Response.Cookies.Delete(
+                "KoffiPushDevice");
+
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults
                     .AuthenticationScheme);
@@ -188,6 +206,10 @@ namespace Caffeine.Controllers
         {
             var claims = new List<Claim>
             {
+                new(
+                    "SecurityStamp",
+                    user.SecurityStamp),
+
                 new(
                     ClaimTypes.NameIdentifier,
                     user.Id.ToString()),

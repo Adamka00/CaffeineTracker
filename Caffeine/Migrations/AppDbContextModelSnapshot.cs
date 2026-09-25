@@ -34,6 +34,10 @@ namespace Caffeine.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("SecurityStamp")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -379,6 +383,61 @@ namespace Caffeine.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Caffeine.Models.BrowserPushSubscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Auth")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Endpoint")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EndpointHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastSeenUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("P256dh")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EndpointHash")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BrowserPushSubscriptions");
+                });
+
+            modelBuilder.Entity("Caffeine.Models.CaffeineFreeDay", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Day")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "Day");
+
+                    b.ToTable("CaffeineFreeDays");
+                });
+
             modelBuilder.Entity("Caffeine.Models.CaffeineLog", b =>
                 {
                     b.Property<int>("Id")
@@ -436,6 +495,180 @@ namespace Caffeine.Migrations
                     b.ToTable("FavoriteDrinks");
                 });
 
+            modelBuilder.Entity("Caffeine.Models.NotificationDelivery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Attempts")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Day")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("RetryAfterUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("SentAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SubscriptionId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscriptionId", "Kind", "Day")
+                        .IsUnique();
+
+                    b.ToTable("NotificationDeliveries");
+                });
+
+            modelBuilder.Entity("Caffeine.Models.NotificationPreference", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Culture")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CutoffDoseMg")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("CutoffReminder")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MorningTime")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("SleepCheckIn")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("StreakReminder")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("StreakTime")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("ThresholdReached")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("NotificationPreferences");
+                });
+
+            modelBuilder.Entity("Caffeine.Models.PasswordResetToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("UsedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TokenHash")
+                        .IsUnique();
+
+                    b.HasIndex("UserId", "CreatedAt");
+
+                    b.ToTable("PasswordResetTokens");
+                });
+
+            modelBuilder.Entity("Caffeine.Models.SleepLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ActualBedtime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Awakenings")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("EstimatedCaffeineAtBedtime")
+                        .HasColumnType("REAL");
+
+                    b.Property<int?>("FallingAsleep")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsImportedDuplicate")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastCaffeineAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("PlannedBedtime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("PreviousDayCaffeineMg")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime>("SleepDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SleepRating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("WakeTime")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "SleepDate")
+                        .IsUnique()
+                        .HasFilter("\"IsImportedDuplicate\" = 0");
+
+                    b.ToTable("SleepLogs");
+                });
+
+            modelBuilder.Entity("Caffeine.Models.TrackerPreference", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PlannedBedtime")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("TargetMg")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("TrackerPreferences");
+                });
+
             modelBuilder.Entity("Caffeine.Models.CaffeineLog", b =>
                 {
                     b.HasOne("Caffeine.Models.Beverage", "Beverage")
@@ -456,6 +689,28 @@ namespace Caffeine.Migrations
                         .IsRequired();
 
                     b.Navigation("Beverage");
+                });
+
+            modelBuilder.Entity("Caffeine.Models.NotificationDelivery", b =>
+                {
+                    b.HasOne("Caffeine.Models.BrowserPushSubscription", "Subscription")
+                        .WithMany()
+                        .HasForeignKey("SubscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subscription");
+                });
+
+            modelBuilder.Entity("Caffeine.Models.PasswordResetToken", b =>
+                {
+                    b.HasOne("Caffeine.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

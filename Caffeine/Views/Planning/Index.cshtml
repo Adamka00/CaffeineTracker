@@ -1,0 +1,359 @@
+@model Caffeine.ViewModels.PlanningForm
+@using Caffeine.Services
+@using System.Text.Json
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+@{
+    ViewData["Title"] = T["PlanningTitle"];
+}
+
+<h1 class="text-2xl font-bold mb-3">
+    @T["PlanningTitle"]
+</h1>
+
+<p class="text-sm text-slate-400 mb-3">
+    @T["WhatIfNote"]
+</p>
+
+<a asp-action="Settings"
+   class="text-cyan-400">
+    @T["PlanningSettings"]
+</a>
+
+
+<form asp-action="Index"
+      method="post"
+      class="glass rounded-3xl p-5 feature-form mt-5">
+
+    <div asp-validation-summary="All"
+         class="text-rose-400"
+         role="alert">
+    </div>
+
+
+    <label for="planning-search">
+        @T["SearchDrinks"]
+    </label>
+
+    <input id="planning-search"
+           type="search"
+           class="field"
+           data-drink-search="BeverageId"
+           data-results="@T["SearchResults"]"
+           placeholder="@T["SearchDrinks"]"
+           autocomplete="off" />
+
+
+    <label asp-for="BeverageId">
+        @T["ChooseDrink"]
+    </label>
+
+    <select asp-for="BeverageId"
+            class="field">
+
+        <option value="">
+            @T["ManualDose"]
+        </option>
+
+        @foreach (var b in Model.Beverages)
+        {
+            <option value="@b.Id">
+                @BeverageDisplay.Name(b)
+            </option>
+        }
+
+    </select>
+
+
+    <label asp-for="AmountMl">
+        @T["AmountMl"]
+    </label>
+
+    <input asp-for="AmountMl"
+           type="number"
+           min="1"
+           max="2000"
+           class="field" />
+
+
+    <label asp-for="DoseMg">
+        @T["ManualDose"] (mg)
+    </label>
+
+    <input asp-for="DoseMg"
+           type="number"
+           min="0"
+           max="2000"
+           class="field" />
+
+    <p class="text-xs text-slate-400">
+        @T["ManualDoseNote"]
+    </p>
+
+
+    <label asp-for="IntakeAt">
+        @T["IntakeAt"]
+    </label>
+
+    <input asp-for="IntakeAt"
+           type="datetime-local"
+           asp-format="{0:yyyy-MM-ddTHH:mm}"
+           class="field"
+           required />
+
+
+    <label asp-for="Bedtime">
+        @T["PlannedBedtime"]
+    </label>
+
+    <input asp-for="Bedtime"
+           type="datetime-local"
+           asp-format="{0:yyyy-MM-ddTHH:mm}"
+           class="field"
+           required />
+
+
+    <label asp-for="TargetMg">
+        @T["PersonalTarget"] (mg)
+    </label>
+
+    <input asp-for="TargetMg"
+           type="number"
+           min="1"
+           max="200"
+           class="field"
+           required />
+
+    <p class="text-xs text-slate-400 my-4">
+        @T["PersonalTargetNote"]
+    </p>
+
+
+    <button type="submit"
+            class="nav-tab">
+        @T["Calculate"]
+    </button>
+
+</form>
+
+
+@if (Model.Result is { } result)
+{
+    <section class="glass rounded-3xl p-5 my-5"
+             aria-live="polite">
+
+        <h2 class="font-bold mb-3">
+            @T["Estimate"]
+        </h2>
+
+        <p>
+            @T["Dose"]:
+            @Math.Round(result.DoseMg, 1) mg
+        </p>
+
+        <p>
+            @T["ExistingAtBedtime"]:
+            @Math.Round(result.ExistingAtBedtime, 1) mg
+        </p>
+
+        <p>
+            @T["EstimatedAtBedtime"]:
+            <strong>
+                @Math.Round(result.WithDrinkAtBedtime, 1) mg
+            </strong>
+        </p>
+
+        <p class="my-3">
+            @T["Cutoff"]:
+            <strong>
+                @(result.Cutoff?.ToString("MM.dd. HH:mm")
+                    ?? T["NoCutoff"].Value)
+            </strong>
+        </p>
+
+
+        @if (result.Cutoff < Model.IntakeAt)
+        {
+            <p class="text-amber-300 text-sm">
+                @T["AfterCutoff"]
+            </p>
+        }
+
+
+        <p class="text-xs text-slate-400 my-3">
+            @T["CutoffNote"]
+        </p>
+
+        <p>
+            @T["UnderTargetAt"]:
+            @(result.UnderTargetAt?.ToString("MM.dd. HH:mm")
+                ?? T["BeyondHorizon"].Value)
+        </p>
+
+
+        <div class="h-56 mt-5">
+            <canvas id="planning-chart"
+                    role="img"
+                    aria-label="@T["WhatIfCurve"]">
+            </canvas>
+        </div>
+
+
+        <details class="text-sm mt-4">
+
+            <summary>
+                @T["ChartData"]
+            </summary>
+
+            <table class="w-full">
+
+                <thead>
+                <tr>
+                    <th>@T["Time"]</th>
+                    <th>@T["Existing"]</th>
+                    <th>@T["WithDrink"]</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                @foreach (var p in result.Curve)
+                {
+                    <tr>
+                        <td>
+                            @p.At.ToString("MM.dd. HH:mm")
+                        </td>
+
+                        <td>
+                            @p.ExistingMg mg
+                        </td>
+
+                        <td>
+                            @p.WithDrinkMg mg
+                        </td>
+                    </tr>
+                }
+
+                </tbody>
+
+            </table>
+
+        </details>
+
+
+        @if (Model.BeverageId.HasValue)
+        {
+            <a asp-controller="Tracker"
+               asp-action="LogDrink"
+               asp-route-beverageId="@Model.BeverageId"
+               asp-route-amountMl="@Model.AmountMl"
+               class="nav-tab inline-block mt-4">
+
+                @T["LogThisDrink"]
+
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Tracker"
+               asp-action="LogDrink"
+               class="nav-tab inline-block mt-4">
+
+                @T["AddDrink"]
+
+            </a>
+        }
+
+
+        <p class="text-xs text-slate-400 mt-3">
+            @T["ConfirmLoggingNote"]
+        </p>
+
+    </section>
+}
+
+
+@section Scripts
+{
+    @if (Model.Result is { } chartResult)
+    {
+        <script>
+
+            const points =
+                @Html.Raw(
+                    JsonSerializer.Serialize(
+                        chartResult.Curve));
+
+            if (window.Chart)
+            {
+                new Chart(
+                    document.getElementById(
+                        'planning-chart'),
+                    {
+                        type: 'line',
+
+                        data:
+                        {
+                            labels:
+                                points.map(
+                                    p =>
+                                        p.At
+                                            .replace('T', ' ')
+                                            .slice(5, 16)),
+
+                            datasets:
+                            [
+                                {
+                                    label:
+                                        @Html.Raw(
+                                            JsonSerializer.Serialize(
+                                                T["Existing"].Value)),
+
+                                    data:
+                                        points.map(
+                                            p => p.ExistingMg),
+
+                                    borderColor:
+                                        '#94a3b8',
+
+                                    pointRadius: 0
+                                },
+
+                                {
+                                    label:
+                                        @Html.Raw(
+                                            JsonSerializer.Serialize(
+                                                T["WithDrink"].Value)),
+
+                                    data:
+                                        points.map(
+                                            p => p.WithDrinkMg),
+
+                                    borderColor:
+                                        '#22d3ee',
+
+                                    pointRadius: 0
+                                }
+                            ]
+                        },
+
+                        options:
+                        {
+                            responsive: true,
+                            maintainAspectRatio: false,
+
+                            scales:
+                            {
+                                y:
+                                {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+            }
+
+        </script>
+    }
+}

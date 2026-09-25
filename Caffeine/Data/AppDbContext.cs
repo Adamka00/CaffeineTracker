@@ -8,6 +8,15 @@ namespace Caffeine.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<FavoriteDrink> FavoriteDrinks { get; set; }
+        
+        public DbSet<CaffeineFreeDay> CaffeineFreeDays { get; set; }
+        public DbSet<SleepLog> SleepLogs { get; set; }
+        public DbSet<NotificationPreference> NotificationPreferences { get; set; }
+        public DbSet<BrowserPushSubscription> BrowserPushSubscriptions { get; set; }
+        public DbSet<NotificationDelivery> NotificationDeliveries { get; set; }
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+        public DbSet<TrackerPreference> TrackerPreferences { get; set; }
+
 
         public DbSet<Beverage> Beverages { get; set; }
         public DbSet<CaffeineLog> CaffeineLogs { get; set; }
@@ -17,6 +26,50 @@ namespace Caffeine.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+            modelBuilder.Entity<NotificationPreference>()
+                .HasKey(p => p.UserId);
+
+            modelBuilder.Entity<BrowserPushSubscription>()
+                .HasIndex(s => s.EndpointHash)
+                .IsUnique();
+
+            modelBuilder.Entity<BrowserPushSubscription>()
+                .HasIndex(s => s.UserId);
+
+            modelBuilder.Entity<NotificationDelivery>()
+                .HasIndex(d => new { d.SubscriptionId, d.Kind, d.Day })
+                .IsUnique();
+
+            modelBuilder.Entity<NotificationDelivery>()
+                .HasOne(d => d.Subscription)
+                .WithMany()
+                .HasForeignKey(d => d.SubscriptionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<PasswordResetToken>()
+                .HasIndex(t => t.TokenHash)
+                .IsUnique();
+
+            modelBuilder.Entity<PasswordResetToken>()
+                .HasIndex(t => new { t.UserId, t.CreatedAt });
+
+            modelBuilder.Entity<PasswordResetToken>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SleepLog>()
+                .HasIndex(s => new { s.UserId, s.SleepDate })
+                .IsUnique()
+                .HasFilter("\"IsImportedDuplicate\" = 0");
+
+            modelBuilder.Entity<TrackerPreference>()
+                .HasKey(p => p.UserId);
+
+            modelBuilder.Entity<CaffeineFreeDay>()
+                .HasKey(d => new { d.UserId, d.Day });
 
             modelBuilder.Entity<Beverage>()
                 .HasIndex(b => b.OwnerId);

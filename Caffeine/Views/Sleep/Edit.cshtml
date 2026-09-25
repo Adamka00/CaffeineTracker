@@ -1,0 +1,124 @@
+@model Caffeine.ViewModels.SleepForm
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+@{
+    ViewData["Title"] = T["SleepCheckIn"];
+}
+
+<h1 class="text-2xl font-bold mb-5">
+    @T["SleepCheckIn"]
+</h1>
+
+<p class="text-sm text-slate-400 mb-5">
+    @T["SleepDateNote"]
+</p>
+
+<form asp-action="Edit"
+      method="post"
+      class="glass rounded-3xl p-5 feature-form"
+      data-single-submit>
+
+    <div asp-validation-summary="All"
+         class="text-rose-400"
+         role="alert"></div>
+
+    <input asp-for="Id"
+           type="hidden" />
+
+    <label asp-for="ActualBedtime">
+        @T["ActualBedtime"]
+    </label>
+
+    <input asp-for="ActualBedtime"
+           type="datetime-local"
+           asp-format="{0:yyyy-MM-ddTHH:mm}"
+           class="field"
+           required />
+
+    <label asp-for="WakeTime">
+        @T["WakeTime"]
+    </label>
+
+    <input asp-for="WakeTime"
+           type="datetime-local"
+           asp-format="{0:yyyy-MM-ddTHH:mm}"
+           class="field"
+           required />
+
+    <label asp-for="SleepRating">
+        @T["SleepRating"]
+    </label>
+
+    <select asp-for="SleepRating"
+            class="field">
+        @for (var n = 1; n <= 5; n++)
+        {
+            <option value="@n">
+                @n — @T["Rating" + n]
+            </option>
+        }
+    </select>
+
+    <details class="my-4">
+        <summary>@T["OptionalDetails"]</summary>
+
+        <label asp-for="PlannedBedtime">
+            @T["PlannedBedtime"]
+        </label>
+
+        <input asp-for="PlannedBedtime"
+               type="datetime-local"
+               asp-format="{0:yyyy-MM-ddTHH:mm}"
+               class="field" />
+
+        <label asp-for="FallingAsleep">
+            @T["FallingAsleep"]
+        </label>
+
+        <select asp-for="FallingAsleep"
+                class="field">
+
+            <option value="">—</option>
+
+            @for (var n = 1; n <= 5; n++)
+            {
+                <option value="@n">
+                    @n — @T["Difficulty" + n]
+                </option>
+            }
+        </select>
+
+        <label asp-for="Awakenings">
+            @T["Awakenings"]
+        </label>
+
+        <input asp-for="Awakenings"
+               type="number"
+               min="0"
+               max="50"
+               class="field" />
+
+        <label asp-for="Notes">
+            @T["Notes"]
+        </label>
+
+        <textarea asp-for="Notes"
+                  maxlength="2000"
+                  rows="3"
+                  class="field"></textarea>
+    </details>
+
+    <p class="text-xs text-slate-400 my-4">
+        @T["SleepSnapshotNote"]
+    </p>
+
+    <button type="submit"
+            class="nav-tab">
+        @T["Save"]
+    </button>
+
+    <a asp-action="Index"
+       class="nav-tab">
+        @T["Cancel"]
+    </a>
+</form>

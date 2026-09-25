@@ -1,0 +1,132 @@
+@model Caffeine.ViewModels.SleepIndex
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+@{
+    ViewData["Title"] = T["SleepTitle"];
+}
+
+<div class="flex items-center justify-between gap-2 mb-5">
+    <h1 class="text-2xl font-bold">@T["SleepTitle"]</h1>
+    <a asp-action="Edit" class="nav-tab">
+        ＋ @T["SleepCheckIn"]
+    </a>
+</div>
+
+<p class="text-sm text-slate-400 mb-5">
+    @T["SleepDateNote"]
+</p>
+
+@if (Model.Logs.Count == 0)
+{
+    <p>@T["NoSleepLogs"]</p>
+}
+
+@foreach (var row in Model.Logs)
+{
+    <article class="glass rounded-2xl p-4 mb-3">
+        @if (row.IsImportedDuplicate)
+        {
+            <p class="text-xs text-slate-400">
+                @T["ImportedSleepCopy"]
+            </p>
+        }
+
+        <h2 class="font-bold">
+            @row.SleepDate.ToString("D") · @row.SleepRating / 5
+        </h2>
+
+        <p class="text-sm mt-2">
+            @row.ActualBedtime.ToString("MM.dd. HH:mm")
+            →
+            @row.WakeTime.ToString("MM.dd. HH:mm")
+        </p>
+
+        <p>
+            @Math.Round(row.DurationHours, 1) @T["Hours"]
+        </p>
+
+        <details class="text-sm mt-3">
+            <summary>@T["Details"]</summary>
+
+            <p>
+                @T["EstimatedAtBedtime"]:
+                @Math.Round(row.EstimatedCaffeineAtBedtime, 1) mg
+            </p>
+
+            <p>
+                @T["PreviousDayCaffeine"]:
+                @Math.Round(row.PreviousDayCaffeineMg, 1) mg
+            </p>
+
+            <p>
+                @T["LastCaffeine"]:
+                @(row.LastCaffeineAt?.ToString("MM.dd. HH:mm") ?? "—")
+            </p>
+
+            <p>
+                @T["PlannedBedtime"]:
+                @(row.PlannedBedtime?.ToString("MM.dd. HH:mm") ?? "—")
+            </p>
+
+            <p>
+                @T["FallingAsleep"]:
+                @(row.FallingAsleep?.ToString() ?? "—")
+            </p>
+
+            <p>
+                @T["Awakenings"]:
+                @(row.Awakenings?.ToString() ?? "—")
+            </p>
+
+            @if (!string.IsNullOrEmpty(row.Notes))
+            {
+                <p class="whitespace-pre-wrap mt-2">
+                    @row.Notes
+                </p>
+            }
+        </details>
+
+        <div class="flex justify-between items-center mt-3">
+            <a asp-action="Edit"
+               asp-route-id="@row.Id"
+               class="text-cyan-400">
+                @T["Edit"]
+            </a>
+
+            <form asp-action="Delete"
+                  method="post"
+                  data-confirm="@T["DeleteSleepConfirm"]">
+
+                <input type="hidden"
+                       name="id"
+                       value="@row.Id" />
+
+                <button type="submit"
+                        class="text-rose-400 p-2">
+                    @T["Delete"]
+                </button>
+            </form>
+        </div>
+    </article>
+}
+
+<div class="flex justify-between my-4">
+    @if (Model.Page > 1)
+    {
+        <a asp-route-page="@(Model.Page - 1)"
+           class="nav-tab">
+            @T["PreviousPage"]
+        </a>
+    }
+
+    @if (Model.HasMore)
+    {
+        <a asp-route-page="@(Model.Page + 1)"
+           class="nav-tab">
+            @T["NextPage"]
+        </a>
+    }
+</div>
+
+<partial name="_SleepInsights"
+         model="Model.Insights" />

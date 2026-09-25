@@ -1,0 +1,140 @@
+@model Caffeine.Services.LifetimeStats
+@using Caffeine.Services
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+@{
+    ViewData["Title"] = T["LifetimeTitle"];
+}
+
+<h1 class="text-2xl font-bold mb-5">
+    @T["LifetimeTitle"]
+</h1>
+
+<div class="grid grid-cols-2 gap-3">
+    @foreach (var item in new[]
+    {
+        ("LoggedDrinks", Model.DrinkCount.ToString()),
+        ("TotalCaffeine", $"{Model.TotalMg:F1} mg"),
+        ("DailyAverage", $"{Model.DailyAverage:F1} mg"),
+        ("Average7", $"{Model.Average7:F1} mg"),
+        ("Average30", $"{Model.Average30:F1} mg"),
+        ("FreeDays", Model.FreeDayCount.ToString()),
+        ("StreakTitle", Model.Streak.Current.ToString()),
+        ("LongestStreak", Model.Streak.Best.ToString())
+    })
+    {
+        <div class="glass rounded-2xl p-4">
+            <p class="text-xs text-slate-400">
+                @T[item.Item1]
+            </p>
+
+            <p class="text-xl font-bold mt-2">
+                @item.Item2
+            </p>
+        </div>
+    }
+</div>
+
+<p class="text-xs text-slate-400 my-4">
+    @T["LifetimeAverageNote"]
+    @(Model.TrackingSince?.ToString("yyyy.MM.dd.") ?? "—")
+</p>
+
+<section class="glass rounded-3xl p-5 mb-5">
+    <h2 class="font-bold mb-3">
+        @T["ConsumptionPatterns"]
+    </h2>
+
+    <p>
+        @T["MostFrequent"]
+        @(Model.MostFrequent == null
+            ? "—"
+            : BeverageDisplay.Name(Model.MostFrequent))
+    </p>
+
+    <p>
+        @T["FirstCaffeineAverage"]:
+        @(Model.FirstCaffeineTime?.ToString(@"hh\:mm") ?? "—")
+    </p>
+
+    <p>
+        @T["LastCaffeineAverage"]:
+        @(Model.LastCaffeineTime?.ToString(@"hh\:mm") ?? "—")
+    </p>
+
+    @if (Model.HighestDay is { } highest)
+    {
+        <p>
+            @T["HighestIntake"]:
+            @highest.Day.ToString("yyyy.MM.dd.")
+            ·
+            @Math.Round(highest.Mg, 1) mg
+        </p>
+    }
+
+    <p class="text-xs text-slate-400 mt-3">
+        @T["HighestIntakeNote"]
+    </p>
+
+    <h3 class="font-semibold my-3">
+        @T["Categories"]
+    </h3>
+
+    @foreach (var c in Model.Categories)
+    {
+        <p>
+            @T["Category_" + c.Category]:
+            @c.Drinks
+            ·
+            @Math.Round(c.Mg, 1) mg
+        </p>
+    }
+</section>
+
+<section class="glass rounded-3xl p-5 mb-5">
+    <h2 class="font-bold mb-3">
+        @T["Heatmap"]
+    </h2>
+
+    <p class="text-xs text-slate-400 mb-3">
+        @T["HeatmapNote"]
+    </p>
+
+    <div class="heatmap-scroll"
+         tabindex="0"
+         role="region"
+         aria-label="@T["Heatmap"]">
+
+        <div class="heatmap-grid">
+            @foreach (var d in Model.Heatmap)
+            {
+                var level =
+                    d.Mg == 0 ? 0 :
+                    d.Mg <= 100 ? 1 :
+                    d.Mg <= 200 ? 2 :
+                    d.Mg <= 400 ? 3 : 4;
+
+                var description =
+                    $"{d.Day:yyyy-MM-dd}: {d.Mg:F1} mg · {d.Drinks} {T["LoggedDrinks"]}"
+                    + (d.CaffeineFree
+                        ? $" · {T["CaffeineFreeDay"]}"
+                        : "");
+
+                <a asp-controller="Tracker"
+                   asp-action="Index"
+                   asp-route-date="@d.Day.ToString("yyyy-MM-dd")"
+                   class="heat-cell level-@level @(d.CaffeineFree ? "free-day" : "")"
+                   title="@description"
+                   aria-label="@description">
+                </a>
+            }
+        </div>
+    </div>
+
+    <p class="text-xs text-slate-400 mt-3">
+        @T["HeatmapLegend"]
+    </p>
+</section>
+
+<partial name="_SleepInsights"
+         model="Model.Insights" />

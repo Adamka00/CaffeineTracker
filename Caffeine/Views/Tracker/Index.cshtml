@@ -1,25 +1,61 @@
 ﻿@model Caffeine.ViewModels.DashboardViewModel
 @using Caffeine.Services
 @using System.Text.Json
-@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
-@{ ViewData["Title"] = T["Daily"]; var date = Model.SelectedDate.ToString("yyyy-MM-dd"); }
 
-<nav class="flex gap-2 mb-5" aria-label="@T["Views"]">
-    <a asp-action="Index" asp-route-date="@date" aria-current="page" class="nav-tab active">@T["Daily"]</a>
-    <a asp-action="Week" asp-route-date="@date" class="nav-tab">@T["Weekly"]</a>
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+@{
+    ViewData["Title"] = T["Daily"];
+
+    var date =
+        Model.SelectedDate.ToString("yyyy-MM-dd");
+
+    var streakIcon =
+        Model.Streak.TodayCompleted
+            ? Url.Content("~/img/streak/streak-active.svg")
+            : Url.Content("~/img/streak/streak-inactive.svg");
+}
+
+
+<nav class="flex gap-2 mb-5"
+     aria-label="@T["Views"]">
+
+    <a asp-action="Index"
+       asp-route-date="@date"
+       aria-current="page"
+       class="nav-tab active">
+        @T["Daily"]
+    </a>
+
+    <a asp-action="Week"
+       asp-route-date="@date"
+       class="nav-tab">
+        @T["Weekly"]
+    </a>
+
 </nav>
 
+
 <div class="flex items-center gap-2 mb-6">
+
     @if (Model.SelectedDate > new DateTime(2000, 1, 1))
     {
-    <a asp-action="Index"
-       asp-route-date="@Model.SelectedDate.AddDays(-1).ToString("yyyy-MM-dd")"
-       class="nav-tab"
-       aria-label="@T["PreviousDay"]">‹</a>
+        <a asp-action="Index"
+           asp-route-date="@Model.SelectedDate.AddDays(-1).ToString("yyyy-MM-dd")"
+           class="nav-tab"
+           aria-label="@T["PreviousDay"]">
+            ‹
+        </a>
     }
 
-    <form method="get" class="flex-1 flex gap-2 min-w-0">
-        <label class="sr-only" for="history-date">@T["ChooseDate"]</label>
+
+    <form method="get"
+          class="flex-1 flex gap-2 min-w-0">
+
+        <label class="sr-only"
+               for="history-date">
+            @T["ChooseDate"]
+        </label>
 
         <input id="history-date"
                type="date"
@@ -29,165 +65,373 @@
                max="@Model.Today.ToString("yyyy-MM-dd")"
                class="field min-w-0 w-full" />
 
-        <button class="nav-tab" type="submit">@T["Go"]</button>
+        <button class="nav-tab"
+                type="submit">
+            @T["Go"]
+        </button>
+
     </form>
+
 
     @if (!Model.IsToday)
     {
-    <a asp-action="Index"
-       asp-route-date="@Model.SelectedDate.AddDays(1).ToString("yyyy-MM-dd")"
-       class="nav-tab"
-       aria-label="@T["NextDay"]">›</a>
+        <a asp-action="Index"
+           asp-route-date="@Model.SelectedDate.AddDays(1).ToString("yyyy-MM-dd")"
+           class="nav-tab"
+           aria-label="@T["NextDay"]">
+            ›
+        </a>
     }
+
 </div>
+
 
 @if (!Model.IsToday)
 {
-<div class="flex justify-between items-center mb-5">
-    <h1 class="text-xl font-bold">@Model.SelectedDate.ToString("D")</h1>
-    <a asp-action="Index" class="text-cyan-400">@T["Today"]</a>
-</div>
+    <div class="flex justify-between items-center mb-5">
+
+        <h1 class="text-xl font-bold">
+            @Model.SelectedDate.ToString("D")
+        </h1>
+
+        <a asp-action="Index"
+           class="text-cyan-400">
+            @T["Today"]
+        </a>
+
+    </div>
 }
 
-@if (TempData["QuickAddedId"] is int addedId)
+
+@if (TempData["StreakNotice"] is string streakNotice)
 {
-<div class="glass rounded-2xl p-4 mb-5 flex justify-between gap-3"
-     role="status"
-     id="undo-notice">
-
-    <span>@T["DrinkAdded"]</span>
-
-    <form asp-action="UndoQuickAdd" method="post">
-        <input type="hidden" name="id" value="@addedId" />
-        <button class="text-cyan-400" type="submit">@T["Undo"]</button>
-    </form>
-</div>
+    <p class="glass rounded-2xl p-4 mb-5"
+       role="status">
+        @T[streakNotice]
+    </p>
 }
+
 
 @if (Model.IsToday)
 {
-<section class="glass rounded-3xl p-7 text-center mb-5 shadow-2xl">
-    <h1 class="text-xs uppercase tracking-widest text-slate-400">
-        @T["ActiveEstimate"]
-    </h1>
+    <section class="glass rounded-3xl p-5 mb-5"
+             aria-labelledby="streak-title">
 
-    <div class="text-6xl font-black my-4 @Model.StatusColor">
-        @Model.CurrentActiveCaffeineMg
-        <span class="text-2xl opacity-60">mg</span>
-    </div>
+        <div class="flex justify-between items-center gap-3">
 
-    <p class="text-sm text-slate-300">
-        @T["Threshold"]
+            <div class="flex items-center gap-3">
 
-        @if (Model.SleepReadinessTime.HasValue)
-        {
-        <strong>
-            @Model.SleepReadinessTime.Value.ToString(
-            Model.SleepReadinessTime.Value.Date == Model.Today
-            ? "HH:mm"
-            : "MM.dd. HH:mm")
-        </strong>
-        }
-        else
-        {
-        <strong>@T["BelowThreshold"]</strong>
-        }
-    </p>
-</section>
+                <img src="@streakIcon"
+                     alt=""
+                     aria-hidden="true"
+                     width="64"
+                     height="64"
+                     class="w-16 h-16 shrink-0" />
 
-<section class="glass rounded-3xl p-5 mb-5">
-    <form asp-action="SetTargetSleepTime"
-          method="post"
-          class="flex flex-wrap gap-3 items-center justify-between">
+                <div>
 
-        <label for="sleep-time">@T["PlannedSleep"]</label>
+                    <h2 id="streak-title"
+                        class="font-semibold">
+                        @T["StreakTitle"]
+                    </h2>
 
-        <div class="flex gap-2">
-            <input id="sleep-time"
-                   class="field"
-                   type="time"
-                   name="time"
-                   value="@Model.TargetSleepTimeStr"
-                   required />
+                    <p class="text-3xl font-bold text-cyan-400 mt-1"
+                       data-testid="streak-current">
+                        @T["StreakDays", Model.Streak.Current]
+                    </p>
 
-            <button class="nav-tab" type="submit">@T["Save"]</button>
+                </div>
+
+            </div>
+
+
+            <span class="text-sm text-slate-400 text-right">
+                @T["StreakBest", Model.Streak.Best]
+            </span>
+
         </div>
-    </form>
 
-    <p class="mt-4 text-slate-300">
-        @T["ExpectedLevel"]
-        <strong class="text-cyan-400">
-            @Model.CaffeineAtTargetSleepTime mg
-        </strong>
-    </p>
 
-    <p class="text-xs text-slate-400 mt-3">
-        @T["ModelNote"]
-    </p>
-</section>
+        <p class="text-sm mt-4 mb-3">
 
-<section class="mb-5">
-    <h2 class="text-sm font-semibold mb-3">
-        ★ @T["Favorites"]
-    </h2>
+            @T[
+                Model.Streak.TodayCompleted
+                    ? "StreakTodayDone"
+                    : "StreakTodayPending"
+            ]
 
-    @if (Model.Favorites.Count == 0)
-    {
-    <p class="text-sm text-slate-400">
-        @T["NoFavorites"]
-    </p>
-    }
+        </p>
 
-    <div class="space-y-2">
-        @foreach (var favorite in Model.Favorites)
+
+        <p class="text-xs text-slate-400 mb-4">
+            @T["StreakExplanation"]
+        </p>
+
+
+        @if (Model.IsCaffeineFreeDay)
         {
-        <div class="glass rounded-2xl p-3 flex gap-2 items-center">
+            <p class="text-emerald-400 mb-3">
+                ✓ @T["CaffeineFreeDay"]
+            </p>
 
-            <form asp-action="QuickAdd"
+            <form asp-action="UnmarkCaffeineFree"
                   method="post"
-                  class="flex-1"
                   data-single-submit>
 
                 <input type="hidden"
-                       name="id"
-                       value="@favorite.Id" />
-
-                <button class="text-left w-full py-1"
-                        type="submit">
-
-                    <span class="text-cyan-400 mr-2">＋</span>
-                    @BeverageDisplay.Name(favorite.Beverage)
-
-                    <span class="block text-xs text-slate-400 ml-6">
-                                @favorite.AmountMl ml ·
-                        @Math.Round(
-                        favorite.Beverage.CaffeinePer100Ml *
-                        favorite.AmountMl / 100,
-                        1) mg ·
-                        @T["AddNow"]
-                            </span>
-                </button>
-            </form>
-
-            <form asp-action="RemoveFavorite" method="post">
-                <input type="hidden"
-                       name="id"
-                       value="@favorite.Id" />
+                       name="date"
+                       value="@date" />
 
                 <button type="submit"
-                        class="p-3 text-slate-400"
-                        aria-label="@T["RemoveFavorite"]">
-                    ×
+                        class="nav-tab">
+                    @T["UndoCaffeineFree"]
                 </button>
+
             </form>
-        </div>
         }
-    </div>
-</section>
+        else if (!Model.HasCaffeineToday)
+        {
+            <form asp-action="MarkCaffeineFree"
+                  method="post"
+                  data-single-submit>
+
+                <input type="hidden"
+                       name="date"
+                       value="@date" />
+
+                <button type="submit"
+                        class="nav-tab">
+                    @T["MarkCaffeineFree"]
+                </button>
+
+            </form>
+        }
+        else
+        {
+            <p class="text-xs text-slate-400">
+                @T["CaffeineFreeBlocked"]
+            </p>
+        }
+
+    </section>
+}
+else if (Model.IsCaffeineFreeDay)
+{
+    <p class="glass rounded-2xl p-4 mb-5 text-emerald-400">
+        ✓ @T["CaffeineFreeDay"]
+    </p>
 }
 
+
+@if (TempData["QuickAddedId"] is int addedId)
+{
+    <div class="glass rounded-2xl p-4 mb-5 flex justify-between gap-3"
+         role="status"
+         id="undo-notice">
+
+        <span>
+            @T["DrinkAdded"]
+        </span>
+
+        <form asp-action="UndoQuickAdd"
+              method="post">
+
+            <input type="hidden"
+                   name="id"
+                   value="@addedId" />
+
+            <button class="text-cyan-400"
+                    type="submit">
+                @T["Undo"]
+            </button>
+
+        </form>
+
+    </div>
+}
+
+
+@if (Model.IsToday)
+{
+    <section class="glass rounded-3xl p-7 text-center mb-5 shadow-2xl">
+
+        <h1 class="text-xs uppercase tracking-widest text-slate-400">
+            @T["ActiveEstimate"]
+        </h1>
+
+
+        <div class="text-6xl font-black my-4 @Model.StatusColor">
+
+            @Model.CurrentActiveCaffeineMg
+
+            <span class="text-2xl opacity-60">
+                mg
+            </span>
+
+        </div>
+
+
+        <p class="text-sm text-slate-300">
+
+            @T["PersonalThresholdEstimate", Model.TargetMg]
+
+            @if (Model.SleepReadinessTime.HasValue)
+            {
+                <strong>
+                    @Model.SleepReadinessTime.Value.ToString(
+                        Model.SleepReadinessTime.Value.Date == Model.Today
+                            ? "HH:mm"
+                            : "MM.dd. HH:mm")
+                </strong>
+            }
+            else
+            {
+                <strong>
+                    @T["BelowThreshold"]
+                </strong>
+            }
+
+        </p>
+
+    </section>
+
+
+    <section class="glass rounded-3xl p-5 mb-5">
+
+        <form asp-action="SetTargetSleepTime"
+              method="post"
+              class="flex flex-wrap gap-3 items-center justify-between">
+
+            <label for="sleep-time">
+                @T["PlannedSleep"]
+            </label>
+
+
+            <div class="flex gap-2">
+
+                <input id="sleep-time"
+                       class="field"
+                       type="time"
+                       name="time"
+                       value="@Model.TargetSleepTimeStr"
+                       required />
+
+                <button class="nav-tab"
+                        type="submit">
+                    @T["Save"]
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <p class="mt-4 text-slate-300">
+
+            @T["ExpectedLevel"]
+
+            <strong class="text-cyan-400">
+                @Model.CaffeineAtTargetSleepTime mg
+            </strong>
+
+        </p>
+
+
+        <p class="text-xs text-slate-400 mt-3">
+            @T["ModelNote"]
+        </p>
+
+    </section>
+
+
+    <section class="mb-5">
+
+        <h2 class="text-sm font-semibold mb-3">
+            ★ @T["Favorites"]
+        </h2>
+
+
+        @if (Model.Favorites.Count == 0)
+        {
+            <p class="text-sm text-slate-400">
+                @T["NoFavorites"]
+            </p>
+        }
+
+
+        <div class="space-y-2">
+
+            @foreach (var favorite in Model.Favorites)
+            {
+                <div class="glass rounded-2xl p-3 flex gap-2 items-center">
+
+                    <form asp-action="QuickAdd"
+                          method="post"
+                          class="flex-1"
+                          data-single-submit>
+
+                        <input type="hidden"
+                               name="id"
+                               value="@favorite.Id" />
+
+
+                        <button class="text-left w-full py-1"
+                                type="submit">
+
+                            <span class="text-cyan-400 mr-2">
+                                ＋
+                            </span>
+
+                            @BeverageDisplay.Name(
+                                favorite.Beverage)
+
+
+                            <span class="block text-xs text-slate-400 ml-6">
+
+                                @favorite.AmountMl ml ·
+
+                                @Math.Round(
+                                    favorite.Beverage.CaffeinePer100Ml *
+                                    favorite.AmountMl / 100,
+                                    1) mg ·
+
+                                @T["AddNow"]
+
+                            </span>
+
+                        </button>
+
+                    </form>
+
+
+                    <form asp-action="RemoveFavorite"
+                          method="post">
+
+                        <input type="hidden"
+                               name="id"
+                               value="@favorite.Id" />
+
+                        <button type="submit"
+                                class="p-3 text-slate-400"
+                                aria-label="@T["RemoveFavorite"]">
+                            ×
+                        </button>
+
+                    </form>
+
+                </div>
+            }
+
+        </div>
+
+    </section>
+}
+
+
 <div class="grid grid-cols-2 gap-3 mb-5">
+
     <div class="glass rounded-2xl p-5">
+
         <div class="text-xs text-slate-400 mb-2">
             @T["DailyIntake"]
         </div>
@@ -195,9 +439,12 @@
         <strong class="text-2xl">
             @Model.TotalConsumedTodayMg mg
         </strong>
+
     </div>
 
+
     <div class="glass rounded-2xl p-5">
+
         <div class="text-xs text-slate-400 mb-2">
             @T["LoggedDrinks"]
         </div>
@@ -205,170 +452,277 @@
         <strong class="text-2xl">
             @Model.TodayLogs.Count()
         </strong>
+
     </div>
+
 </div>
 
+
 <section class="glass rounded-3xl p-5 mb-5">
+
     <h2 class="font-semibold mb-3">
         @T["DayCurve"]
     </h2>
 
+
     <div class="h-48">
+
         <canvas id="caffeineChart"
                 role="img"
                 aria-label="@T["DayCurve"]">
         </canvas>
+
     </div>
 
+
     <details class="mt-3 text-xs text-slate-400">
-        <summary>@T["ChartData"]</summary>
+
+        <summary>
+            @T["ChartData"]
+        </summary>
+
 
         <table class="w-full mt-2">
+
             <thead>
+
             <tr>
-                <th>@T["Time"]</th>
-                <th>mg</th>
+
+                <th>
+                    @T["Time"]
+                </th>
+
+                <th>
+                    mg
+                </th>
+
             </tr>
+
             </thead>
 
+
             <tbody>
+
             @foreach (var point in Model.ChartData)
             {
-            <tr>
-                <td>@point.TimeLabel</td>
-                <td class="text-center">
-                    @point.ActiveCaffeine
-                </td>
-            </tr>
+                <tr>
+
+                    <td>
+                        @point.TimeLabel
+                    </td>
+
+                    <td class="text-center">
+                        @point.ActiveCaffeine
+                    </td>
+
+                </tr>
             }
+
             </tbody>
+
         </table>
+
     </details>
+
 </section>
+
 
 <section class="glass rounded-3xl p-5 mb-6">
 
     <div class="flex justify-between items-center mb-4">
+
         <h2 class="font-semibold">
             @T["Diary"]
         </h2>
 
+
         <a asp-action="LogDrink"
            asp-route-date="@date"
            class="text-cyan-400 font-semibold">
+
             ＋ @T["AddDrink"]
+
         </a>
+
     </div>
+
 
     @if (!Model.TodayLogs.Any())
     {
-    <p class="text-slate-400 text-sm py-4">
-        @T["NoLogs"]
-    </p>
+        <p class="text-slate-400 text-sm py-4">
+            @T["NoLogs"]
+        </p>
     }
 
-    @foreach (var log in Model.TodayLogs.OrderByDescending(l => l.ConsumedAt))
+
+    @foreach (
+        var log in Model.TodayLogs
+            .OrderByDescending(
+                l => l.ConsumedAt))
     {
-    <div class="border-t border-slate-700 py-4 flex justify-between items-center gap-3">
+        <div class="border-t border-slate-700 py-4 flex justify-between items-center gap-3">
 
-        <div>
-            <div class="font-medium">
-                @BeverageDisplay.Name(log.Beverage)
-            </div>
+            <div>
 
-            <div class="text-xs text-slate-400 mt-1">
-                @log.ConsumedAt.ToString("HH:mm") ·
-                @log.ConsumedAmountMl ml ·
-                <span class="text-cyan-400">
+                <div class="font-medium">
+                    @BeverageDisplay.Name(
+                        log.Beverage)
+                </div>
+
+
+                <div class="text-xs text-slate-400 mt-1">
+
+                    @log.ConsumedAt.ToString("HH:mm") ·
+
+                    @log.ConsumedAmountMl ml ·
+
+                    <span class="text-cyan-400">
                         @log.TotalCaffeineMg mg
                     </span>
+
+                </div>
+
             </div>
+
+
+            <form asp-action="DeleteLog"
+                  method="post"
+                  data-confirm="@T["ConfirmDeleteLog"]">
+
+                <input type="hidden"
+                       name="id"
+                       value="@log.Id" />
+
+                <input type="hidden"
+                       name="date"
+                       value="@date" />
+
+
+                <button type="submit"
+                        class="text-rose-400 p-2"
+                        aria-label="@T["Delete"]">
+                    ×
+                </button>
+
+            </form>
+
         </div>
-
-        <form asp-action="DeleteLog"
-              method="post"
-              data-confirm="@T["ConfirmDeleteLog"]">
-
-            <input type="hidden"
-                   name="id"
-                   value="@log.Id" />
-
-            <input type="hidden"
-                   name="date"
-                   value="@date" />
-
-            <button type="submit"
-                    class="text-rose-400 p-2"
-                    aria-label="@T["Delete"]">
-                ×
-            </button>
-        </form>
-    </div>
     }
+
 </section>
 
-@section Scripts {
-<script>
-    const points = @Html.Raw(JsonSerializer.Serialize(Model.ChartData));
 
-    if (window.Chart)
-        new Chart(
-            document.getElementById('caffeineChart'),
-            {
-                type: 'line',
+@section Scripts
+{
+    <script>
 
-                data: {
-                    labels: points.map(p => p.TimeLabel),
+        const points =
+            @Html.Raw(
+                JsonSerializer.Serialize(
+                    Model.ChartData));
 
-                    datasets: [{
-                        data: points.map(p => p.ActiveCaffeine),
-                        borderColor: '#22d3ee',
-                        backgroundColor: 'rgba(34,211,238,.12)',
-                        fill: true,
-                        pointRadius: 0,
-                        pointHitRadius: 16,
-                        tension: 0
-                    }]
-                },
+        if (window.Chart)
+        {
+            new Chart(
+                document.getElementById(
+                    'caffeineChart'),
+                {
+                    type: 'line',
 
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    data:
+                    {
+                        labels:
+                            points.map(
+                                p => p.TimeLabel),
 
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            displayColors: false
-                        },
-},
+                        datasets:
+                        [
+                            {
+                                data:
+                                    points.map(
+                                        p =>
+                                            p.ActiveCaffeine),
 
-                    scales: {
-                        x: {
-                            ticks: {
-                                color: '#94a3b8',
-                                maxTicksLimit: 5
-                            },
-                            grid: {
+                                borderColor:
+                                    '#22d3ee',
+
+                                backgroundColor:
+                                    'rgba(34,211,238,.12)',
+
+                                fill: true,
+
+                                pointRadius: 0,
+
+                                pointHitRadius: 16,
+
+                                tension: 0
+                            }
+                        ]
+                    },
+
+                    options:
+                    {
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        plugins:
+                        {
+                            legend:
+                            {
                                 display: false
+                            },
+
+                            tooltip:
+                            {
+                                displayColors: false
                             }
                         },
 
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: '#94a3b8'
+                        scales:
+                        {
+                            x:
+                            {
+                                ticks:
+                                {
+                                    color:
+                                        '#94a3b8',
+
+                                    maxTicksLimit:
+                                        5
+                                },
+
+                                grid:
+                                {
+                                    display:
+                                        false
+                                }
+                            },
+
+                            y:
+                            {
+                                beginAtZero:
+                                    true,
+
+                                ticks:
+                                {
+                                    color:
+                                        '#94a3b8'
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
+        }
 
-    setTimeout(
-        () => document
-            .getElementById('undo-notice')
-            ?.remove(),
-        25000);
-</script>
+
+        setTimeout(
+            () =>
+                document
+                    .getElementById(
+                        'undo-notice')
+                    ?.remove(),
+            25000);
+
+    </script>
 }
