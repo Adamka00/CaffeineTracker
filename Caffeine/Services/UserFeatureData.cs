@@ -11,6 +11,18 @@ public static class UserFeatureData
         string guest,
         string owner)
     {
+        var guestExperience = await db.ExperiencePreferences.AsNoTracking().SingleOrDefaultAsync(p => p.UserId == guest);
+        if (guestExperience != null) {
+            var accountExperience = await db.ExperiencePreferences.SingleOrDefaultAsync(p => p.UserId == owner);
+            if (accountExperience == null) { guestExperience.UserId = owner; db.ExperiencePreferences.Add(guestExperience); }
+            else {
+                accountExperience.TutorialCompleted |= guestExperience.TutorialCompleted;
+                accountExperience.LastSeenRelease = ReleaseCatalog.Newer(accountExperience.LastSeenRelease, guestExperience.LastSeenRelease);
+                if (guestExperience.MorningDismissedDate > accountExperience.MorningDismissedDate || accountExperience.MorningDismissedDate == null)
+                    accountExperience.MorningDismissedDate = guestExperience.MorningDismissedDate;
+            }
+            await db.ExperiencePreferences.Where(p => p.UserId == guest).ExecuteDeleteAsync();
+        }
         var dates = (await db.SleepLogs
                 .Where(s => s.UserId == owner && !s.IsImportedDuplicate)
                 .Select(s => s.SleepDate)
@@ -74,6 +86,7 @@ public static class UserFeatureData
         AppDbContext db,
         string userId)
     {
+        db.ExperiencePreferences.RemoveRange(await db.ExperiencePreferences.Where(p => p.UserId == userId).ToListAsync());
         db.SleepLogs.RemoveRange(
             await db.SleepLogs
                 .Where(s => s.UserId == userId)

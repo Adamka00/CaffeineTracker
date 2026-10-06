@@ -1,0 +1,134 @@
+@model Caffeine.Services.ExperienceState
+@using Caffeine.Services
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var automatic = controller != "Account";
+}
+
+<form id="experience-token"
+      asp-controller="Help"
+      asp-action="Acknowledge"
+      method="post"
+      hidden></form>
+
+<dialog id="info-dialog"
+        class="koffi-dialog"
+        aria-labelledby="info-title">
+    <div class="dialog-content">
+        <h2 id="info-title">@T["LearnMore"]</h2>
+        <p id="info-content"></p>
+
+        <button class="primary-button"
+                type="button"
+                data-close>
+            @T["Close"]
+        </button>
+    </div>
+</dialog>
+
+<dialog id="tutorial-dialog"
+        class="koffi-dialog"
+        aria-labelledby="tutorial-title"
+        data-auto="@(automatic && Model.ShowTutorial ? "true" : "false")">
+
+    <div class="dialog-content">
+        <h2 id="tutorial-title">@T["TutorialTitle"]</h2>
+
+        @foreach (var key in new[]
+        {
+            "TutorialLog",
+            "TutorialExplore",
+            "TutorialSleep"
+        })
+        {
+            <section data-tutorial-step>
+                <h3>@T[key + "Title"]</h3>
+                <p>@T[key]</p>
+            </section>
+        }
+
+        <p id="tutorial-progress"
+           aria-live="polite"></p>
+
+        <div class="dialog-actions">
+            <button type="button"
+                    class="quiet-button"
+                    data-tutorial-skip>
+                @T["Skip"]
+            </button>
+
+            <button type="button"
+                    class="primary-button"
+                    data-tutorial-next
+                    data-next="@T["Next"]"
+                    data-done="@T["Done"]">
+                @T["Next"]
+            </button>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="release-dialog"
+        class="koffi-dialog"
+        aria-labelledby="release-title"
+        data-auto="@(automatic && Model.ShowRelease ? "true" : "false")"
+        data-version="@ReleaseCatalog.Current.Version">
+
+    <div class="dialog-content">
+        <h2 id="release-title">
+            @T["ReleaseHeading", ReleaseCatalog.Current.Version]
+        </h2>
+
+        <ul>
+            @foreach (var key in ReleaseCatalog.Current.FeatureKeys)
+            {
+                <li>@T[key]</li>
+            }
+        </ul>
+
+        <a asp-controller="Help"
+           asp-action="WhatsNew">
+            @T["AllReleases"]
+        </a>
+
+        <button type="button"
+                class="primary-button"
+                data-release-close>
+            @T["Done"]
+        </button>
+    </div>
+</dialog>
+
+<aside id="install-card"
+       class="glass install-card"
+       hidden
+       aria-label="@T["InstallTitle"]">
+
+    <h2>@T["InstallTitle"]</h2>
+
+    <p id="install-instructions"
+       data-ios="@T["InstallIos"]"
+       data-browser="@T["InstallBrowser"]">
+    </p>
+
+    <div class="dialog-actions">
+        <button type="button"
+                class="primary-button"
+                data-install>
+            @T["Install"]
+        </button>
+
+        <button type="button"
+                class="quiet-button"
+                data-install-later>
+            @T["NotNow"]
+        </button>
+
+        <button type="button"
+                class="quiet-button"
+                data-install-never>
+            @T["NeverShow"]
+        </button>
+    </div>
+</aside>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <data name="Bejelentkezés" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="Vissza a Dashboardra" xml:space="preserve">
+    <value>Zur Tagesübersicht</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="Jelszó" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+</root>

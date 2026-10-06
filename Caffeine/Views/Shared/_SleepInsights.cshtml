@@ -1,29 +1,23 @@
 @model IEnumerable<Caffeine.Services.SleepInsight>
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
-
-<section class="glass rounded-3xl p-5 mt-5 mb-5">
-    <h2 class="font-bold mb-3">
-        @T["SleepInsights"]
-    </h2>
-
-    <p class="text-xs text-slate-400 mb-4">
-        @T["SleepInsightNote"]
-    </p>
-
-    @foreach (var item in Model)
-    {
-        <div class="border-t border-slate-700 py-3">
-            <h3 class="text-sm font-semibold">
-                @T[item.MetricKey]
-            </h3>
-
-            <p class="text-sm mt-2">
-                @T[item.MessageKey]
-            </p>
-
-            <p class="text-xs text-slate-400 mt-2">
-                @T["SleepSample", item.Count]
-            </p>
-        </div>
+<section class="glass panel">
+    <div class="page-heading"><h2>@T["SleepInsights"]</h2><partial name="_InfoButton" model='@("SleepInsightHelp")' /></div>
+    <p class="insight-caution">@T["SleepInsightNote"]</p>
+    @foreach (var item in Model) {
+        <article class="insight-card">
+            <h3>@T[item.MetricKey]</h3>
+            <p class="insight-stage">@T[item.StageKey]</p>
+            <div class="insight-meta"><span class="insight-pill">@T["SleepSample", item.Count]</span><span class="insight-pill">@T[item.ConfidenceKey]</span></div>
+            @if (item.HasRelationshipData) {
+                <p>@T[item.DirectionKey] · @T[item.StrengthKey]</p>
+                <div class="insight-strength" aria-hidden="true"><span style="width:@((int)(Math.Abs(item.Correlation)*100))%"></span></div>
+            }
+            <p class="text-sm mt-2">@T[item.MessageKey]</p>
+            <details class="insight-details"><summary>@T["Details"]</summary>
+                <p>@T["SleepInsightMethod"]</p>
+                @if (item.HasRelationshipData) { <p>r = @item.Correlation.ToString("0.00", System.Globalization.CultureInfo.CurrentCulture)</p> }
+                <p>@T["SleepInsightNote"]</p>
+            </details>
+        </article>
     }
 </section>

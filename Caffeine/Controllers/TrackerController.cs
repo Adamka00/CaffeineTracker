@@ -856,7 +856,7 @@ public class TrackerController(
         string culture,
         string returnUrl)
     {
-        if (culture is not ("hu" or "en"))
+        if (culture is not ("hu" or "en" or "de"))
             return BadRequest();
 
 

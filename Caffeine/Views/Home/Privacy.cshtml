@@ -1,6 +1,3 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
-
-<p>Use this page to detail your site's privacy policy.</p>
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{ ViewData["Title"] = T["PrivacyTitle"]; }
+<section class="glass panel"><h1>@T["PrivacyTitle"]</h1><p>@T["PrivacyText"]</p></section>

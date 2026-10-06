@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <data name="Kijelentkezés" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="Bejelentkezés" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="Regisztráció" xml:space="preserve">
+    <value>Registrieren</value>
+  </data>
+  <data name="Fiók Törlése" xml:space="preserve">
+    <value>Konto löschen</value>
+  </data>
+  <data name="Biztosan törlöd a teljes fiókodat? Ez nem vonható vissza!" xml:space="preserve">
+    <value>Dein gesamtes Konto wirklich löschen? Dies kann nicht rückgängig gemacht werden!</value>
+  </data>
+  <data name="Ez az oldal sütiket (cookie-kat) használ a beállításaid és a fiókod mentéséhez." xml:space="preserve">
+    <value>Diese Website verwendet Cookies, um Einstellungen und dein Konto zu speichern.</value>
+  </data>
+  <data name="Rendben, Értem" xml:space="preserve">
+    <value>Verstanden</value>
+  </data>
+</root>

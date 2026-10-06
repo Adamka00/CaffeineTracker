@@ -1,0 +1,32 @@
+@model Caffeine.ViewModels.BarcodeReview
+@using System.Globalization
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{ ViewData["Title"] = T["ReviewProduct"]; var product = Model.Result.Product; }
+<h1>@T["ReviewProduct"]</h1>
+<section class="glass panel">
+    <p class="notice">@T["ProductReviewWarning"]</p>
+    @if (product == null) {
+        <p role="status">@T[Model.Result.Status == "unavailable" ? "ProductUnavailable" : "ProductNotFound"]</p>
+        <a asp-controller="Tracker" asp-action="LogDrink" class="primary-button">@T["ManualEntry"]</a>
+    } else {
+        <p class="muted">@T["ProductSource"]: @product.Source · @product.Barcode</p>
+        @if (product.Source == "OpenFoodFacts") { <a href="https://world.openfoodfacts.org/product/@product.Barcode" target="_blank" rel="noopener noreferrer">Open Food Facts · ODbL</a> }
+        <form asp-controller="Tracker" asp-action="LogDrink" method="post" class="feature-form">
+            <input type="hidden" name="IsCustomDrink" value="true" />
+            <label for="product-name">@T["ProductName"]</label>
+            <input id="product-name" name="CustomBeverageName" class="field" value="@product.Name" maxlength="120" required />
+            <label for="product-ml">@T["AmountMl"]</label>
+            <input id="product-ml" name="AmountMl" type="number" class="field" value="@product.AmountMl" min="1" max="2000" required />
+            <label for="product-caffeine">@T["CaffeinePer100"]</label>
+            <input id="product-caffeine" name="CustomCaffeinePer100Ml" type="number" step="0.1" class="field" value="@(product.CaffeinePer100Ml?.ToString("0.###", CultureInfo.InvariantCulture))" min="0" max="1000" required />
+            @if (!product.CaffeinePer100Ml.HasValue) { <p>@T["MissingCaffeine"]</p> }
+            <p id="product-total" role="status" data-label="@T["TotalCaffeine"]"></p>
+            <label for="product-time">@T["ConsumedAt"]</label>
+            <input id="product-time" name="ConsumedAt" type="datetime-local" value="@Model.ConsumedAt.ToString("yyyy-MM-ddTHH:mm")" class="field" required />
+            <label><input type="checkbox" name="SaveAsFavorite" value="true" /> @T["SaveFavorite"]</label>
+            <button type="submit" class="primary-button">@T["ConfirmAndLog"]</button>
+        </form>
+    }
+</section>
+<a asp-action="Index" class="nav-tab">@T["ScanAgain"]</a>
+@section Scripts { <script src="~/js/product-review.js" asp-append-version="true"></script> }

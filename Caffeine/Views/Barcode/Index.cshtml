@@ -1,0 +1,22 @@
+@model Caffeine.ViewModels.BarcodeForm
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{ ViewData["Title"] = T["BarcodeTitle"]; }
+<header class="page-heading"><h1>@T["BarcodeTitle"] <span class="badge">BETA</span></h1><partial name="_InfoButton" model='@("BarcodeHelp")' /></header>
+<section class="glass panel">
+    <p>@T["BarcodeIntro"]</p>
+    <button type="button" class="primary-button" id="scan-start">@T["StartCamera"]</button>
+    <button type="button" class="nav-tab" id="scan-stop" hidden>@T["StopCamera"]</button>
+    <video id="scan-video" playsinline muted aria-label="@T["CameraPreview"]" hidden></video>
+    <p id="scan-status" role="status" data-camera-error="@T["CameraFallback"]" data-scanning="@T["Scanning"]"></p>
+    <form asp-action="Lookup" method="post" class="feature-form" id="barcode-form">
+        <label asp-for="Code">@T["BarcodeCode"]</label>
+        <input asp-for="Code" inputmode="numeric" pattern="[0-9]{8,14}" autocomplete="off" class="field" required />
+        @if (ViewData["InvalidBarcode"] is true) { <p role="alert">@T["InvalidBarcode"]</p> }
+        <button type="submit" class="primary-button">@T["FindProduct"]</button>
+    </form>
+    <a asp-controller="Tracker" asp-action="LogDrink" class="nav-tab">@T["ManualEntry"]</a>
+</section>
+@section Scripts {
+    <script src="~/lib/zxing/zxing.min.js" asp-append-version="true"></script>
+    <script src="~/js/barcode-scanner.js" asp-append-version="true"></script>
+}

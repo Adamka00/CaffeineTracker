@@ -1,4 +1,5 @@
 using Caffeine.Services;
+using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Authorization;
 using Caffeine.Data;
 using Caffeine.Models;
@@ -18,6 +19,7 @@ namespace Caffeine.Controllers
 {
     public partial class AccountController : FeatureController
     {
+        private readonly IStringLocalizer<SharedResource> _text;
         private readonly CurrentTrackerUser _currentUser;
         private readonly AppDbContext _context;
         private readonly ICaffeineLogRepository _logRepository;
@@ -26,8 +28,10 @@ namespace Caffeine.Controllers
         public AccountController(
             AppDbContext context,
             ICaffeineLogRepository logRepository,
-            CurrentTrackerUser currentUser)
+            CurrentTrackerUser currentUser,
+            IStringLocalizer<SharedResource> text)
         {
+            _text = text;
             _context = context;
             _currentUser = currentUser;
             _logRepository = logRepository;
@@ -50,7 +54,7 @@ namespace Caffeine.Controllers
             {
                 ModelState.AddModelError(
                     "Email",
-                    "Ezzel az email címmel már regisztráltak!");
+                    _text["EmailAlreadyRegistered"]);
 
                 return View(model);
             }
@@ -101,7 +105,7 @@ namespace Caffeine.Controllers
             {
                 ModelState.AddModelError(
                     "",
-                    "Hibás email vagy jelszó!");
+                    _text["InvalidLogin"]);
 
                 return View(model);
             }
@@ -117,7 +121,7 @@ namespace Caffeine.Controllers
             {
                 ModelState.AddModelError(
                     "",
-                    "Hibás email vagy jelszó!");
+                    _text["InvalidLogin"]);
 
                 return View(model);
             }

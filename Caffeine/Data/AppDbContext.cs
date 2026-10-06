@@ -6,6 +6,9 @@ namespace Caffeine.Data
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        
+        public DbSet<ExperiencePreference> ExperiencePreferences { get; set; }
+        public DbSet<BeverageBarcode> BeverageBarcodes { get; set; }    
 
         public DbSet<FavoriteDrink> FavoriteDrinks { get; set; }
         
@@ -26,6 +29,18 @@ namespace Caffeine.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+            modelBuilder.Entity<ExperiencePreference>()
+                .HasKey(p => p.UserId);
+
+            modelBuilder.Entity<BeverageBarcode>()
+                .HasKey(p => p.Barcode);
+
+            modelBuilder.Entity<BeverageBarcode>()
+                .HasOne(p => p.Beverage)
+                .WithMany()
+                .HasForeignKey(p => p.BeverageId)
+                .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<NotificationPreference>()
                 .HasKey(p => p.UserId);

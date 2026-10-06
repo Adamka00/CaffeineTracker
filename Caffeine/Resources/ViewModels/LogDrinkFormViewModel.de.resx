@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <data name="Kérlek válassz egy italt!" xml:space="preserve">
+    <value>Bitte wähle ein Getränk!</value>
+  </data>
+  <data name="Az elfogyasztott mennyiség megadása kötelező!" xml:space="preserve">
+    <value>Die Trinkmenge ist erforderlich!</value>
+  </data>
+  <data name="A mennyiségnek 1 és 2000 ml között kell lennie." xml:space="preserve">
+    <value>Die Menge muss zwischen 1 und 2000 ml liegen.</value>
+  </data>
+  <data name="Kérlek add meg a saját ital nevét és koffeintartalmát (mg/100ml)!" xml:space="preserve">
+    <value>Bitte Namen und Koffeingehalt (mg/100 ml) des eigenen Getränks angeben!</value>
+  </data>
+  <data name="Kérlek válassz egy italt a listából, vagy pipáld be az Egyedi ital opciót!" xml:space="preserve">
+    <value>Wähle ein Getränk aus der Liste oder aktiviere Eigenes Getränk!</value>
+  </data>
+</root>

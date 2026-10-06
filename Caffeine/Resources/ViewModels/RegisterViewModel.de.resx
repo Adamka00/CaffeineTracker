@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <data name="Felhasználónév kötelező!" xml:space="preserve">
+    <value>Benutzername ist erforderlich!</value>
+  </data>
+  <data name="Email cím kötelező!" xml:space="preserve">
+    <value>E-Mail-Adresse ist erforderlich!</value>
+  </data>
+  <data name="Érvénytelen email cím!" xml:space="preserve">
+    <value>Ungültige E-Mail-Adresse!</value>
+  </data>
+  <data name="Jelszó kötelező!" xml:space="preserve">
+    <value>Passwort ist erforderlich!</value>
+  </data>
+  <data name="A jelszó legalább 6 karakter legyen!" xml:space="preserve">
+    <value>Das Passwort muss mindestens 6 Zeichen lang sein!</value>
+  </data>
+</root>

@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Only archived 3.0 regression tests use WebPush. -->
+    <PackageReference Include="WebPush" Version="1.0.13" />
 
     <PackageReference Include="Microsoft.NET.Test.Sdk"
                       Version="17.14.1" />

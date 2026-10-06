@@ -6,7 +6,14 @@ public sealed record SleepInsight(
     string MetricKey,
     string MessageKey,
     int Count,
-    double Correlation);
+    double Correlation)
+{
+    public string StageKey => Count < 10 ? "InsightInsufficient" : Count < 20 ? "InsightEarly" : Count < 30 ? "InsightEmerging" : "InsightEstablished";
+    public string ConfidenceKey => Count < 20 ? "ConfidenceLow" : Count < 30 ? "ConfidenceMedium" : "ConfidenceMoreData";
+    public bool HasRelationshipData => Count >= SleepInsightService.MinimumDays && MessageKey != "SleepNoVariation";
+    public string DirectionKey => !HasRelationshipData ? "DirectionUnknown" : Math.Abs(Correlation) < .3 ? "DirectionUnclear" : Correlation < 0 ? "DirectionNegative" : "DirectionPositive";
+    public string StrengthKey => !HasRelationshipData ? "StrengthUnknown" : Math.Abs(Correlation) < .3 ? "StrengthWeak" : Math.Abs(Correlation) < .5 ? "StrengthModerate" : "StrengthStrong";
+}
 
 public sealed class SleepInsightService
 {

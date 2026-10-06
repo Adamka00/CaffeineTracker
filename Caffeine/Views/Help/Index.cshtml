@@ -1,0 +1,51 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+@{
+    ViewData["Title"] = T["HelpTitle"];
+}
+
+<header class="page-heading">
+    <h1>@T["HelpTitle"]</h1>
+</header>
+
+<section class="glass panel">
+    <p>@T["HelpIntro"]</p>
+
+    <button type="button"
+            class="primary-button"
+            data-tutorial-start>
+        @T["RestartTutorial"]
+    </button>
+
+    <button type="button"
+            class="nav-tab"
+            data-install-help>
+        @T["InstallTitle"]
+    </button>
+</section>
+
+<div class="help-grid">
+    @foreach (var item in new[]
+              {
+                  ("AddDrink", "HelpLog", "Tracker", "LogDrink"),
+                  ("Daily", "HelpDaily", "Tracker", "Index"),
+                  ("Weekly", "HelpWeekly", "Tracker", "Week"),
+                  ("StreakTitle", "StreakExplanation", "Tracker", "Index"),
+                  ("SleepTitle", "SleepDateNote", "Sleep", "Index"),
+                  ("PlanningShort", "HelpPlanning", "Planning", "Index"),
+                  ("LifetimeShort", "HelpStats", "Stats", "Index"),
+                  ("BarcodeTitle", "BarcodeHelp", "Barcode", "Index")
+              })
+    {
+        <section class="glass panel">
+            <h2>
+                <a asp-controller="@item.Item3"
+                   asp-action="@item.Item4">
+                    @T[item.Item1]
+                </a>
+            </h2>
+
+            <p>@T[item.Item2]</p>
+        </section>
+    }
+</div>

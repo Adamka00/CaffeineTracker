@@ -28,7 +28,7 @@ public sealed class CaffeineAmountBinder : IModelBinder
                 context.ModelName,
                 CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "hu"
                     ? "Érvénytelen koffeinérték."
-                    : "Invalid caffeine value.");
+                    : CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "de" ? "Ungültiger Koffeinwert." : "Invalid caffeine value.");
 
         return Task.CompletedTask;
     }

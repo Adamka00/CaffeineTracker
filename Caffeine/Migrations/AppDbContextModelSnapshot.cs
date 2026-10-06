@@ -383,6 +383,21 @@ namespace Caffeine.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Caffeine.Models.BeverageBarcode", b =>
+                {
+                    b.Property<string>("Barcode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("BeverageId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Barcode");
+
+                    b.HasIndex("BeverageId");
+
+                    b.ToTable("BeverageBarcodes");
+                });
+
             modelBuilder.Entity("Caffeine.Models.BrowserPushSubscription", b =>
                 {
                     b.Property<int>("Id")
@@ -467,6 +482,26 @@ namespace Caffeine.Migrations
                     b.HasIndex("UserId", "ConsumedAt");
 
                     b.ToTable("CaffeineLogs");
+                });
+
+            modelBuilder.Entity("Caffeine.Models.ExperiencePreference", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastSeenRelease")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("MorningDismissedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("TutorialCompleted")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("ExperiencePreferences");
                 });
 
             modelBuilder.Entity("Caffeine.Models.FavoriteDrink", b =>
@@ -667,6 +702,17 @@ namespace Caffeine.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("TrackerPreferences");
+                });
+
+            modelBuilder.Entity("Caffeine.Models.BeverageBarcode", b =>
+                {
+                    b.HasOne("Caffeine.Models.Beverage", "Beverage")
+                        .WithMany()
+                        .HasForeignKey("BeverageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Beverage");
                 });
 
             modelBuilder.Entity("Caffeine.Models.CaffeineLog", b =>

@@ -1,0 +1,5 @@
+@model Caffeine.Services.HeatmapDay
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{ var level = Model.Mg == 0 ? 0 : Model.Mg <= 100 ? 1 : Model.Mg <= 200 ? 2 : Model.Mg <= 400 ? 3 : 4;
+    var label = $"{Model.Day:d}: {Model.Mg:F1} mg · {Model.Drinks} {T["LoggedDrinks"]}" + (Model.CaffeineFree ? $" · {T["CaffeineFreeDay"]}" : ""); }
+<a asp-controller="Tracker" asp-action="Index" asp-route-date="@Model.Day.ToString("yyyy-MM-dd")" class="heat-day level-@level @(Model.CaffeineFree ? "free-day" : "")" aria-label="@label" title="@label">@Model.Day.Day</a>

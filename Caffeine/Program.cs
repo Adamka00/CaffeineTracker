@@ -43,26 +43,30 @@ builder.Services.AddScoped<LifetimeStatsService>();
 
 builder.Services.AddScoped<PasswordResetService>();
 
-builder.Services.AddSingleton<PushConfiguration>();
+// Push retired in 4.0. Legacy tables/models remain for data compatibility.
+builder.Services.AddScoped<ExperienceService>();
 
-builder.Services.AddScoped<PushSubscriptionService>();
+builder.Services.AddMemoryCache();
 
-builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<ProductLookupService>();
 
-builder.Services
-    .AddHttpClient<IPushSender, WebPushSender>(
-        client =>
-            client.Timeout =
-                TimeSpan.FromSeconds(15))
+builder.Services.AddHttpClient<IOpenFoodFactsClient, OpenFoodFactsClient>(
+    client =>
+    {
+        client.BaseAddress =
+            new Uri("https://world.openfoodfacts.org/");
+
+        client.Timeout =
+            TimeSpan.FromSeconds(6);
+
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(
+            $"Koffi/{ReleaseCatalog.Current.Version} (+https://koffi.hu)");
+    })
     .ConfigurePrimaryHttpMessageHandler(
-        () =>
-            new HttpClientHandler
-            {
-                AllowAutoRedirect = false
-            });
-
-builder.Services.AddHostedService<
-    NotificationWorker>();
+        () => new HttpClientHandler
+        {
+            AllowAutoRedirect = false
+        });
 
 builder.Services.AddScoped<
     AccountCookieEvents>();
@@ -84,46 +88,30 @@ builder.Services.AddRateLimiter(
         options.RejectionStatusCode = 429;
 
         options.AddPolicy(
-            "push-subscription",
+            "product-lookup",
             context =>
-                RateLimitPartition
-                    .GetFixedWindowLimiter(
-                        context.Connection
-                            .RemoteIpAddress?
-                            .ToString()
-                        ?? "unknown",
-                        _ =>
-                            new FixedWindowRateLimiterOptions
-                            {
-                                PermitLimit = 20,
-
-                                Window =
-                                    TimeSpan
-                                        .FromMinutes(1),
-
-                                QueueLimit = 0
-                            }));
+                RateLimitPartition.GetFixedWindowLimiter(
+                    context.Connection.RemoteIpAddress?.ToString()
+                    ?? "unknown",
+                    _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 20,
+                        Window = TimeSpan.FromMinutes(1),
+                        QueueLimit = 0
+                    }));
 
         options.AddPolicy(
             "password-reset",
             context =>
-                RateLimitPartition
-                    .GetFixedWindowLimiter(
-                        context.Connection
-                            .RemoteIpAddress?
-                            .ToString()
-                        ?? "unknown",
-                        _ =>
-                            new FixedWindowRateLimiterOptions
-                            {
-                                PermitLimit = 5,
-
-                                Window =
-                                    TimeSpan
-                                        .FromMinutes(1),
-
-                                QueueLimit = 0
-                            }));
+                RateLimitPartition.GetFixedWindowLimiter(
+                    context.Connection.RemoteIpAddress?.ToString()
+                    ?? "unknown",
+                    _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 5,
+                        Window = TimeSpan.FromMinutes(1),
+                        QueueLimit = 0
+                    }));
     });
 
 
@@ -262,9 +250,9 @@ var supportedCultures =
     new[]
     {
         "hu",
-        "en"
+        "en",
+        "de"
     };
-
 
 var localizationOptions =
     new RequestLocalizationOptions
@@ -288,16 +276,17 @@ var localizationOptions =
     };
 
 
+if (!app.Environment.IsDevelopment())
+    app.UseExceptionHandler("/Home/Error");
+
 app.UseForwardedHeaders();
 
 app.UseRequestLocalization(
     localizationOptions);
 
-
 app.UseStaticFiles();
 
 app.UseRouting();
-
 
 app.UseAuthentication();
 

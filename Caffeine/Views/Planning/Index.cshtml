@@ -12,9 +12,7 @@
     @T["PlanningTitle"]
 </h1>
 
-<p class="text-sm text-slate-400 mb-3">
-    @T["WhatIfNote"]
-</p>
+<partial name="_InfoButton" model='@("WhatIfNote")' />
 
 <a asp-action="Settings"
    class="text-cyan-400">
@@ -181,9 +179,7 @@
         }
 
 
-        <p class="text-xs text-slate-400 my-3">
-            @T["CutoffNote"]
-        </p>
+        <partial name="_InfoButton" model='@("CutoffNote")' />
 
         <p>
             @T["UnderTargetAt"]:

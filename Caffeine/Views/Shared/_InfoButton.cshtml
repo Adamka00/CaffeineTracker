@@ -1,0 +1,3 @@
+@model string
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+<button type="button" class="info-button" data-info="@T[Model]" aria-label="@T["LearnMore"]" aria-haspopup="dialog">?</button>

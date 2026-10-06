@@ -56,8 +56,10 @@ public sealed class LifetimeStatsService(
 {
     public async Task<LifetimeStats> GetAsync(
         string userId,
-        DateTime now)
+        DateTime now, int? year = null)
     {
+        var actualNow = now;
+        if (year is < 2000 or > 9998) throw new ArgumentOutOfRangeException(nameof(year));
         var logs = await db.CaffeineLogs
             .AsNoTracking()
             .Include(l => l.Beverage)
@@ -76,6 +78,11 @@ public sealed class LifetimeStatsService(
                 .ToListAsync())
             .ToHashSet();
 
+        if (year.HasValue) {
+            logs = logs.Where(l => l.ConsumedAt.Year == year.Value).ToList();
+            free = free.Where(d => d.Year == year.Value).ToHashSet();
+            if (year.Value < now.Year) now = new DateTime(year.Value, 12, 31, 23, 59, 59);
+        }
         var days = logs
             .GroupBy(l => l.ConsumedAt.Date)
             .ToDictionary(
@@ -148,7 +155,7 @@ public sealed class LifetimeStatsService(
             Streak =
                 await streaks.GetAsync(
                     userId,
-                    now),
+                    actualNow),
 
             FirstCaffeineTime =
                 caffeinatedDays.Length == 0
@@ -180,17 +187,7 @@ public sealed class LifetimeStatsService(
                     .ThenBy(d => d.Day)
                     .FirstOrDefault(),
 
-            Insights =
-                insights.Analyze(
-                    await db.SleepLogs
-                        .AsNoTracking()
-                        .Where(s =>
-                            s.UserId == userId &&
-                            !s.IsImportedDuplicate)
-                        .OrderByDescending(s =>
-                            s.SleepDate)
-                        .Take(90)
-                        .ToListAsync())
+            Insights = insights.Analyze(await SleepRows(userId, year).ToListAsync())
         };
 
         for (var day = now.Date.AddDays(-364);
@@ -211,4 +208,28 @@ public sealed class LifetimeStatsService(
 
         return result;
     }
+    public async Task<List<int>> YearsAsync(string user, DateTime now) =>
+        (await db.CaffeineLogs.Where(l => l.UserId == user && l.ConsumedAt <= now).Select(l => l.ConsumedAt.Year).Distinct().ToListAsync())
+        .Concat(await db.CaffeineFreeDays.Where(d => d.UserId == user && d.Day <= now.Date).Select(d => d.Day.Year).Distinct().ToListAsync())
+        .Append(now.Year).Distinct().OrderByDescending(y => y).ToList();
+
+    public async Task<List<HeatmapDay>> CalendarAsync(string user, DateTime start, DateTime end, DateTime now)
+    {
+        var logs = await db.CaffeineLogs.AsNoTracking().Where(l => l.UserId == user && l.ConsumedAt >= start && l.ConsumedAt < end && l.ConsumedAt <= now).ToListAsync();
+        var free = (await db.CaffeineFreeDays.AsNoTracking().Where(d => d.UserId == user && d.Day >= start && d.Day < end && d.Day <= now.Date).Select(d => d.Day).ToListAsync()).ToHashSet();
+        var grouped = logs.GroupBy(l => l.ConsumedAt.Date).ToDictionary(g => g.Key, g => g.ToList());
+        var days = new List<HeatmapDay>();
+        for (var day = start; day < end && day <= now.Date; day = day.AddDays(1)) {
+            var items = grouped.GetValueOrDefault(day) ?? [];
+            days.Add(new(day, items.Sum(l => l.TotalCaffeineMg), items.Count, free.Contains(day)));
+        }
+        return days;
+    }
+
+    private IQueryable<SleepLog> SleepRows(string userId, int? year) {
+        var query = db.SleepLogs.AsNoTracking().Where(s => s.UserId == userId && !s.IsImportedDuplicate);
+        if (year.HasValue) query = query.Where(s => s.SleepDate.Year == year.Value);
+        return query.OrderByDescending(s => s.SleepDate).Take(90);
+    }
+
 }

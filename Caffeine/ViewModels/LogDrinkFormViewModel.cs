@@ -32,7 +32,7 @@ namespace Caffeine.ViewModels
 
         [Required]
         [Display(Name = "Mikor?")]
-        public DateTime ConsumedAt { get; set; } = DateTime.Now;
+        public DateTime ConsumedAt { get; set; }
 
         public IEnumerable<SelectListItem> BeverageOptions { get; set; }
             = new List<SelectListItem>();

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <data name="Email cím kötelező!" xml:space="preserve">
+    <value>E-Mail-Adresse ist erforderlich!</value>
+  </data>
+  <data name="Jelszó kötelező!" xml:space="preserve">
+    <value>Passwort ist erforderlich!</value>
+  </data>
+</root>

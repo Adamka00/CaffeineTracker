@@ -26,7 +26,10 @@ public sealed partial class TrackerTests
     [InlineData("/Planning")]
     [InlineData("/Planning/Settings")]
     [InlineData("/Stats")]
-    [InlineData("/Notifications")]
+    [InlineData("/Help")]
+    [InlineData("/Help/WhatsNew")]
+    [InlineData("/Help/Support")]
+    [InlineData("/Barcode")]
     [InlineData("/Account/ForgotPassword")]
     public async Task NewPagesRenderInBothLanguagesWithoutSavingData(string page)
     {
@@ -563,17 +566,12 @@ public sealed partial class TrackerTests
             },
             "/Planning/Settings");
 
-        await Post(
-            client,
-            "/Notifications",
-            new()
-            {
-                ["StreakReminder"] = "true",
-                ["StreakTime"] = "20:00",
-                ["MorningTime"] = "08:00",
-                ["CutoffDoseMg"] = "80"
-            },
-            "/Notifications");
+        // Push UI is retired. Seed the old stored preference directly to verify it still transfers and deletes safely.
+        await Db(async db => {
+            var guest = await db.SleepLogs.Select(s => s.UserId).SingleAsync();
+            db.NotificationPreferences.Add(new Caffeine.Models.NotificationPreference { UserId = guest, StreakReminder = true });
+            await db.SaveChangesAsync(); return 0;
+        });
 
         await Post(
             client,

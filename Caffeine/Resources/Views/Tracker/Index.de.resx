@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <data name="Mai Nap" xml:space="preserve">
+    <value>Heute</value>
+  </data>
+  <data name="Aktív Szint" xml:space="preserve">
+    <value>Aktiver Wert</value>
+  </data>
+  <data name="Alvásküszöb (25mg) elérése:" xml:space="preserve">
+    <value>Geschätzter Zeitpunkt unter 25 mg:</value>
+  </data>
+  <data name="Biztonságos alvásküszöb alatt vagy! 😴" xml:space="preserve">
+    <value>Die Schätzung liegt unter 25 mg. 😴</value>
+  </data>
+  <data name="Mai Összes Bevitel" xml:space="preserve">
+    <value>Heutige Gesamtaufnahme</value>
+  </data>
+  <data name="Rögzített Italok" xml:space="preserve">
+    <value>Eingetragene Getränke</value>
+  </data>
+  <data name="db" xml:space="preserve">
+    <value>Stück</value>
+  </data>
+  <data name="24 Órás Aktivitás" xml:space="preserve">
+    <value>24-Stunden-Verlauf</value>
+  </data>
+  <data name="Mai Napló" xml:space="preserve">
+    <value>Heutiges Tagebuch</value>
+  </data>
+  <data name="Még nem ittál ma semmi koffeineset." xml:space="preserve">
+    <value>Heute wurde noch kein Koffein eingetragen.</value>
+  </data>
+  <data name="Biztosan törlöd ezt a tételt a naplóból?" xml:space="preserve">
+    <value>Diesen Eintrag wirklich löschen?</value>
+  </data>
+  <data name="Aktív Koffein (mg)" xml:space="preserve">
+    <value>Aktives Koffein (mg)</value>
+  </data>
+  <data name="Tervezett alvásidő:" xml:space="preserve">
+    <value>Geplante Schlafenszeit:</value>
+  </data>
+  <data name="Várható szint:" xml:space="preserve">
+    <value>Geschätzter Wert:</value>
+  </data>
+  <data name="Tökéletes, mély alvás várható." xml:space="preserve">
+    <value>Geschätzter niedriger Koffeinwert; keine Vorhersage der Schlafqualität.</value>
+  </data>
+  <data name="Jó alvás, a küszöb alatt vagy." xml:space="preserve">
+    <value>Schätzung unter dem persönlichen Zielwert.</value>
+  </data>
+  <data name="Felszínesebb alvás, forgolódás várható." xml:space="preserve">
+    <value>Geschätzter Wert über dem persönlichen Zielwert.</value>
+  </data>
+  <data name="Nehéz elalvás, megzavart pihenés!" xml:space="preserve">
+    <value>Geschätzter höherer Koffeinwert; Schlafqualität lässt sich daraus nicht vorhersagen.</value>
+  </data>
+</root>

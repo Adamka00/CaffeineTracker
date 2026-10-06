@@ -153,169 +153,805 @@
   <data name="CheckLabel" xml:space="preserve">
     <value>Tájékoztató érték; ellenőrizd a címkét</value>
   </data>
-
-  <data name="StreakTitle" xml:space="preserve"><value>Naplózási sorozat</value></data>
-  <data name="StreakBest" xml:space="preserve"><value>Rekord: {0} nap</value></data>
-  <data name="StreakDays" xml:space="preserve"><value>{0} nap</value></data>
-  <data name="StreakTodayDone" xml:space="preserve"><value>A mai nap teljesítve.</value></data>
-  <data name="StreakTodayPending" xml:space="preserve"><value>A mai nap még nincs teljesítve. Éjfélig folytathatod a sorozatot.</value></data>
-  <data name="StreakExplanation" xml:space="preserve"><value>Naponta egy ital naplózása vagy a koffeinmentes nap jelölése számít. A sorozathoz nem kell koffeint fogyasztanod.</value></data>
-  <data name="CaffeineFreeDay" xml:space="preserve"><value>Koffeinmentes nap</value></data>
-  <data name="MarkCaffeineFree" xml:space="preserve"><value>Ma nem ittam koffeint</value></data>
-  <data name="UndoCaffeineFree" xml:space="preserve"><value>Koffeinmentes jelölés visszavonása</value></data>
-  <data name="CaffeineFreeSaved" xml:space="preserve"><value>A mai nap koffeinmentesként elmentve. Ha később koffeines italt naplózol, a jelölés automatikusan megszűnik.</value></data>
-  <data name="CaffeineFreeRemoved" xml:space="preserve"><value>A koffeinmentes jelölést visszavontad.</value></data>
-  <data name="CaffeineFreeBlocked" xml:space="preserve"><value>Erre a napra már naplóztál koffeint, ezért nem jelölhető koffeinmentesnek.</value></data>
-  <data name="StreakDayChanged" xml:space="preserve"><value>Időközben napot váltottunk, vagy nem a mai napot küldted el. Ellenőrizd a dátumot, majd próbáld újra.</value></data>
-
-  <data name="InvalidInput" xml:space="preserve"><value>Ellenőrizd a kötelező mezőket, dátumokat és a megengedett értékeket.</value></data>
-  <data name="InvalidSleep" xml:space="preserve"><value>Az ébredésnek a lefekvés után, legfeljebb 24 órán belül kell lennie. Jövőbeli alvás nem rögzíthető.</value></data>
-  <data name="SleepDuplicate" xml:space="preserve"><value>Erre az ébredési napra már van bejegyzésed. Nyisd meg szerkesztésre.</value></data>
-  <data name="SleepTitle" xml:space="preserve"><value>Alvásnapló</value></data>
-  <data name="SleepCheckIn" xml:space="preserve"><value>Hogy aludtál?</value></data>
-  <data name="SleepDateNote" xml:space="preserve"><value>Az alvást az ébredés napjához kötjük. Éjfélen átnyúló és nappali alvás is megadható.</value></data>
-  <data name="NoSleepLogs" xml:space="preserve"><value>Még nincs alvásbejegyzésed.</value></data>
-  <data name="ActualBedtime" xml:space="preserve"><value>Tényleges lefekvés</value></data>
-  <data name="WakeTime" xml:space="preserve"><value>Ébredés</value></data>
-  <data name="PlannedBedtime" xml:space="preserve"><value>Tervezett lefekvés</value></data>
-  <data name="SleepRating" xml:space="preserve"><value>Alvásminőség (1–5)</value></data>
-  <data name="FallingAsleep" xml:space="preserve"><value>Elalvási nehézség (1: könnyű, 5: nehéz)</value></data>
-  <data name="Awakenings" xml:space="preserve"><value>Felébredések száma</value></data>
-  <data name="Notes" xml:space="preserve"><value>Megjegyzés</value></data>
-  <data name="Hours" xml:space="preserve"><value>óra</value></data>
-  <data name="Details" xml:space="preserve"><value>Részletek</value></data>
-  <data name="OptionalDetails" xml:space="preserve"><value>Opcionális részletek</value></data>
-  <data name="SleepSnapshotNote" xml:space="preserve"><value>A koffeinadatokat automatikusan kapcsoljuk az alváshoz. Mentéskori becslések: az italnapló későbbi módosítása csak az alvásbejegyzés újramentésekor frissíti őket. Az időtartam a megadott helyi időpontok különbsége.</value></data>
-  <data name="EstimatedAtBedtime" xml:space="preserve"><value>Becsült koffein lefekvéskor</value></data>
-  <data name="PreviousDayCaffeine" xml:space="preserve"><value>Előző naptári nap összes koffeinje</value></data>
-  <data name="LastCaffeine" xml:space="preserve"><value>Utolsó koffein lefekvés előtt</value></data>
-  <data name="Edit" xml:space="preserve"><value>Szerkesztés</value></data>
-  <data name="Cancel" xml:space="preserve"><value>Mégse</value></data>
-  <data name="DeleteSleepConfirm" xml:space="preserve"><value>Törlöd ezt az alvásbejegyzést?</value></data>
-  <data name="PreviousPage" xml:space="preserve"><value>Előző oldal</value></data>
-  <data name="NextPage" xml:space="preserve"><value>Következő oldal</value></data>
-  <data name="ImportedSleepCopy" xml:space="preserve"><value>Átvett vendégbejegyzés ugyanarra az ébredési napra. Megőriztük, de a trendekhez csak az eredeti fiókbejegyzés számít.</value></data>
-
-  <data name="Rating1" xml:space="preserve"><value>Nagyon rossz</value></data>
-  <data name="Rating2" xml:space="preserve"><value>Rossz</value></data>
-  <data name="Rating3" xml:space="preserve"><value>Közepes</value></data>
-  <data name="Rating4" xml:space="preserve"><value>Jó</value></data>
-  <data name="Rating5" xml:space="preserve"><value>Nagyon jó</value></data>
-
-  <data name="Difficulty1" xml:space="preserve"><value>Nagyon könnyű</value></data>
-  <data name="Difficulty2" xml:space="preserve"><value>Könnyű</value></data>
-  <data name="Difficulty3" xml:space="preserve"><value>Közepes</value></data>
-  <data name="Difficulty4" xml:space="preserve"><value>Nehéz</value></data>
-  <data name="Difficulty5" xml:space="preserve"><value>Nagyon nehéz</value></data>
-
-  <data name="SleepInsights" xml:space="preserve"><value>Személyes alvási összefüggések</value></data>
-  <data name="SleepInsightNote" xml:space="preserve"><value>Az utolsó 90 rögzített éjszakát vizsgáljuk, mutatónként legalább 10 használható adattal. Összefüggések a saját naplóidban, nem orvosi vagy ok-okozati következtetések. Más körülmények is befolyásolhatják az alvást.</value></data>
-  <data name="SleepSample" xml:space="preserve"><value>Felhasznált éjszakák: {0}</value></data>
-  <data name="BedtimeCaffeineVsRating" xml:space="preserve"><value>Becsült lefekvéskori koffein → alvásértékelés</value></data>
-  <data name="DailyCaffeineVsRating" xml:space="preserve"><value>Előző napi koffein → alvásértékelés</value></data>
-  <data name="LateCaffeineVsDifficulty" xml:space="preserve"><value>Lefekvéshez közelebbi koffein → elalvási nehézség</value></data>
-  <data name="DailyCaffeineVsDuration" xml:space="preserve"><value>Előző napi koffein → alvás időtartama</value></data>
-  <data name="InsufficientSleepData" xml:space="preserve"><value>Még nincs elég adat személyes trend megjelenítéséhez. Legalább 10 használható éjszakára van szükség.</value></data>
-  <data name="SleepNoVariation" xml:space="preserve"><value>A naplózott értékek túl hasonlóak ahhoz, hogy összehasonlítható trendet mutassunk.</value></data>
-  <data name="SleepLowerAssociation" xml:space="preserve"><value>A saját naplóidban az első mutató magasabb értékeihez többnyire a második mutató alacsonyabb értékei társultak.</value></data>
-  <data name="SleepHigherAssociation" xml:space="preserve"><value>A saját naplóidban az első mutató magasabb értékeihez többnyire a második mutató magasabb értékei társultak.</value></data>
-  <data name="SleepNoClearAssociation" xml:space="preserve"><value>A saját naplóidban jelenleg nem látható egyértelmű lineáris összefüggés e két mutató között.</value></data>
-
-  <data name="PlanningSettings" xml:space="preserve"><value>Alvási idő és személyes cél</value></data>
-  <data name="PlanningTitle" xml:space="preserve"><value>Koffeintervező – mi lenne, ha…?</value></data>
-  <data name="PlanningShort" xml:space="preserve"><value>Tervező</value></data>
-  <data name="PersonalTarget" xml:space="preserve"><value>Személyes lefekvéskori cél (1–200 mg)</value></data>
-  <data name="PersonalTargetNote" xml:space="preserve"><value>Saját beállítás, nem egészségügyi határérték. A koffeinszint becslés, az egyéni lebontás eltérhet.</value></data>
-  <data name="PersonalThresholdEstimate" xml:space="preserve"><value>Becsült időpont a saját {0} mg-os cél alatt:</value></data>
-  <data name="WhatIfNote" xml:space="preserve"><value>Próbálj ki egy italt vagy koffeinadagot mentés nélkül. A számítás figyelembe veszi a már naplózott koffeint is.</value></data>
-  <data name="SearchDrinks" xml:space="preserve"><value>Ital keresése név alapján…</value></data>
-  <data name="SearchResults" xml:space="preserve"><value>találat (a kiválasztott ital látható marad)</value></data>
-  <data name="ManualDose" xml:space="preserve"><value>Egyedi koffeinadag</value></data>
-  <data name="ManualDoseNote" xml:space="preserve"><value>Ital kiválasztásakor annak koffeintartalmából és a mennyiségből számolunk. Az egyedi adagot csak kiválasztott ital nélkül használjuk.</value></data>
-  <data name="AmountMl" xml:space="preserve"><value>Mennyiség (ml)</value></data>
-  <data name="IntakeAt" xml:space="preserve"><value>Kipróbált fogyasztási időpont</value></data>
-  <data name="Calculate" xml:space="preserve"><value>Kiszámolom – mentés nélkül</value></data>
-  <data name="Estimate" xml:space="preserve"><value>Becslés</value></data>
-  <data name="Dose" xml:space="preserve"><value>Koffeinadag</value></data>
-  <data name="ExistingAtBedtime" xml:space="preserve"><value>Lefekvéskor a kipróbált ital nélkül</value></data>
-  <data name="Cutoff" xml:space="preserve"><value>Legkésőbbi becsült fogyasztási idő</value></data>
-  <data name="NoCutoff" xml:space="preserve"><value>A jelenlegi naplóval nem található időpont a számítási tartományban.</value></data>
-  <data name="AfterCutoff" xml:space="preserve"><value>A kipróbált fogyasztási időpont a becsült cutoff után van.</value></data>
-  <data name="CutoffNote" xml:space="preserve"><value>A becslés a naplózott italokon felüli adagra vonatkozik. A felszívódás utáni szakaszt vizsgálja; nem javasolja a közvetlenül elalvás előtti fogyasztást a kezdeti alacsony becslés alapján.</value></data>
-  <data name="UnderTargetAt" xml:space="preserve"><value>A cél alatti becsült időpont, a felszívódás után</value></data>
-  <data name="BeyondHorizon" xml:space="preserve"><value>A számítási tartományon túl</value></data>
-  <data name="WhatIfCurve" xml:space="preserve"><value>Becsült koffeingörbe az itallal és nélküle</value></data>
-  <data name="Existing" xml:space="preserve"><value>Ital nélkül</value></data>
-  <data name="WithDrink" xml:space="preserve"><value>Itallal</value></data>
-  <data name="LogThisDrink" xml:space="preserve"><value>Ital rögzítése</value></data>
-  <data name="ConfirmLoggingNote" xml:space="preserve"><value>Ez a naplózó űrlapot nyitja meg. Csak annak elküldése ment; jövőbeli fogyasztás nem rögzíthető.</value></data>
-  <data name="InvalidPlanningTime" xml:space="preserve"><value>A kipróbált időpont legyen most vagy a következő 2 napon belül, a lefekvés pedig később, legfeljebb 3 napon belül.</value></data>
-
-  <data name="LifetimeTitle" xml:space="preserve"><value>Összesített statisztikák</value></data>
-  <data name="LifetimeShort" xml:space="preserve"><value>Összesített</value></data>
-  <data name="TotalCaffeine" xml:space="preserve"><value>Összes rögzített koffein</value></data>
-  <data name="Average7" xml:space="preserve"><value>Utolsó 7 naptári nap átlaga</value></data>
-  <data name="Average30" xml:space="preserve"><value>Utolsó 30 naptári nap átlaga</value></data>
-  <data name="FreeDays" xml:space="preserve"><value>Jelölt koffeinmentes napok</value></data>
-  <data name="LongestStreak" xml:space="preserve"><value>Leghosszabb naplózási sorozat</value></data>
-  <data name="LifetimeAverageNote" xml:space="preserve"><value>A teljes napi átlag az első ital/jelölt nap óta eltelt összes naptári napra vonatkozik. A 7/30 napos átlag mindig 7/30-cal oszt, a mai részleges napot is beleértve. Követés kezdete:</value></data>
-  <data name="ConsumptionPatterns" xml:space="preserve"><value>Fogyasztási szokások</value></data>
-  <data name="FirstCaffeineAverage" xml:space="preserve"><value>Átlagos első koffein időpont</value></data>
-  <data name="LastCaffeineAverage" xml:space="preserve"><value>Átlagos utolsó koffein időpont</value></data>
-  <data name="HighestIntake" xml:space="preserve"><value>Legmagasabb rögzített napi bevitel</value></data>
-  <data name="HighestIntakeNote" xml:space="preserve"><value>Leíró adat, nem elérendő cél. Az átlagos időpontokat koffeines napokra, helyi óra-perc alapján számoljuk.</value></data>
-  <data name="Categories" xml:space="preserve"><value>Italkategóriák</value></data>
-  <data name="Category_Coffee" xml:space="preserve"><value>Kávé</value></data>
-  <data name="Category_Energy Drink" xml:space="preserve"><value>Energiaital</value></data>
-  <data name="Category_Capsule" xml:space="preserve"><value>Kapszulás kávé</value></data>
-  <data name="Category_Soda" xml:space="preserve"><value>Üdítő</value></data>
-  <data name="Category_Tea" xml:space="preserve"><value>Tea</value></data>
-  <data name="Category_Custom" xml:space="preserve"><value>Saját ital</value></data>
-  <data name="Heatmap" xml:space="preserve"><value>Elmúlt 365 nap</value></data>
-  <data name="HeatmapNote" xml:space="preserve"><value>Naponkénti koffeinbevitel. Görgess vízszintesen, egy napra koppintva megnyílik a napló.</value></data>
-  <data name="HeatmapLegend" xml:space="preserve"><value>Árnyalatok: 0 / 1–100 / 101–200 / 201–400 / 400 mg felett. Körvonal: jelölt koffeinmentes nap. A világosabb szín nem jelent jobb eredményt.</value></data>
-
-  <data name="Navigation" xml:space="preserve"><value>Navigáció</value></data>
-
-  <data name="ForgotPassword" xml:space="preserve"><value>Elfelejtetted a jelszavad?</value></data>
-  <data name="Email" xml:space="preserve"><value>Email cím</value></data>
-  <data name="ResetGenericResponse" xml:space="preserve"><value>Ha létezik fiók ezzel az email címmel, elküldtük a jelszó-visszaállító linket.</value></data>
-  <data name="SendResetLink" xml:space="preserve"><value>Visszaállító link kérése</value></data>
-  <data name="BackToLogin" xml:space="preserve"><value>Vissza a bejelentkezéshez</value></data>
-  <data name="ResetPassword" xml:space="preserve"><value>Jelszó visszaállítása</value></data>
-  <data name="NewPassword" xml:space="preserve"><value>Új jelszó</value></data>
-  <data name="ConfirmPassword" xml:space="preserve"><value>Új jelszó ismét</value></data>
-  <data name="PasswordLengthNote" xml:space="preserve"><value>10–128 karakter. A két jelszónak egyeznie kell.</value></data>
-  <data name="PasswordResetComplete" xml:space="preserve"><value>A jelszavad megváltozott. Jelentkezz be az új jelszóval; a korábbi munkamenetek érvényüket vesztették.</value></data>
-  <data name="InvalidResetToken" xml:space="preserve"><value>A link hibás, lejárt vagy már felhasználtad. Kérj új linket.</value></data>
-
-  <data name="Notifications" xml:space="preserve"><value>Értesítések</value></data>
-  <data name="NotificationNote" xml:space="preserve"><value>Minden értesítés külön kapcsolható. A típusok mentése után ezen az eszközön külön engedélyezd a böngészős értesítéseket.</value></data>
-  <data name="PreferencesSaved" xml:space="preserve"><value>Beállítások elmentve.</value></data>
-  <data name="StreakReminder" xml:space="preserve"><value>Naplózási sorozat emlékeztető</value></data>
-  <data name="StreakReminderTime" xml:space="preserve"><value>Esti emlékeztető időpontja</value></data>
-  <data name="MorningReminder" xml:space="preserve"><value>Reggeli alvásnapló-emlékeztető</value></data>
-  <data name="MorningReminderTime" xml:space="preserve"><value>Reggeli emlékeztető időpontja</value></data>
-  <data name="CutoffReminder" xml:space="preserve"><value>Koffein cutoff emlékeztető</value></data>
-  <data name="CutoffDose" xml:space="preserve"><value>Cutoffhoz használt koffeinadag</value></data>
-  <data name="ThresholdReminder" xml:space="preserve"><value>Becsült személyes célérték elérése</value></data>
-  <data name="NotificationTimeNote" xml:space="preserve"><value>Időpontok az alkalmazás beállított időzónájában. A cutoff a megadott adaghoz, a mentett lefekvéshez és célértékhez tartozik. A kézbesítés késhet vagy kimaradhat; az alkalmazásnak futnia kell.</value></data>
-  <data name="ThisDevice" xml:space="preserve"><value>Ez az eszköz</value></data>
-  <data name="IosPushNote" xml:space="preserve"><value>iPhone/iPad esetén add a Koffit a Főképernyőhöz, onnan nyisd meg, majd koppints az engedélyezésre. Az értesítés szövege a lezárt képernyőn is látszódhat.</value></data>
-  <data name="EnablePush" xml:space="preserve"><value>Értesítések engedélyezése</value></data>
-  <data name="DisablePush" xml:space="preserve"><value>Ezen az eszközön kikapcsolom</value></data>
-  <data name="PushNotConfigured" xml:space="preserve"><value>Az értesítésküldés ezen a telepítésen még nincs bekapcsolva.</value></data>
-  <data name="PushEnabled" xml:space="preserve"><value>Az eszköz csatlakoztatva. A mentett kapcsolók alapján értesítünk.</value></data>
-  <data name="PushDisabled" xml:space="preserve"><value>Ezen az eszközön kikapcsolva.</value></data>
-  <data name="PushFailed" xml:space="preserve"><value>Nem sikerült a művelet. Ellenőrizd a böngésző engedélyeit és próbáld újra.</value></data>
-  <data name="PushUnsupported" xml:space="preserve"><value>Ez a böngésző vagy megnyitási mód nem támogatja a push értesítéseket. iOS-en használd a Főképernyőre mentett alkalmazást.</value></data>
-  <data name="DeviceCount" xml:space="preserve"><value>Csatlakoztatott eszközök: {0}</value></data>
-  <data name="DisableAllDevices" xml:space="preserve"><value>Minden eszköz lekapcsolása</value></data>
-  <data name="DisableAllConfirm" xml:space="preserve"><value>Minden eszközödön kikapcsolod az értesítéseket?</value></data>
-
-  <data name="PushStreak" xml:space="preserve"><value>A mai napod még nincs teljesítve. Naplózz, vagy jelöld koffeinmentesnek – koffeint nem kell fogyasztanod.</value></data>
-  <data name="PushSleep" xml:space="preserve"><value>Hogy aludtál az éjjel? Ha már felébredtél, kitöltheted az alvásnaplót.</value></data>
-  <data name="PushCutoff" xml:space="preserve"><value>Közeledik a beállított adaghoz tartozó becsült koffein cutoffod.</value></data>
-  <data name="PushThreshold" xml:space="preserve"><value>A becslés szerint a mentett személyes koffeincélod alá értél.</value></data>
-  <data name="RateLimited" xml:space="preserve"><value>Túl sok kérés. Kérlek, próbáld újra egy perc múlva.</value></data>
+  <data name="StreakTitle" xml:space="preserve">
+    <value>Naplózási sorozat</value>
+  </data>
+  <data name="StreakBest" xml:space="preserve">
+    <value>Rekord: {0} nap</value>
+  </data>
+  <data name="StreakDays" xml:space="preserve">
+    <value>{0} nap</value>
+  </data>
+  <data name="StreakTodayDone" xml:space="preserve">
+    <value>A mai nap teljesítve.</value>
+  </data>
+  <data name="StreakTodayPending" xml:space="preserve">
+    <value>A mai nap még nincs teljesítve. Éjfélig folytathatod a sorozatot.</value>
+  </data>
+  <data name="StreakExplanation" xml:space="preserve">
+    <value>Naponta egy ital naplózása vagy a koffeinmentes nap jelölése számít. A sorozathoz nem kell koffeint fogyasztanod.</value>
+  </data>
+  <data name="CaffeineFreeDay" xml:space="preserve">
+    <value>Koffeinmentes nap</value>
+  </data>
+  <data name="MarkCaffeineFree" xml:space="preserve">
+    <value>Ma nem ittam koffeint</value>
+  </data>
+  <data name="UndoCaffeineFree" xml:space="preserve">
+    <value>Koffeinmentes jelölés visszavonása</value>
+  </data>
+  <data name="CaffeineFreeSaved" xml:space="preserve">
+    <value>A mai nap koffeinmentesként elmentve. Ha később koffeines italt naplózol, a jelölés automatikusan megszűnik.</value>
+  </data>
+  <data name="CaffeineFreeRemoved" xml:space="preserve">
+    <value>A koffeinmentes jelölést visszavontad.</value>
+  </data>
+  <data name="CaffeineFreeBlocked" xml:space="preserve">
+    <value>Erre a napra már naplóztál koffeint, ezért nem jelölhető koffeinmentesnek.</value>
+  </data>
+  <data name="StreakDayChanged" xml:space="preserve">
+    <value>Időközben napot váltottunk, vagy nem a mai napot küldted el. Ellenőrizd a dátumot, majd próbáld újra.</value>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>Ellenőrizd a kötelező mezőket, dátumokat és a megengedett értékeket.</value>
+  </data>
+  <data name="InvalidSleep" xml:space="preserve">
+    <value>Az ébredésnek a lefekvés után, legfeljebb 24 órán belül kell lennie. Jövőbeli alvás nem rögzíthető.</value>
+  </data>
+  <data name="SleepDuplicate" xml:space="preserve">
+    <value>Erre az ébredési napra már van bejegyzésed. Nyisd meg szerkesztésre.</value>
+  </data>
+  <data name="SleepTitle" xml:space="preserve">
+    <value>Alvásnapló</value>
+  </data>
+  <data name="SleepCheckIn" xml:space="preserve">
+    <value>Hogy aludtál?</value>
+  </data>
+  <data name="SleepDateNote" xml:space="preserve">
+    <value>Az alvást az ébredés napjához kötjük. Éjfélen átnyúló és nappali alvás is megadható.</value>
+  </data>
+  <data name="NoSleepLogs" xml:space="preserve">
+    <value>Még nincs alvásbejegyzésed.</value>
+  </data>
+  <data name="ActualBedtime" xml:space="preserve">
+    <value>Tényleges lefekvés</value>
+  </data>
+  <data name="WakeTime" xml:space="preserve">
+    <value>Ébredés</value>
+  </data>
+  <data name="PlannedBedtime" xml:space="preserve">
+    <value>Tervezett lefekvés</value>
+  </data>
+  <data name="SleepRating" xml:space="preserve">
+    <value>Alvásminőség (1–5)</value>
+  </data>
+  <data name="FallingAsleep" xml:space="preserve">
+    <value>Elalvási nehézség (1: könnyű, 5: nehéz)</value>
+  </data>
+  <data name="Awakenings" xml:space="preserve">
+    <value>Felébredések száma</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Megjegyzés</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>óra</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Részletek</value>
+  </data>
+  <data name="OptionalDetails" xml:space="preserve">
+    <value>Opcionális részletek</value>
+  </data>
+  <data name="SleepSnapshotNote" xml:space="preserve">
+    <value>A koffeinadatokat automatikusan kapcsoljuk az alváshoz. Mentéskori becslések: az italnapló későbbi módosítása csak az alvásbejegyzés újramentésekor frissíti őket. Az időtartam a megadott helyi időpontok különbsége.</value>
+  </data>
+  <data name="EstimatedAtBedtime" xml:space="preserve">
+    <value>Becsült koffein lefekvéskor</value>
+  </data>
+  <data name="PreviousDayCaffeine" xml:space="preserve">
+    <value>Előző naptári nap összes koffeinje</value>
+  </data>
+  <data name="LastCaffeine" xml:space="preserve">
+    <value>Utolsó koffein lefekvés előtt</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Szerkesztés</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="DeleteSleepConfirm" xml:space="preserve">
+    <value>Törlöd ezt az alvásbejegyzést?</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Előző oldal</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Következő oldal</value>
+  </data>
+  <data name="ImportedSleepCopy" xml:space="preserve">
+    <value>Átvett vendégbejegyzés ugyanarra az ébredési napra. Megőriztük, de a trendekhez csak az eredeti fiókbejegyzés számít.</value>
+  </data>
+  <data name="Rating1" xml:space="preserve">
+    <value>Nagyon rossz</value>
+  </data>
+  <data name="Rating2" xml:space="preserve">
+    <value>Rossz</value>
+  </data>
+  <data name="Rating3" xml:space="preserve">
+    <value>Közepes</value>
+  </data>
+  <data name="Rating4" xml:space="preserve">
+    <value>Jó</value>
+  </data>
+  <data name="Rating5" xml:space="preserve">
+    <value>Nagyon jó</value>
+  </data>
+  <data name="Difficulty1" xml:space="preserve">
+    <value>Nagyon könnyű</value>
+  </data>
+  <data name="Difficulty2" xml:space="preserve">
+    <value>Könnyű</value>
+  </data>
+  <data name="Difficulty3" xml:space="preserve">
+    <value>Közepes</value>
+  </data>
+  <data name="Difficulty4" xml:space="preserve">
+    <value>Nehéz</value>
+  </data>
+  <data name="Difficulty5" xml:space="preserve">
+    <value>Nagyon nehéz</value>
+  </data>
+  <data name="SleepInsights" xml:space="preserve">
+    <value>Személyes alvási összefüggések</value>
+  </data>
+  <data name="SleepInsightNote" xml:space="preserve">
+    <value>Az utolsó 90 rögzített éjszakát vizsgáljuk, mutatónként legalább 10 használható adattal. Összefüggések a saját naplóidban, nem orvosi vagy ok-okozati következtetések. Más körülmények is befolyásolhatják az alvást.</value>
+  </data>
+  <data name="SleepSample" xml:space="preserve">
+    <value>Felhasznált éjszakák: {0}</value>
+  </data>
+  <data name="BedtimeCaffeineVsRating" xml:space="preserve">
+    <value>Becsült lefekvéskori koffein → alvásértékelés</value>
+  </data>
+  <data name="DailyCaffeineVsRating" xml:space="preserve">
+    <value>Előző napi koffein → alvásértékelés</value>
+  </data>
+  <data name="LateCaffeineVsDifficulty" xml:space="preserve">
+    <value>Lefekvéshez közelebbi koffein → elalvási nehézség</value>
+  </data>
+  <data name="DailyCaffeineVsDuration" xml:space="preserve">
+    <value>Előző napi koffein → alvás időtartama</value>
+  </data>
+  <data name="InsufficientSleepData" xml:space="preserve">
+    <value>Még nincs elég adat személyes trend megjelenítéséhez. Legalább 10 használható éjszakára van szükség.</value>
+  </data>
+  <data name="SleepNoVariation" xml:space="preserve">
+    <value>A naplózott értékek túl hasonlóak ahhoz, hogy összehasonlítható trendet mutassunk.</value>
+  </data>
+  <data name="SleepLowerAssociation" xml:space="preserve">
+    <value>A saját naplóidban az első mutató magasabb értékeihez többnyire a második mutató alacsonyabb értékei társultak.</value>
+  </data>
+  <data name="SleepHigherAssociation" xml:space="preserve">
+    <value>A saját naplóidban az első mutató magasabb értékeihez többnyire a második mutató magasabb értékei társultak.</value>
+  </data>
+  <data name="SleepNoClearAssociation" xml:space="preserve">
+    <value>A saját naplóidban jelenleg nem látható egyértelmű lineáris összefüggés e két mutató között.</value>
+  </data>
+  <data name="PlanningSettings" xml:space="preserve">
+    <value>Alvási idő és személyes cél</value>
+  </data>
+  <data name="PlanningTitle" xml:space="preserve">
+    <value>Koffeintervező – mi lenne, ha…?</value>
+  </data>
+  <data name="PlanningShort" xml:space="preserve">
+    <value>Tervező</value>
+  </data>
+  <data name="PersonalTarget" xml:space="preserve">
+    <value>Személyes lefekvéskori cél (1–200 mg)</value>
+  </data>
+  <data name="PersonalTargetNote" xml:space="preserve">
+    <value>Saját beállítás, nem egészségügyi határérték. A koffeinszint becslés, az egyéni lebontás eltérhet.</value>
+  </data>
+  <data name="PersonalThresholdEstimate" xml:space="preserve">
+    <value>Becsült időpont a saját {0} mg-os cél alatt:</value>
+  </data>
+  <data name="WhatIfNote" xml:space="preserve">
+    <value>Próbálj ki egy italt vagy koffeinadagot mentés nélkül. A számítás figyelembe veszi a már naplózott koffeint is.</value>
+  </data>
+  <data name="SearchDrinks" xml:space="preserve">
+    <value>Ital keresése név alapján…</value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>találat (a kiválasztott ital látható marad)</value>
+  </data>
+  <data name="ManualDose" xml:space="preserve">
+    <value>Egyedi koffeinadag</value>
+  </data>
+  <data name="ManualDoseNote" xml:space="preserve">
+    <value>Ital kiválasztásakor annak koffeintartalmából és a mennyiségből számolunk. Az egyedi adagot csak kiválasztott ital nélkül használjuk.</value>
+  </data>
+  <data name="AmountMl" xml:space="preserve">
+    <value>Mennyiség (ml)</value>
+  </data>
+  <data name="IntakeAt" xml:space="preserve">
+    <value>Kipróbált fogyasztási időpont</value>
+  </data>
+  <data name="Calculate" xml:space="preserve">
+    <value>Kiszámolom – mentés nélkül</value>
+  </data>
+  <data name="Estimate" xml:space="preserve">
+    <value>Becslés</value>
+  </data>
+  <data name="Dose" xml:space="preserve">
+    <value>Koffeinadag</value>
+  </data>
+  <data name="ExistingAtBedtime" xml:space="preserve">
+    <value>Lefekvéskor a kipróbált ital nélkül</value>
+  </data>
+  <data name="Cutoff" xml:space="preserve">
+    <value>Legkésőbbi becsült fogyasztási idő</value>
+  </data>
+  <data name="NoCutoff" xml:space="preserve">
+    <value>A jelenlegi naplóval nem található időpont a számítási tartományban.</value>
+  </data>
+  <data name="AfterCutoff" xml:space="preserve">
+    <value>A kipróbált fogyasztási időpont a becsült cutoff után van.</value>
+  </data>
+  <data name="CutoffNote" xml:space="preserve">
+    <value>A becslés a naplózott italokon felüli adagra vonatkozik. A felszívódás utáni szakaszt vizsgálja; nem javasolja a közvetlenül elalvás előtti fogyasztást a kezdeti alacsony becslés alapján.</value>
+  </data>
+  <data name="UnderTargetAt" xml:space="preserve">
+    <value>A cél alatti becsült időpont, a felszívódás után</value>
+  </data>
+  <data name="BeyondHorizon" xml:space="preserve">
+    <value>A számítási tartományon túl</value>
+  </data>
+  <data name="WhatIfCurve" xml:space="preserve">
+    <value>Becsült koffeingörbe az itallal és nélküle</value>
+  </data>
+  <data name="Existing" xml:space="preserve">
+    <value>Ital nélkül</value>
+  </data>
+  <data name="WithDrink" xml:space="preserve">
+    <value>Itallal</value>
+  </data>
+  <data name="LogThisDrink" xml:space="preserve">
+    <value>Ital rögzítése</value>
+  </data>
+  <data name="ConfirmLoggingNote" xml:space="preserve">
+    <value>Ez a naplózó űrlapot nyitja meg. Csak annak elküldése ment; jövőbeli fogyasztás nem rögzíthető.</value>
+  </data>
+  <data name="InvalidPlanningTime" xml:space="preserve">
+    <value>A kipróbált időpont legyen most vagy a következő 2 napon belül, a lefekvés pedig később, legfeljebb 3 napon belül.</value>
+  </data>
+  <data name="LifetimeTitle" xml:space="preserve">
+    <value>Összesített statisztikák</value>
+  </data>
+  <data name="LifetimeShort" xml:space="preserve">
+    <value>Összesített</value>
+  </data>
+  <data name="TotalCaffeine" xml:space="preserve">
+    <value>Összes rögzített koffein</value>
+  </data>
+  <data name="Average7" xml:space="preserve">
+    <value>Utolsó 7 naptári nap átlaga</value>
+  </data>
+  <data name="Average30" xml:space="preserve">
+    <value>Utolsó 30 naptári nap átlaga</value>
+  </data>
+  <data name="FreeDays" xml:space="preserve">
+    <value>Jelölt koffeinmentes napok</value>
+  </data>
+  <data name="LongestStreak" xml:space="preserve">
+    <value>Leghosszabb naplózási sorozat</value>
+  </data>
+  <data name="LifetimeAverageNote" xml:space="preserve">
+    <value>A napi átlag az első rögzített naptól minden naptári napot tartalmaz. A 7/30 napos átlag fix 7/30 osztót használ. Éves szűrésnél a kiválasztott év utolsó napja, vagy ma az időszak vége.</value>
+  </data>
+  <data name="ConsumptionPatterns" xml:space="preserve">
+    <value>Fogyasztási szokások</value>
+  </data>
+  <data name="FirstCaffeineAverage" xml:space="preserve">
+    <value>Átlagos első koffein időpont</value>
+  </data>
+  <data name="LastCaffeineAverage" xml:space="preserve">
+    <value>Átlagos utolsó koffein időpont</value>
+  </data>
+  <data name="HighestIntake" xml:space="preserve">
+    <value>Legmagasabb rögzített napi bevitel</value>
+  </data>
+  <data name="HighestIntakeNote" xml:space="preserve">
+    <value>Leíró adat, nem elérendő cél. Az átlagos időpontokat koffeines napokra, helyi óra-perc alapján számoljuk.</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Italkategóriák</value>
+  </data>
+  <data name="Category_Coffee" xml:space="preserve">
+    <value>Kávé</value>
+  </data>
+  <data name="Category_Energy Drink" xml:space="preserve">
+    <value>Energiaital</value>
+  </data>
+  <data name="Category_Capsule" xml:space="preserve">
+    <value>Kapszulás kávé</value>
+  </data>
+  <data name="Category_Soda" xml:space="preserve">
+    <value>Üdítő</value>
+  </data>
+  <data name="Category_Tea" xml:space="preserve">
+    <value>Tea</value>
+  </data>
+  <data name="Category_Custom" xml:space="preserve">
+    <value>Saját ital</value>
+  </data>
+  <data name="Heatmap" xml:space="preserve">
+    <value>Koffeinnaptár</value>
+  </data>
+  <data name="HeatmapNote" xml:space="preserve">
+    <value>Naponként naplózott koffein. Koppints egy napra a napló megnyitásához. Az üres nap nem jelent automatikusan koffeinmentes napot.</value>
+  </data>
+  <data name="HeatmapLegend" xml:space="preserve">
+    <value>Árnyalatok: 0 / 1–100 / 101–200 / 201–400 / 400 mg felett. Körvonal: jelölt koffeinmentes nap. A világosabb szín nem jelent jobb eredményt.</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigáció</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Elfelejtetted a jelszavad?</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email cím</value>
+  </data>
+  <data name="ResetGenericResponse" xml:space="preserve">
+    <value>Ha létezik fiók ezzel az email címmel, elküldtük a jelszó-visszaállító linket.</value>
+  </data>
+  <data name="SendResetLink" xml:space="preserve">
+    <value>Visszaállító link kérése</value>
+  </data>
+  <data name="BackToLogin" xml:space="preserve">
+    <value>Vissza a bejelentkezéshez</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Jelszó visszaállítása</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Új jelszó</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Új jelszó ismét</value>
+  </data>
+  <data name="PasswordLengthNote" xml:space="preserve">
+    <value>10–128 karakter. A két jelszónak egyeznie kell.</value>
+  </data>
+  <data name="PasswordResetComplete" xml:space="preserve">
+    <value>A jelszavad megváltozott. Jelentkezz be az új jelszóval; a korábbi munkamenetek érvényüket vesztették.</value>
+  </data>
+  <data name="InvalidResetToken" xml:space="preserve">
+    <value>A link hibás, lejárt vagy már felhasználtad. Kérj új linket.</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Értesítések</value>
+  </data>
+  <data name="NotificationNote" xml:space="preserve">
+    <value>Minden értesítés külön kapcsolható. A típusok mentése után ezen az eszközön külön engedélyezd a böngészős értesítéseket.</value>
+  </data>
+  <data name="PreferencesSaved" xml:space="preserve">
+    <value>Beállítások elmentve.</value>
+  </data>
+  <data name="StreakReminder" xml:space="preserve">
+    <value>Naplózási sorozat emlékeztető</value>
+  </data>
+  <data name="StreakReminderTime" xml:space="preserve">
+    <value>Esti emlékeztető időpontja</value>
+  </data>
+  <data name="MorningReminder" xml:space="preserve">
+    <value>Reggeli alvásnapló-emlékeztető</value>
+  </data>
+  <data name="MorningReminderTime" xml:space="preserve">
+    <value>Reggeli emlékeztető időpontja</value>
+  </data>
+  <data name="CutoffReminder" xml:space="preserve">
+    <value>Koffein cutoff emlékeztető</value>
+  </data>
+  <data name="CutoffDose" xml:space="preserve">
+    <value>Cutoffhoz használt koffeinadag</value>
+  </data>
+  <data name="ThresholdReminder" xml:space="preserve">
+    <value>Becsült személyes célérték elérése</value>
+  </data>
+  <data name="NotificationTimeNote" xml:space="preserve">
+    <value>Időpontok az alkalmazás beállított időzónájában. A cutoff a megadott adaghoz, a mentett lefekvéshez és célértékhez tartozik. A kézbesítés késhet vagy kimaradhat; az alkalmazásnak futnia kell.</value>
+  </data>
+  <data name="ThisDevice" xml:space="preserve">
+    <value>Ez az eszköz</value>
+  </data>
+  <data name="IosPushNote" xml:space="preserve">
+    <value>iPhone/iPad esetén add a Koffit a Főképernyőhöz, onnan nyisd meg, majd koppints az engedélyezésre. Az értesítés szövege a lezárt képernyőn is látszódhat.</value>
+  </data>
+  <data name="EnablePush" xml:space="preserve">
+    <value>Értesítések engedélyezése</value>
+  </data>
+  <data name="DisablePush" xml:space="preserve">
+    <value>Ezen az eszközön kikapcsolom</value>
+  </data>
+  <data name="PushNotConfigured" xml:space="preserve">
+    <value>Az értesítésküldés ezen a telepítésen még nincs bekapcsolva.</value>
+  </data>
+  <data name="PushEnabled" xml:space="preserve">
+    <value>Az eszköz csatlakoztatva. A mentett kapcsolók alapján értesítünk.</value>
+  </data>
+  <data name="PushDisabled" xml:space="preserve">
+    <value>Ezen az eszközön kikapcsolva.</value>
+  </data>
+  <data name="PushFailed" xml:space="preserve">
+    <value>Nem sikerült a művelet. Ellenőrizd a böngésző engedélyeit és próbáld újra.</value>
+  </data>
+  <data name="PushUnsupported" xml:space="preserve">
+    <value>Ez a böngésző vagy megnyitási mód nem támogatja a push értesítéseket. iOS-en használd a Főképernyőre mentett alkalmazást.</value>
+  </data>
+  <data name="DeviceCount" xml:space="preserve">
+    <value>Csatlakoztatott eszközök: {0}</value>
+  </data>
+  <data name="DisableAllDevices" xml:space="preserve">
+    <value>Minden eszköz lekapcsolása</value>
+  </data>
+  <data name="DisableAllConfirm" xml:space="preserve">
+    <value>Minden eszközödön kikapcsolod az értesítéseket?</value>
+  </data>
+  <data name="PushStreak" xml:space="preserve">
+    <value>A mai napod még nincs teljesítve. Naplózz, vagy jelöld koffeinmentesnek – koffeint nem kell fogyasztanod.</value>
+  </data>
+  <data name="PushSleep" xml:space="preserve">
+    <value>Hogy aludtál az éjjel? Ha már felébredtél, kitöltheted az alvásnaplót.</value>
+  </data>
+  <data name="PushCutoff" xml:space="preserve">
+    <value>Közeledik a beállított adaghoz tartozó becsült koffein cutoffod.</value>
+  </data>
+  <data name="PushThreshold" xml:space="preserve">
+    <value>A becslés szerint a mentett személyes koffeincélod alá értél.</value>
+  </data>
+  <data name="RateLimited" xml:space="preserve">
+    <value>Túl sok kérés. Kérlek, próbáld újra egy perc múlva.</value>
+  </data>
+  <data name="SkipToContent" xml:space="preserve">
+    <value>Ugrás a tartalomhoz</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Nyelv</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Fiók és menü</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Kijelentkezés</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Bejelentkezés</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Regisztráció</value>
+  </data>
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>Fiók törlése</value>
+  </data>
+  <data name="DeleteAccountConfirm" xml:space="preserve">
+    <value>Biztosan törlöd a teljes fiókodat? Ez nem vonható vissza!</value>
+  </data>
+  <data name="GuestMode" xml:space="preserve">
+    <value>Vendégként használod a Koffit.</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Tudnivalók</value>
+  </data>
+  <data name="HelpTitle" xml:space="preserve">
+    <value>Segítség</value>
+  </data>
+  <data name="HelpIntro" xml:space="preserve">
+    <value>A Koffi segít követni a koffeined és megismerni a saját naplóid mintáit. A becslések nem egészségügyi határértékek.</value>
+  </data>
+  <data name="HelpLog" xml:space="preserve">
+    <value>A + gombbal bármelyik oldalról rögzíthetsz italt. Keress névre, válassz kedvencet vagy adj meg saját italt. A vonalkódos keresés béta funkció.</value>
+  </data>
+  <data name="HelpDaily" xml:space="preserve">
+    <value>Napi beviteled és becsült aktív koffeined külön érték. Korábbi napokhoz a dátumválasztóval léphetsz vissza.</value>
+  </data>
+  <data name="HelpWeekly" xml:space="preserve">
+    <value>A heti nézet napi bontásban mutatja a beviteledet. Az üres nap nem igazolt koffeinmentes nap.</value>
+  </data>
+  <data name="HelpPlanning" xml:space="preserve">
+    <value>Próbálj ki egy italt mentés nélkül. A tervező a naplózott koffeinnel együtt becsli a lefekvéskori szintet és a legkésőbbi fogyasztási időt.</value>
+  </data>
+  <data name="HelpStats" xml:space="preserve">
+    <value>Az összesített vagy éves nézet a naplózott adatokat foglalja össze. A havi naptárból közvetlenül megnyithatsz egy napot. A magas bevitel nem megdöntendő rekord.</value>
+  </data>
+  <data name="RestartTutorial" xml:space="preserve">
+    <value>Rövid bemutató újraindítása</value>
+  </data>
+  <data name="TutorialTitle" xml:space="preserve">
+    <value>Üdv a Koffiban!</value>
+  </data>
+  <data name="TutorialLogTitle" xml:space="preserve">
+    <value>Egy mozdulat a naplózás</value>
+  </data>
+  <data name="TutorialLog" xml:space="preserve">
+    <value>A fix + gombbal gyorsan hozzáadhatsz egy italt. A kedvencek a szokásos adagodat is megjegyzik.</value>
+  </data>
+  <data name="TutorialExploreTitle" xml:space="preserve">
+    <value>Ismerd meg a napjaidat</value>
+  </data>
+  <data name="TutorialExplore" xml:space="preserve">
+    <value>Nézd vissza a napi és heti adataidat. A streak koffeinmentes nappal is folytatható – nem kell hozzá koffeint fogyasztanod.</value>
+  </data>
+  <data name="TutorialSleepTitle" xml:space="preserve">
+    <value>Naplózz, tervezz, figyeld a mintákat</value>
+  </data>
+  <data name="TutorialSleep" xml:space="preserve">
+    <value>Reggel értékeld az alvásod, a tervezőben próbálj ki egy italt mentés nélkül. A ? gombok és a Segítség bármikor elérhetők.</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Kihagyás</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Tovább</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Rendben</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Bezárás</value>
+  </data>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>Újdonságok</value>
+  </data>
+  <data name="ReleaseHeading" xml:space="preserve">
+    <value>Koffi {0} újdonságai</value>
+  </data>
+  <data name="AllReleases" xml:space="preserve">
+    <value>Korábbi verziók</value>
+  </data>
+  <data name="Release4Ux" xml:space="preserve">
+    <value>Új navigáció, fix + gomb és rövid, kérésre megnyíló súgók.</value>
+  </data>
+  <data name="Release4Insights" xml:space="preserve">
+    <value>Áttekinthetőbb statisztikák, havi naptár és fokozatos alváskiértékelés.</value>
+  </data>
+  <data name="Release4Languages" xml:space="preserve">
+    <value>Német nyelv, telepítési segítség és reggeli emlékeztető az appon belül.</value>
+  </data>
+  <data name="Release4Barcode" xml:space="preserve">
+    <value>Vonalkódos italjavaslatok béta változatban, mindig kézi ellenőrzéssel.</value>
+  </data>
+  <data name="Release3Sleep" xml:space="preserve">
+    <value>Alvásnapló és személyes összefüggések.</value>
+  </data>
+  <data name="Release3Planner" xml:space="preserve">
+    <value>Koffein cutoff és mentés nélküli tervező.</value>
+  </data>
+  <data name="Release3Stats" xml:space="preserve">
+    <value>Összesített statisztikák és biztonságos jelszó-visszaállítás.</value>
+  </data>
+  <data name="Release2History" xml:space="preserve">
+    <value>Heti nézet, korábbi napok és kedvencek.</value>
+  </data>
+  <data name="Release2Guest" xml:space="preserve">
+    <value>Vendég mód és fiókba átvihető napló.</value>
+  </data>
+  <data name="MorningTitle" xml:space="preserve">
+    <value>Jó reggelt!</value>
+  </data>
+  <data name="MorningPrompt" xml:space="preserve">
+    <value>Szeretnéd naplózni az alvásodat?</value>
+  </data>
+  <data name="NotNow" xml:space="preserve">
+    <value>Most nem</value>
+  </data>
+  <data name="InstallTitle" xml:space="preserve">
+    <value>Telepítsd a Koffit</value>
+  </data>
+  <data name="InstallIos" xml:space="preserve">
+    <value>Safari: Megosztás → Főképernyőhöz adás. Ezután a Koffi ikonnal nyithatod meg az appot.</value>
+  </data>
+  <data name="InstallBrowser" xml:space="preserve">
+    <value>Használd a Telepítés gombot, ha elérhető; máskülönben keresd a böngésző menüjében az app telepítése lehetőséget.</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Telepítés</value>
+  </data>
+  <data name="NeverShow" xml:space="preserve">
+    <value>Ne mutasd újra</value>
+  </data>
+  <data name="InsightInsufficient" xml:space="preserve">
+    <value>Még nincs elég adat</value>
+  </data>
+  <data name="InsightEarly" xml:space="preserve">
+    <value>Korai becslés – még kevés adat</value>
+  </data>
+  <data name="InsightEmerging" xml:space="preserve">
+    <value>Kezd kirajzolódni a személyes mintád</value>
+  </data>
+  <data name="InsightEstablished" xml:space="preserve">
+    <value>Több adatból készült személyes elemzés</value>
+  </data>
+  <data name="ConfidenceLow" xml:space="preserve">
+    <value>Alacsony adatbiztonság</value>
+  </data>
+  <data name="ConfidenceMedium" xml:space="preserve">
+    <value>Közepes adatbiztonság</value>
+  </data>
+  <data name="ConfidenceMoreData" xml:space="preserve">
+    <value>Legalább 30 használható éjszaka</value>
+  </data>
+  <data name="DirectionUnknown" xml:space="preserve">
+    <value>Irány még nem értékelhető</value>
+  </data>
+  <data name="DirectionUnclear" xml:space="preserve">
+    <value>Nincs egyértelmű lineáris irány</value>
+  </data>
+  <data name="DirectionNegative" xml:space="preserve">
+    <value>Fordított irányú együttjárás</value>
+  </data>
+  <data name="DirectionPositive" xml:space="preserve">
+    <value>Azonos irányú együttjárás</value>
+  </data>
+  <data name="StrengthUnknown" xml:space="preserve">
+    <value>Erősség nem értékelhető</value>
+  </data>
+  <data name="StrengthWeak" xml:space="preserve">
+    <value>Gyenge lineáris kapcsolat</value>
+  </data>
+  <data name="StrengthModerate" xml:space="preserve">
+    <value>Közepes lineáris kapcsolat</value>
+  </data>
+  <data name="StrengthStrong" xml:space="preserve">
+    <value>Erős lineáris kapcsolat</value>
+  </data>
+  <data name="SleepInsightHelp" xml:space="preserve">
+    <value>10–19 éjszaka: korai becslés; 20–29: kialakuló minta; 30-tól több adattal alátámasztott elemzés. Ezek adatméret szerinti szintek, nem statisztikai bizonyosság vagy ok-okozati állítás.</value>
+  </data>
+  <data name="SleepInsightMethod" xml:space="preserve">
+    <value>Pearson-féle lineáris korreláció, a legutóbbi 90 éjszakából. Az r előjele irányt, abszolút értéke lineáris erősséget jelez. Ez nem méri az összes lehetséges hatást.</value>
+  </data>
+  <data name="StatsPeriod" xml:space="preserve">
+    <value>Időszak</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>Összes idő</value>
+  </data>
+  <data name="TrackingSince" xml:space="preserve">
+    <value>Naplózás kezdete:</value>
+  </data>
+  <data name="StreakAllTime" xml:space="preserve">
+    <value>A streak mindig a teljes naplóból számolódik.</value>
+  </data>
+  <data name="MostFrequentCategory" xml:space="preserve">
+    <value>Leggyakoribb kategória</value>
+  </data>
+  <data name="PreviousMonth" xml:space="preserve">
+    <value>Előző hónap</value>
+  </data>
+  <data name="NextMonth" xml:space="preserve">
+    <value>Következő hónap</value>
+  </data>
+  <data name="ChooseMonth" xml:space="preserve">
+    <value>Hónap választása</value>
+  </data>
+  <data name="FullYear" xml:space="preserve">
+    <value>Teljes év</value>
+  </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>Koffi támogatása</value>
+  </data>
+  <data name="SupportIntro" xml:space="preserve">
+    <value>A Koffit egy független fejlesztőként építem. Ha hasznos neked, egy kávéval segítheted a további fejlesztést.</value>
+  </data>
+  <data name="SupportFree" xml:space="preserve">
+    <value>A Koffi ingyenesen használható, a támogatás teljesen önkéntes.</value>
+  </data>
+  <data name="SupportThanks" xml:space="preserve">
+    <value>Köszönöm, hogy használod a Koffit!</value>
+  </data>
+  <data name="BarcodeTitle" xml:space="preserve">
+    <value>Vonalkód beolvasása</value>
+  </data>
+  <data name="BarcodeHelp" xml:space="preserve">
+    <value>Koffi adat → Open Food Facts javaslat → kézi bevitel. A külső adatok változhatnak. Mindig ellenőrizd az etikettet. A kamera csak engedély után indul, képeket nem töltünk fel.</value>
+  </data>
+  <data name="BarcodeIntro" xml:space="preserve">
+    <value>Olvasd be a termék vonalkódját, vagy írd be az alatta látható számot.</value>
+  </data>
+  <data name="StartCamera" xml:space="preserve">
+    <value>Kamera indítása</value>
+  </data>
+  <data name="StopCamera" xml:space="preserve">
+    <value>Kamera leállítása</value>
+  </data>
+  <data name="CameraPreview" xml:space="preserve">
+    <value>Vonalkód kamera előnézet</value>
+  </data>
+  <data name="CameraFallback" xml:space="preserve">
+    <value>Nem sikerült elindítani a kamerát. Írd be a vonalkódot kézzel, vagy válaszd a normál hozzáadást.</value>
+  </data>
+  <data name="Scanning" xml:space="preserve">
+    <value>Tartsd a vonalkódot a kamera elé, jó fényben.</value>
+  </data>
+  <data name="BarcodeCode" xml:space="preserve">
+    <value>Vonalkód száma</value>
+  </data>
+  <data name="InvalidBarcode" xml:space="preserve">
+    <value>Érvénytelen EAN/UPC/GTIN kód. Ellenőrizd a számjegyeket.</value>
+  </data>
+  <data name="FindProduct" xml:space="preserve">
+    <value>Termék keresése</value>
+  </data>
+  <data name="ManualEntry" xml:space="preserve">
+    <value>Kézi ital-hozzáadás</value>
+  </data>
+  <data name="ReviewProduct" xml:space="preserve">
+    <value>Ellenőrizd az ital adatait</value>
+  </data>
+  <data name="ProductReviewWarning" xml:space="preserve">
+    <value>Ez egy javaslat, nem biztos adat. Ellenőrizd és szükség esetén módosítsd az etikett alapján.</value>
+  </data>
+  <data name="ProductUnavailable" xml:space="preserve">
+    <value>A termékadatbázis most nem elérhető. Az italt továbbra is rögzítheted kézzel.</value>
+  </data>
+  <data name="ProductNotFound" xml:space="preserve">
+    <value>Nem találtunk terméket ezzel a vonalkóddal. Használd a kézi hozzáadást.</value>
+  </data>
+  <data name="ProductSource" xml:space="preserve">
+    <value>Javaslat forrása</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Terméknév</value>
+  </data>
+  <data name="CaffeinePer100" xml:space="preserve">
+    <value>Koffein (mg / 100 ml)</value>
+  </data>
+  <data name="MissingCaffeine" xml:space="preserve">
+    <value>Nincs megbízható, ml-re vetített koffeinadat. Írd be az etikettről; a 0 mg-ot is külön jóvá kell hagynod.</value>
+  </data>
+  <data name="ConsumedAt" xml:space="preserve">
+    <value>Fogyasztás időpontja</value>
+  </data>
+  <data name="ConfirmAndLog" xml:space="preserve">
+    <value>Ellenőriztem, naplózás</value>
+  </data>
+  <data name="ScanAgain" xml:space="preserve">
+    <value>Másik vonalkód</value>
+  </data>
+  <data name="Category_Ice Coffee" xml:space="preserve">
+    <value>Jegeskávé</value>
+  </data>
+  <data name="ResetEmailSubject" xml:space="preserve">
+    <value>Koffi – jelszó-visszaállítás</value>
+  </data>
+  <data name="ResetEmailIntro" xml:space="preserve">
+    <value>A jelszó-visszaállító linked 30 percig érvényes, és egyszer használható:</value>
+  </data>
+  <data name="ResetEmailIgnore" xml:space="preserve">
+    <value>Ha nem te kérted, hagyd figyelmen kívül ezt az emailt. A jelszavad változatlan marad.</value>
+  </data>
+  <data name="EmailAlreadyRegistered" xml:space="preserve">
+    <value>Ezzel az email címmel már regisztráltak!</value>
+  </data>
+  <data name="InvalidLogin" xml:space="preserve">
+    <value>Hibás email vagy jelszó!</value>
+  </data>
+  <data name="PrivacyTitle" xml:space="preserve">
+    <value>Adatkezelés röviden</value>
+  </data>
+  <data name="PrivacyText" xml:space="preserve">
+    <value>A Koffi a naplódat és beállításaidat a szerveren tárolja. A vendégazonosító és a belépés sütiket használ, a telepítési ajánlás állapotát a böngésző helyben tárolja. A vonalkódkeresés a kódot az Open Food Factsnak továbbíthatja; kameraképet nem küldünk. Fiókodat és kapcsolódó naplóidat a fiókmenüből törölheted.</value>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Hiba történt</value>
+  </data>
+  <data name="ErrorText" xml:space="preserve">
+    <value>A kérés most nem sikerült. Próbáld újra később.</value>
+  </data>
+  <data name="RequestId" xml:space="preserve">
+    <value>Kérés azonosítója:</value>
+  </data>
 </root>

@@ -47,9 +47,23 @@ public static class BeverageDisplay
         [38] = "Dolce Gusto (Starbucks Caramel Macchiato)",
     };
 
-    public static string Name(Beverage beverage) => beverage.Category != "Custom" &&
-        CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "en" &&
-        EnglishNames.TryGetValue(beverage.Id, out var name) ? name : beverage.Name;
+    private static readonly Dictionary<int, string> GermanNames = new() {
+        [2] = "Red Bull Kokos-Blaubeere (Edition)", [4] = "Monster Ultra (Weiß/Zero)",
+        [15] = "Starbucks Frappuccino (Flasche)", [16] = "Mizo Kaffee (Packung)",
+        [17] = "Espresso (Café)", [18] = "Doppelter Espresso", [19] = "Langer Kaffee (Lungo)",
+        [21] = "Filterkaffee (Tasse)", [22] = "Instantkaffee (Nescafé, Tasse)",
+        [23] = "Nespresso (Original Espresso-Kapsel)", [24] = "Nespresso (Original Lungo-Kapsel)",
+        [25] = "Dolce Gusto (Espresso-Kapsel)", [26] = "Dolce Gusto (Lungo-/Grande-Kapsel)",
+        [31] = "Schwarztee (Tasse)", [32] = "Grüntee (Tasse)", [34] = "Matcha (traditionelle Zubereitung)",
+        [36] = "Dolce Gusto (Iced-Frappé-Kapsel)", [37] = "Dolce Gusto (Flat-White-Kapsel)",
+        [38] = "Dolce Gusto (Starbucks-Caramel-Macchiato-Kapsel)"
+    };
+    public static string Name(Beverage beverage) {
+        if (beverage.Category == "Custom" || beverage.OwnerId != null) return beverage.Name;
+        var culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+        if (culture == "de" && GermanNames.TryGetValue(beverage.Id, out var german)) return german;
+        return culture is "en" or "de" && EnglishNames.TryGetValue(beverage.Id, out var name) ? name : beverage.Name;
+    }
 
     public static string EvidenceKey(Beverage beverage) => beverage.Category == "Custom" ? "UserProvided" :
         beverage.Id is 1 or 2 or 3 or 4 or 6 or 7 or 10 or 11 ? "ManufacturerValue" :

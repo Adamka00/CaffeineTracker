@@ -1,0 +1,22 @@
+@model IEnumerable<Caffeine.Services.KoffiRelease>
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+@{
+    ViewData["Title"] = T["WhatsNew"];
+}
+
+<h1>@T["WhatsNew"]</h1>
+
+@foreach (var release in Model)
+{
+    <section class="glass panel">
+        <h2>@T["ReleaseHeading", release.Version]</h2>
+
+        <ul>
+            @foreach (var key in release.FeatureKeys)
+            {
+                <li>@T[key]</li>
+            }
+        </ul>
+    </section>
+}

@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# JetBrains Rider
+.idea/
+*.sln.DotSettings.user
+
+# .NET build output
+**/bin/
+**/obj/
+
+# Local databases
+**/*.db
+**/*.db-shm
+**/*.db-wal
+
+# Local environment / secrets
+.env
+.env.*
+!*.env.example
+
+# Publish output
+publish/
+**/publish/
+
+# User-specific files
+*.user
+*.suo

@@ -1,140 +1,46 @@
-@model Caffeine.Services.LifetimeStats
+@model Caffeine.ViewModels.StatsViewModel
 @using Caffeine.Services
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
-
-@{
-    ViewData["Title"] = T["LifetimeTitle"];
+@{ ViewData["Title"] = T["LifetimeTitle"]; var stats = Model.Stats; }
+<header class="page-heading"><h1>@T["LifetimeTitle"]</h1><partial name="_InfoButton" model='@("HelpStats")' /></header>
+<form method="get" class="flex gap-2 mb-5"><label for="stats-year" class="sr-only">@T["StatsPeriod"]</label><select id="stats-year" name="year" class="field flex-1"><option value="">@T["AllTime"]</option>@foreach (var y in Model.Years) { <option value="@y" selected="@(Model.Year == y)">@y</option> }</select><button type="submit" class="nav-tab">@T["Go"]</button></form>
+<div class="stats-hero">
+@foreach (var item in new[] { ("TotalCaffeine", $"{stats.TotalMg:N0} mg"), ("LoggedDrinks", stats.DrinkCount.ToString("N0")), ("DailyAverage", $"{stats.DailyAverage:F1} mg"), ("Average7", $"{stats.Average7:F1} mg"), ("Average30", $"{stats.Average30:F1} mg"), ("FreeDays", stats.FreeDayCount.ToString()), ("StreakTitle", stats.Streak.Current.ToString()), ("LongestStreak", stats.Streak.Best.ToString()) }) {
+    <section class="glass stat-card"><h2 class="stat-label">@T[item.Item1]</h2><p class="stat-value">@item.Item2</p></section>
 }
-
-<h1 class="text-2xl font-bold mb-5">
-    @T["LifetimeTitle"]
-</h1>
-
-<div class="grid grid-cols-2 gap-3">
-    @foreach (var item in new[]
-    {
-        ("LoggedDrinks", Model.DrinkCount.ToString()),
-        ("TotalCaffeine", $"{Model.TotalMg:F1} mg"),
-        ("DailyAverage", $"{Model.DailyAverage:F1} mg"),
-        ("Average7", $"{Model.Average7:F1} mg"),
-        ("Average30", $"{Model.Average30:F1} mg"),
-        ("FreeDays", Model.FreeDayCount.ToString()),
-        ("StreakTitle", Model.Streak.Current.ToString()),
-        ("LongestStreak", Model.Streak.Best.ToString())
-    })
-    {
-        <div class="glass rounded-2xl p-4">
-            <p class="text-xs text-slate-400">
-                @T[item.Item1]
-            </p>
-
-            <p class="text-xl font-bold mt-2">
-                @item.Item2
-            </p>
-        </div>
-    }
 </div>
-
-<p class="text-xs text-slate-400 my-4">
-    @T["LifetimeAverageNote"]
-    @(Model.TrackingSince?.ToString("yyyy.MM.dd.") ?? "—")
-</p>
-
-<section class="glass rounded-3xl p-5 mb-5">
-    <h2 class="font-bold mb-3">
-        @T["ConsumptionPatterns"]
-    </h2>
-
-    <p>
-        @T["MostFrequent"]
-        @(Model.MostFrequent == null
-            ? "—"
-            : BeverageDisplay.Name(Model.MostFrequent))
-    </p>
-
-    <p>
-        @T["FirstCaffeineAverage"]:
-        @(Model.FirstCaffeineTime?.ToString(@"hh\:mm") ?? "—")
-    </p>
-
-    <p>
-        @T["LastCaffeineAverage"]:
-        @(Model.LastCaffeineTime?.ToString(@"hh\:mm") ?? "—")
-    </p>
-
-    @if (Model.HighestDay is { } highest)
-    {
-        <p>
-            @T["HighestIntake"]:
-            @highest.Day.ToString("yyyy.MM.dd.")
-            ·
-            @Math.Round(highest.Mg, 1) mg
-        </p>
-    }
-
-    <p class="text-xs text-slate-400 mt-3">
-        @T["HighestIntakeNote"]
-    </p>
-
-    <h3 class="font-semibold my-3">
-        @T["Categories"]
-    </h3>
-
-    @foreach (var c in Model.Categories)
-    {
-        <p>
-            @T["Category_" + c.Category]:
-            @c.Drinks
-            ·
-            @Math.Round(c.Mg, 1) mg
-        </p>
+<div class="mb-5"><partial name="_InfoButton" model='@("LifetimeAverageNote")' /> <span class="muted text-xs">@T["TrackingSince"] @(stats.TrackingSince?.ToString("d") ?? "—") · @T["StreakAllTime"]</span></div>
+<section class="glass panel">
+    <div class="page-heading"><h2>@T["ConsumptionPatterns"]</h2><partial name="_InfoButton" model='@("HighestIntakeNote")' /></div>
+    <dl class="pattern-grid">
+        <div><dt>@T["MostFrequent"]</dt><dd>@(stats.MostFrequent == null ? "—" : BeverageDisplay.Name(stats.MostFrequent))</dd></div>
+        <div><dt>@T["MostFrequentCategory"]</dt><dd>@(stats.Categories.Count == 0 ? "—" : T["Category_" + stats.Categories[0].Category].Value)</dd></div>
+        <div><dt>@T["FirstCaffeineAverage"]</dt><dd>@(stats.FirstCaffeineTime?.ToString(@"hh\:mm") ?? "—")</dd></div>
+        <div><dt>@T["LastCaffeineAverage"]</dt><dd>@(stats.LastCaffeineTime?.ToString(@"hh\:mm") ?? "—")</dd></div>
+        <div><dt>@T["HighestIntake"]</dt><dd>@(stats.HighestDay == null ? "—" : $"{stats.HighestDay.Mg:F1} mg · {stats.HighestDay.Day:d}")</dd></div>
+    </dl>
+    <h3 class="mt-6">@T["Categories"]</h3>
+    @foreach (var c in stats.Categories) {
+        var percent = stats.DrinkCount == 0 ? 0 : (int)Math.Round(c.Drinks * 100d / stats.DrinkCount);
+        <div class="category-row"><div class="category-label"><span>@T["Category_" + c.Category]</span><span>@c.Drinks · @percent%</span></div><div class="category-bar" aria-hidden="true"><div class="category-fill" style="width:@percent%"></div></div></div>
     }
 </section>
-
-<section class="glass rounded-3xl p-5 mb-5">
-    <h2 class="font-bold mb-3">
-        @T["Heatmap"]
-    </h2>
-
-    <p class="text-xs text-slate-400 mb-3">
-        @T["HeatmapNote"]
-    </p>
-
-    <div class="heatmap-scroll"
-         tabindex="0"
-         role="region"
-         aria-label="@T["Heatmap"]">
-
-        <div class="heatmap-grid">
-            @foreach (var d in Model.Heatmap)
-            {
-                var level =
-                    d.Mg == 0 ? 0 :
-                    d.Mg <= 100 ? 1 :
-                    d.Mg <= 200 ? 2 :
-                    d.Mg <= 400 ? 3 : 4;
-
-                var description =
-                    $"{d.Day:yyyy-MM-dd}: {d.Mg:F1} mg · {d.Drinks} {T["LoggedDrinks"]}"
-                    + (d.CaffeineFree
-                        ? $" · {T["CaffeineFreeDay"]}"
-                        : "");
-
-                <a asp-controller="Tracker"
-                   asp-action="Index"
-                   asp-route-date="@d.Day.ToString("yyyy-MM-dd")"
-                   class="heat-cell level-@level @(d.CaffeineFree ? "free-day" : "")"
-                   title="@description"
-                   aria-label="@description">
-                </a>
-            }
-        </div>
+<section class="glass panel">
+    <div class="page-heading"><h2>@T["Heatmap"]</h2><partial name="_InfoButton" model='@("HeatmapNote")' /></div>
+    <div class="heat-pager">
+        @if (Model.Month.Year > 2000 || Model.Month.Month > 1) { <a asp-route-year="@Model.Year" asp-route-month="@Model.Month.AddMonths(-1).ToString("yyyy-MM")" class="nav-tab" aria-label="@T["PreviousMonth"]">‹</a> }
+        <h3>@Model.Month.ToString("Y")</h3>
+        @if (Model.Month.AddMonths(1) <= Model.Today) { <a asp-route-year="@Model.Year" asp-route-month="@Model.Month.AddMonths(1).ToString("yyyy-MM")" class="nav-tab" aria-label="@T["NextMonth"]">›</a> }
     </div>
-
-    <p class="text-xs text-slate-400 mt-3">
-        @T["HeatmapLegend"]
-    </p>
+    <div class="heat-month">
+        @foreach (var n in new[] { 1, 2, 3, 4, 5, 6, 0 }) { <span class="heat-weekday">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames[n]</span> }
+        @for (var n = 0; n < ((int)Model.Month.DayOfWeek + 6) % 7; n++) { <span aria-hidden="true"></span> }
+        @foreach (var d in Model.MonthDays) { <partial name="_HeatDay" model="d" /> }
+    </div>
+    <p class="muted text-xs mt-4">@T["HeatmapLegend"]</p>
+    <form method="get" class="flex gap-2 my-4"><input type="hidden" name="year" value="@Model.Year" /><label for="heat-month" class="sr-only">@T["ChooseMonth"]</label><input type="month" id="heat-month" name="month" value="@Model.Month.ToString("yyyy-MM")" min="2000-01" max="@Model.Today.ToString("yyyy-MM")" class="field min-w-0 flex-1" /><button type="submit" class="nav-tab">@T["Go"]</button></form>
+    <details><summary>@T["FullYear"] · @Model.Month.Year</summary><div class="year-heatmap">
+        @foreach (var group in Model.YearDays.GroupBy(d => d.Day.Month)) { <section class="year-month"><h3 class="year-month-title">@group.First().Day.ToString("MMM")</h3>@for(var n = 0; n < ((int)group.First().Day.DayOfWeek + 6) % 7; n++) { <span></span> }@foreach (var d in group) { <partial name="_HeatDay" model="d" /> }</section> }
+    </div></details>
 </section>
-
-<partial name="_SleepInsights"
-         model="Model.Insights" />
+<partial name="_SleepInsights" model="stats.Insights" />

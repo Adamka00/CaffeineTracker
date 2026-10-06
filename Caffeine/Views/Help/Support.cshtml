@@ -1,0 +1,24 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+@{
+    ViewData["Title"] = T["SupportTitle"];
+}
+
+<section class="glass panel support-card">
+    <span class="support-icon"
+          aria-hidden="true">☕</span>
+
+    <h1>@T["SupportTitle"]</h1>
+
+    <p>@T["SupportIntro"]</p>
+    <p>@T["SupportFree"]</p>
+
+    <a href="https://buymeacoffee.com/adamka00"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="primary-button">
+        Buy Me a Coffee ↗
+    </a>
+
+    <small>@T["SupportThanks"]</small>
+</section>

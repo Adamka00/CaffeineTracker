@@ -149,6 +149,10 @@ public sealed class KoffiFeatureApp : WebApplicationFactory<Program>
                 services.AddSingleton<IEmailSender>(
                     Email);
 
+                // Legacy services are registered only inside tests; production has no sender/worker.
+                services.AddSingleton<PushConfiguration>();
+                services.AddScoped<PushSubscriptionService>();
+                services.AddScoped<NotificationService>();
                 services.RemoveAll<IPushSender>();
 
                 services.AddSingleton<IPushSender>(
@@ -749,91 +753,14 @@ public sealed class SecurityFeatureTests : IDisposable
     }
 
     [Fact]
-    public async Task PushEndpointsEnforceCsrfAndOwnership()
+    public async Task RetiredPushEndpointsEnforceCsrfAndNeverWriteSubscriptions()
     {
-        var form =
-            PushData();
-
-        var data =
-            new Dictionary<string, string>
-            {
-                ["Endpoint"] =
-                    form.Endpoint,
-
-                ["P256dh"] =
-                    form.P256dh,
-
-                ["Auth"] =
-                    form.Auth
-            };
-
-        Assert.Equal(
-            HttpStatusCode.BadRequest,
-            (
-                await client.PostAsync(
-                    "/Notifications/Subscribe",
-                    new FormUrlEncodedContent(
-                        data))
-            ).StatusCode);
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            (
-                await Post(
-                    client,
-                    "/Notifications/Subscribe",
-                    data)
-            ).StatusCode);
-
-        using var outsider =
-            app.CreateClient(
-                new WebApplicationFactoryClientOptions
-                {
-                    AllowAutoRedirect = false
-                });
-
-        await Post(
-            outsider,
-            "/Notifications/Unsubscribe",
-            new()
-            {
-                ["endpoint"] =
-                    form.Endpoint
-            });
-
-        Assert.Equal(
-            1,
-            await Work(
-                (_, db) =>
-                    db
-                        .BrowserPushSubscriptions
-                        .CountAsync()));
-
-        Assert.Equal(
-            HttpStatusCode.Conflict,
-            (
-                await Post(
-                    outsider,
-                    "/Notifications/Subscribe",
-                    data)
-            ).StatusCode);
-
-        await Post(
-            client,
-            "/Notifications/Unsubscribe",
-            new()
-            {
-                ["endpoint"] =
-                    form.Endpoint
-            });
-
-        Assert.Equal(
-            0,
-            await Work(
-                (_, db) =>
-                    db
-                        .BrowserPushSubscriptions
-                        .CountAsync()));
+        var data = new Dictionary<string, string> { ["Endpoint"] = PushData().Endpoint };
+        Assert.Equal(HttpStatusCode.BadRequest, (await client.PostAsync("/Notifications/Subscribe", new FormUrlEncodedContent(data))).StatusCode);
+        foreach (var route in new[] { "Subscribe", "Unsubscribe", "UnsubscribeAll" }) {
+            Assert.Equal(HttpStatusCode.Gone, (await Post(client, "/Notifications/" + route, data)).StatusCode);
+        }
+        Assert.Equal(0, await Work((_, db) => db.BrowserPushSubscriptions.CountAsync()));
     }
 
     [Fact]

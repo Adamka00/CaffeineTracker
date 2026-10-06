@@ -12,9 +12,7 @@
     </a>
 </div>
 
-<p class="text-sm text-slate-400 mb-5">
-    @T["SleepDateNote"]
-</p>
+<partial name="_InfoButton" model='@("SleepDateNote")' />
 
 @if (Model.Logs.Count == 0)
 {

@@ -113,13 +113,14 @@ public sealed class PasswordResetService(
             "/Account/ResetPassword?token=" +
             raw +
             "&culture=" +
-            (culture == "hu" ? "hu" : "en");
+            (culture is "hu" or "de" ? culture : "en");
 
         if (!queue.TryQueue(
                 new(
                     user.Email,
                     url,
-                    culture)))
+                    culture,
+                    new DateTimeOffset(record.ExpiresAt, TimeSpan.Zero))))
         {
             await db.PasswordResetTokens
                 .Where(t =>

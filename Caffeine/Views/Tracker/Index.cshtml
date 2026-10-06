@@ -163,9 +163,7 @@
         </p>
 
 
-        <p class="text-xs text-slate-400 mb-4">
-            @T["StreakExplanation"]
-        </p>
+        <partial name="_InfoButton" model='@("StreakExplanation")' />
 
 
         @if (Model.IsCaffeineFreeDay)
@@ -337,9 +335,7 @@ else if (Model.IsCaffeineFreeDay)
         </p>
 
 
-        <p class="text-xs text-slate-400 mt-3">
-            @T["ModelNote"]
-        </p>
+        <partial name="_InfoButton" model='@("ModelNote")' />
 
     </section>
 

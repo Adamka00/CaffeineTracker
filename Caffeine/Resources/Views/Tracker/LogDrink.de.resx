@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <data name="Új Ital Rögzítése" xml:space="preserve">
+    <value>Neues Getränk eintragen</value>
+  </data>
+  <data name="Vissza a Dashboardra" xml:space="preserve">
+    <value>Zur Tagesübersicht</value>
+  </data>
+  <data name="Mit ittál? ☕⚡" xml:space="preserve">
+    <value>Was hast du getrunken? ☕⚡</value>
+  </data>
+  <data name="Választott Ital" xml:space="preserve">
+    <value>Ausgewähltes Getränk</value>
+  </data>
+  <data name="-- Válassz a listából --" xml:space="preserve">
+    <value>-- Aus der Liste wählen --</value>
+  </data>
+  <data name="Mennyiség (ml)" xml:space="preserve">
+    <value>Menge (ml)</value>
+  </data>
+  <data name="pl. 250" xml:space="preserve">
+    <value>z. B. 250</value>
+  </data>
+  <data name="Mikor?" xml:space="preserve">
+    <value>Wann?</value>
+  </data>
+  <data name="Naplóhoz adom" xml:space="preserve">
+    <value>Ins Tagebuch eintragen</value>
+  </data>
+  <data name="Egyedi italt adok meg (Nincs a listában)" xml:space="preserve">
+    <value>Eigenes Getränk (nicht in der Liste)</value>
+  </data>
+  <data name="Ital neve" xml:space="preserve">
+    <value>Getränkename</value>
+  </data>
+  <data name="pl. Pistikém pre-workoutja" xml:space="preserve">
+    <value>z. B. mein Pre-Workout</value>
+  </data>
+  <data name="Mennyi koffein (mg) van 100 ml-ben?" xml:space="preserve">
+    <value>Wie viel Koffein (mg) pro 100 ml?</value>
+  </data>
+  <data name="pl. 32" xml:space="preserve">
+    <value>z. B. 32</value>
+  </data>
+</root>

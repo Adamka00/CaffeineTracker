@@ -1,0 +1,957 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <data name="Daily" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="Weekly" xml:space="preserve">
+    <value>Woche</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Ansichten</value>
+  </data>
+  <data name="PreviousDay" xml:space="preserve">
+    <value>Vorheriger Tag</value>
+  </data>
+  <data name="NextDay" xml:space="preserve">
+    <value>Nächster Tag</value>
+  </data>
+  <data name="PreviousWeek" xml:space="preserve">
+    <value>Vorherige Woche</value>
+  </data>
+  <data name="NextWeek" xml:space="preserve">
+    <value>Nächste Woche</value>
+  </data>
+  <data name="ChooseDate" xml:space="preserve">
+    <value>Datum wählen</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Anzeigen</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Heute</value>
+  </data>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>Diese Woche</value>
+  </data>
+  <data name="DrinkAdded" xml:space="preserve">
+    <value>Getränk hinzugefügt.</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Rückgängig</value>
+  </data>
+  <data name="ActiveEstimate" xml:space="preserve">
+    <value>Geschätztes aktives Koffein</value>
+  </data>
+  <data name="Threshold" xml:space="preserve">
+    <value>25-mg-Ziel:</value>
+  </data>
+  <data name="BelowThreshold" xml:space="preserve">
+    <value>Unter dem Zielwert</value>
+  </data>
+  <data name="PlannedSleep" xml:space="preserve">
+    <value>Geplante Schlafenszeit</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="ExpectedLevel" xml:space="preserve">
+    <value>Geschätzter Wert beim Zubettgehen:</value>
+  </data>
+  <data name="ModelNote" xml:space="preserve">
+    <value>Vereinfachte Schätzung mit 45 Minuten Aufnahmezeit und 5 Stunden Halbwertszeit. Sie misst keine Schlafqualität.</value>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>Favoriten</value>
+  </data>
+  <data name="NoFavorites" xml:space="preserve">
+    <value>Speichere beim Eintragen deine übliche Portion als Favorit.</value>
+  </data>
+  <data name="AddNow" xml:space="preserve">
+    <value>Jetzt hinzufügen</value>
+  </data>
+  <data name="RemoveFavorite" xml:space="preserve">
+    <value>Favorit entfernen</value>
+  </data>
+  <data name="SaveFavorite" xml:space="preserve">
+    <value>Getränk und Portion als Favorit speichern</value>
+  </data>
+  <data name="DailyIntake" xml:space="preserve">
+    <value>Heute eingetragenes Koffein</value>
+  </data>
+  <data name="LoggedDrinks" xml:space="preserve">
+    <value>Eingetragene Getränke</value>
+  </data>
+  <data name="DayCurve" xml:space="preserve">
+    <value>Geschätzter täglicher Koffeinverlauf</value>
+  </data>
+  <data name="ChartData" xml:space="preserve">
+    <value>Diagrammdaten</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Uhrzeit</value>
+  </data>
+  <data name="Diary" xml:space="preserve">
+    <value>Tagebuch</value>
+  </data>
+  <data name="AddDrink" xml:space="preserve">
+    <value>Getränk hinzufügen</value>
+  </data>
+  <data name="NoLogs" xml:space="preserve">
+    <value>Für diesen Tag wurden keine Getränke eingetragen.</value>
+  </data>
+  <data name="ConfirmDeleteLog" xml:space="preserve">
+    <value>Diesen Eintrag löschen?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="WeeklyIntake" xml:space="preserve">
+    <value>Tägliche Aufnahme diese Woche</value>
+  </data>
+  <data name="WeeklyTotal" xml:space="preserve">
+    <value>Wochensumme</value>
+  </data>
+  <data name="DailyAverage" xml:space="preserve">
+    <value>Tagesdurchschnitt</value>
+  </data>
+  <data name="DaysWithLogs" xml:space="preserve">
+    <value>Tage mit Einträgen</value>
+  </data>
+  <data name="AverageNote" xml:space="preserve">
+    <value>Der Durchschnitt umfasst vergangene Tage dieser Woche einschließlich heute. Ein leerer Tag bedeutet 0 mg eingetragen, keinen bestätigten koffeinfreien Tag.</value>
+  </data>
+  <data name="HighestDay" xml:space="preserve">
+    <value>Höchste Aufnahme:</value>
+  </data>
+  <data name="MostFrequent" xml:space="preserve">
+    <value>Häufigstes Getränk:</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Tage</value>
+  </data>
+  <data name="NoEntry" xml:space="preserve">
+    <value>Kein Eintrag</value>
+  </data>
+  <data name="InvalidConsumptionTime" xml:space="preserve">
+    <value>Die Trinkzeit muss zwischen dem 01.01.2000 und jetzt liegen.</value>
+  </data>
+  <data name="InvalidCustomDrink" xml:space="preserve">
+    <value>Bitte Getränkenamen und Koffeingehalt angeben.</value>
+  </data>
+  <data name="ChooseDrink" xml:space="preserve">
+    <value>Wähle ein Getränk.</value>
+  </data>
+  <data name="UserProvided" xml:space="preserve">
+    <value>Deine eigene Angabe</value>
+  </data>
+  <data name="ManufacturerValue" xml:space="preserve">
+    <value>Herstellerangabe; Variante auf dem Etikett prüfen</value>
+  </data>
+  <data name="PreparationEstimate" xml:space="preserve">
+    <value>Schätzung; abhängig von Zubereitung und Variante</value>
+  </data>
+  <data name="CheckLabel" xml:space="preserve">
+    <value>Richtwert; Etikett prüfen</value>
+  </data>
+  <data name="StreakTitle" xml:space="preserve">
+    <value>Tagebuch-Serie</value>
+  </data>
+  <data name="StreakBest" xml:space="preserve">
+    <value>Längste Serie: {0} Tage</value>
+  </data>
+  <data name="StreakDays" xml:space="preserve">
+    <value>{0} Tage</value>
+  </data>
+  <data name="StreakTodayDone" xml:space="preserve">
+    <value>Heute ist vollständig.</value>
+  </data>
+  <data name="StreakTodayPending" xml:space="preserve">
+    <value>Heute ist noch offen. Trage deinen Tag vor Mitternacht ein.</value>
+  </data>
+  <data name="StreakExplanation" xml:space="preserve">
+    <value>Trage ein Getränk ein oder markiere einen koffeinfreien Tag. Für deine Serie musst du kein Koffein konsumieren.</value>
+  </data>
+  <data name="CaffeineFreeDay" xml:space="preserve">
+    <value>Koffeinfreier Tag</value>
+  </data>
+  <data name="MarkCaffeineFree" xml:space="preserve">
+    <value>Heute kein Koffein</value>
+  </data>
+  <data name="UndoCaffeineFree" xml:space="preserve">
+    <value>Koffeinfreien Tag zurücknehmen</value>
+  </data>
+  <data name="CaffeineFreeSaved" xml:space="preserve">
+    <value>Heute wurde als koffeinfrei markiert. Ein späterer Koffeineintrag hebt diese Markierung auf.</value>
+  </data>
+  <data name="CaffeineFreeRemoved" xml:space="preserve">
+    <value>Markierung entfernt.</value>
+  </data>
+  <data name="CaffeineFreeBlocked" xml:space="preserve">
+    <value>Du hast heute Koffein eingetragen; der Tag kann nicht als koffeinfrei markiert werden.</value>
+  </data>
+  <data name="StreakDayChanged" xml:space="preserve">
+    <value>Das übermittelte Datum ist nicht heute. Prüfe das Datum und versuche es erneut.</value>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>Prüfe Pflichtfelder, Datumsangaben und zulässige Werte.</value>
+  </data>
+  <data name="InvalidSleep" xml:space="preserve">
+    <value>Aufwachen muss nach dem Zubettgehen und innerhalb von 24 Stunden liegen. Zukünftiger Schlaf kann nicht eingetragen werden.</value>
+  </data>
+  <data name="SleepDuplicate" xml:space="preserve">
+    <value>Für dieses Aufwachdatum gibt es bereits einen Eintrag. Öffne ihn zum Bearbeiten.</value>
+  </data>
+  <data name="SleepTitle" xml:space="preserve">
+    <value>Schlaftagebuch</value>
+  </data>
+  <data name="SleepCheckIn" xml:space="preserve">
+    <value>Wie hast du geschlafen?</value>
+  </data>
+  <data name="SleepDateNote" xml:space="preserve">
+    <value>Schlaf gehört zum Datum des Aufwachens. Nachtschlaf und Schlaf am Tag sind möglich.</value>
+  </data>
+  <data name="NoSleepLogs" xml:space="preserve">
+    <value>Noch keine Schlafeinträge.</value>
+  </data>
+  <data name="ActualBedtime" xml:space="preserve">
+    <value>Tatsächliche Schlafenszeit</value>
+  </data>
+  <data name="WakeTime" xml:space="preserve">
+    <value>Aufwachzeit</value>
+  </data>
+  <data name="PlannedBedtime" xml:space="preserve">
+    <value>Geplante Schlafenszeit</value>
+  </data>
+  <data name="SleepRating" xml:space="preserve">
+    <value>Schlafqualität (1–5)</value>
+  </data>
+  <data name="FallingAsleep" xml:space="preserve">
+    <value>Einschlafschwierigkeit (1: leicht, 5: schwierig)</value>
+  </data>
+  <data name="Awakenings" xml:space="preserve">
+    <value>Anzahl der Wachphasen</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notizen</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>Stunden</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="OptionalDetails" xml:space="preserve">
+    <value>Optionale Angaben</value>
+  </data>
+  <data name="SleepSnapshotNote" xml:space="preserve">
+    <value>Koffeindaten werden automatisch als Momentaufnahme verknüpft. Spätere Getränkänderungen aktualisieren sie erst beim erneuten Speichern dieses Schlafeintrags. Die Dauer ergibt sich aus den eingegebenen lokalen Uhrzeiten.</value>
+  </data>
+  <data name="EstimatedAtBedtime" xml:space="preserve">
+    <value>Geschätztes Koffein beim Zubettgehen</value>
+  </data>
+  <data name="PreviousDayCaffeine" xml:space="preserve">
+    <value>Koffeinsumme am vorherigen Kalendertag</value>
+  </data>
+  <data name="LastCaffeine" xml:space="preserve">
+    <value>Letztes Koffein vor dem Zubettgehen</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="DeleteSleepConfirm" xml:space="preserve">
+    <value>Diesen Schlafeintrag löschen?</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Vorherige Seite</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Nächste Seite</value>
+  </data>
+  <data name="ImportedSleepCopy" xml:space="preserve">
+    <value>Importierter Gasteintrag für ein bereits erfasstes Datum. Er bleibt erhalten; für Trends zählt nur der ursprüngliche Kontoeintrag.</value>
+  </data>
+  <data name="Rating1" xml:space="preserve">
+    <value>Sehr schlecht</value>
+  </data>
+  <data name="Rating2" xml:space="preserve">
+    <value>Schlecht</value>
+  </data>
+  <data name="Rating3" xml:space="preserve">
+    <value>Mittelmäßig</value>
+  </data>
+  <data name="Rating4" xml:space="preserve">
+    <value>Gut</value>
+  </data>
+  <data name="Rating5" xml:space="preserve">
+    <value>Sehr gut</value>
+  </data>
+  <data name="Difficulty1" xml:space="preserve">
+    <value>Sehr leicht</value>
+  </data>
+  <data name="Difficulty2" xml:space="preserve">
+    <value>Leicht</value>
+  </data>
+  <data name="Difficulty3" xml:space="preserve">
+    <value>Mittel</value>
+  </data>
+  <data name="Difficulty4" xml:space="preserve">
+    <value>Schwierig</value>
+  </data>
+  <data name="Difficulty5" xml:space="preserve">
+    <value>Sehr schwierig</value>
+  </data>
+  <data name="SleepInsights" xml:space="preserve">
+    <value>Persönliche Schlafmuster</value>
+  </data>
+  <data name="SleepInsightNote" xml:space="preserve">
+    <value>Wir betrachten die letzten 90 eingetragenen Nächte mit mindestens 10 verwendbaren Einträgen je Kennzahl. Das sind Zusammenhänge im Tagebuch, keine medizinischen oder kausalen Schlussfolgerungen. Andere Faktoren können den Schlaf beeinflussen.</value>
+  </data>
+  <data name="SleepSample" xml:space="preserve">
+    <value>Verwendete Nächte: {0}</value>
+  </data>
+  <data name="BedtimeCaffeineVsRating" xml:space="preserve">
+    <value>Geschätztes Koffein beim Zubettgehen → Schlafqualität</value>
+  </data>
+  <data name="DailyCaffeineVsRating" xml:space="preserve">
+    <value>Koffein am Vortag → Schlafqualität</value>
+  </data>
+  <data name="LateCaffeineVsDifficulty" xml:space="preserve">
+    <value>Koffein näher an der Schlafenszeit → Einschlafschwierigkeit</value>
+  </data>
+  <data name="DailyCaffeineVsDuration" xml:space="preserve">
+    <value>Koffein am Vortag → Schlafdauer</value>
+  </data>
+  <data name="InsufficientSleepData" xml:space="preserve">
+    <value>Noch nicht genügend Daten für einen persönlichen Trend. Mindestens 10 verwendbare Nächte sind erforderlich.</value>
+  </data>
+  <data name="SleepNoVariation" xml:space="preserve">
+    <value>Die eingetragenen Werte sind für einen aussagekräftigen Vergleich zu ähnlich.</value>
+  </data>
+  <data name="SleepLowerAssociation" xml:space="preserve">
+    <value>In deinem Tagebuch gingen höhere Werte der ersten Kennzahl tendenziell mit niedrigeren Werten der zweiten einher.</value>
+  </data>
+  <data name="SleepHigherAssociation" xml:space="preserve">
+    <value>In deinem Tagebuch gingen höhere Werte der ersten Kennzahl tendenziell mit höheren Werten der zweiten einher.</value>
+  </data>
+  <data name="SleepNoClearAssociation" xml:space="preserve">
+    <value>Derzeit ist in deinem Tagebuch kein eindeutiger linearer Zusammenhang zwischen diesen Kennzahlen erkennbar.</value>
+  </data>
+  <data name="PlanningSettings" xml:space="preserve">
+    <value>Schlafenszeit und persönlicher Zielwert</value>
+  </data>
+  <data name="PlanningTitle" xml:space="preserve">
+    <value>Koffeinplaner – was wäre, wenn…?</value>
+  </data>
+  <data name="PlanningShort" xml:space="preserve">
+    <value>Planer</value>
+  </data>
+  <data name="PersonalTarget" xml:space="preserve">
+    <value>Persönlicher Zielwert beim Zubettgehen (1–200 mg)</value>
+  </data>
+  <data name="PersonalTargetNote" xml:space="preserve">
+    <value>Eine persönliche Einstellung, kein gesundheitlicher Grenzwert. Koffeinwerte sind Schätzungen; der individuelle Abbau kann abweichen.</value>
+  </data>
+  <data name="PersonalThresholdEstimate" xml:space="preserve">
+    <value>Geschätzter Zeitpunkt unter deinem persönlichen Zielwert von {0} mg:</value>
+  </data>
+  <data name="WhatIfNote" xml:space="preserve">
+    <value>Probiere ein Getränk oder eine Koffeindosis aus, ohne sie einzutragen. Bereits eingetragenes Koffein wird mitgerechnet.</value>
+  </data>
+  <data name="SearchDrinks" xml:space="preserve">
+    <value>Getränke nach Namen suchen…</value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Treffer (das ausgewählte Getränk bleibt sichtbar)</value>
+  </data>
+  <data name="ManualDose" xml:space="preserve">
+    <value>Eigene Koffeindosis</value>
+  </data>
+  <data name="ManualDoseNote" xml:space="preserve">
+    <value>Bei einem ausgewählten Getränk werden sein Koffeingehalt und die Menge verwendet. Eine eigene Dosis wird nur ohne ausgewähltes Getränk benutzt.</value>
+  </data>
+  <data name="AmountMl" xml:space="preserve">
+    <value>Menge (ml)</value>
+  </data>
+  <data name="IntakeAt" xml:space="preserve">
+    <value>Hypothetische Trinkzeit</value>
+  </data>
+  <data name="Calculate" xml:space="preserve">
+    <value>Ohne Eintrag berechnen</value>
+  </data>
+  <data name="Estimate" xml:space="preserve">
+    <value>Schätzung</value>
+  </data>
+  <data name="Dose" xml:space="preserve">
+    <value>Koffeindosis</value>
+  </data>
+  <data name="ExistingAtBedtime" xml:space="preserve">
+    <value>Beim Zubettgehen ohne das hypothetische Getränk</value>
+  </data>
+  <data name="Cutoff" xml:space="preserve">
+    <value>Geschätzte späteste Trinkzeit</value>
+  </data>
+  <data name="NoCutoff" xml:space="preserve">
+    <value>Mit deinem aktuellen Tagebuch gibt es im Berechnungszeitraum keinen passenden Zeitpunkt.</value>
+  </data>
+  <data name="AfterCutoff" xml:space="preserve">
+    <value>Die hypothetische Trinkzeit liegt nach der geschätzten spätesten Trinkzeit.</value>
+  </data>
+  <data name="CutoffNote" xml:space="preserve">
+    <value>Schätzung für eine zusätzliche Dosis neben den eingetragenen Getränken. Sie nutzt die Phase nach der Aufnahme; ein niedriger Anfangswert empfiehlt kein Trinken direkt vor dem Schlafen.</value>
+  </data>
+  <data name="UnderTargetAt" xml:space="preserve">
+    <value>Geschätzter Zeitpunkt unter dem Zielwert nach der Aufnahme</value>
+  </data>
+  <data name="BeyondHorizon" xml:space="preserve">
+    <value>Außerhalb des Berechnungszeitraums</value>
+  </data>
+  <data name="WhatIfCurve" xml:space="preserve">
+    <value>Geschätzter Koffeinverlauf mit und ohne Getränk</value>
+  </data>
+  <data name="Existing" xml:space="preserve">
+    <value>Ohne Getränk</value>
+  </data>
+  <data name="WithDrink" xml:space="preserve">
+    <value>Mit Getränk</value>
+  </data>
+  <data name="LogThisDrink" xml:space="preserve">
+    <value>Dieses Getränk eintragen</value>
+  </data>
+  <data name="ConfirmLoggingNote" xml:space="preserve">
+    <value>Öffnet das Eingabeformular. Erst das Absenden speichert Daten; zukünftiges Trinken kann nicht eingetragen werden.</value>
+  </data>
+  <data name="InvalidPlanningTime" xml:space="preserve">
+    <value>Wähle eine Trinkzeit jetzt oder innerhalb von 2 Tagen und eine folgende Schlafenszeit innerhalb von 3 Tagen.</value>
+  </data>
+  <data name="LifetimeTitle" xml:space="preserve">
+    <value>Gesamtstatistik</value>
+  </data>
+  <data name="LifetimeShort" xml:space="preserve">
+    <value>Statistik</value>
+  </data>
+  <data name="TotalCaffeine" xml:space="preserve">
+    <value>Insgesamt eingetragenes Koffein</value>
+  </data>
+  <data name="Average7" xml:space="preserve">
+    <value>Durchschnitt der letzten 7 Kalendertage</value>
+  </data>
+  <data name="Average30" xml:space="preserve">
+    <value>Durchschnitt der letzten 30 Kalendertage</value>
+  </data>
+  <data name="FreeDays" xml:space="preserve">
+    <value>Markierte koffeinfreie Tage</value>
+  </data>
+  <data name="LongestStreak" xml:space="preserve">
+    <value>Längste Tagebuch-Serie</value>
+  </data>
+  <data name="LifetimeAverageNote" xml:space="preserve">
+    <value>Der Gesamtdurchschnitt umfasst jeden Kalendertag seit dem ersten Getränk oder markierten Tag. Die 7-/30-Tage-Durchschnitte werden immer durch 7/30 geteilt, einschließlich heute. Bei einem Jahresfilter endet der Zeitraum am letzten Tag des ausgewählten Jahres oder heute.</value>
+  </data>
+  <data name="ConsumptionPatterns" xml:space="preserve">
+    <value>Konsummuster</value>
+  </data>
+  <data name="FirstCaffeineAverage" xml:space="preserve">
+    <value>Durchschnittliche erste Koffeinzeit</value>
+  </data>
+  <data name="LastCaffeineAverage" xml:space="preserve">
+    <value>Durchschnittliche letzte Koffeinzeit</value>
+  </data>
+  <data name="HighestIntake" xml:space="preserve">
+    <value>Höchste eingetragene Tagesmenge</value>
+  </data>
+  <data name="HighestIntakeNote" xml:space="preserve">
+    <value>Ein beschreibender Wert, kein Ziel. Durchschnittliche Zeiten verwenden lokale Uhrzeiten an Tagen mit Koffein.</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Getränkekategorien</value>
+  </data>
+  <data name="Category_Coffee" xml:space="preserve">
+    <value>Kaffee</value>
+  </data>
+  <data name="Category_Energy Drink" xml:space="preserve">
+    <value>Energy-Drink</value>
+  </data>
+  <data name="Category_Capsule" xml:space="preserve">
+    <value>Kapselkaffee</value>
+  </data>
+  <data name="Category_Soda" xml:space="preserve">
+    <value>Limonade</value>
+  </data>
+  <data name="Category_Tea" xml:space="preserve">
+    <value>Tee</value>
+  </data>
+  <data name="Category_Custom" xml:space="preserve">
+    <value>Eigenes Getränk</value>
+  </data>
+  <data name="Category_Ice Coffee" xml:space="preserve">
+    <value>Eiskaffee</value>
+  </data>
+  <data name="Heatmap" xml:space="preserve">
+    <value>Koffeinkalender</value>
+  </data>
+  <data name="HeatmapNote" xml:space="preserve">
+    <value>Eingetragenes Koffein pro Tag. Tippe auf einen Tag, um sein Tagebuch zu öffnen. Ein leerer Tag bedeutet nicht automatisch koffeinfrei.</value>
+  </data>
+  <data name="HeatmapLegend" xml:space="preserve">
+    <value>Farbstufen: 0 / 1–100 / 101–200 / 201–400 / über 400 mg. Umrandung: markierter koffeinfreier Tag. Die Farbe ist keine Bewertung.</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigation</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Passwort vergessen?</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-Mail-Adresse</value>
+  </data>
+  <data name="ResetGenericResponse" xml:space="preserve">
+    <value>Falls ein Konto mit dieser E-Mail-Adresse existiert, haben wir einen Link zum Zurücksetzen gesendet.</value>
+  </data>
+  <data name="SendResetLink" xml:space="preserve">
+    <value>Link anfordern</value>
+  </data>
+  <data name="BackToLogin" xml:space="preserve">
+    <value>Zur Anmeldung</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Passwort zurücksetzen</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Neues Passwort</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Neues Passwort bestätigen</value>
+  </data>
+  <data name="PasswordLengthNote" xml:space="preserve">
+    <value>10–128 Zeichen. Beide Passwörter müssen übereinstimmen.</value>
+  </data>
+  <data name="PasswordResetComplete" xml:space="preserve">
+    <value>Dein Passwort wurde geändert. Melde dich mit dem neuen Passwort an; bisherige Sitzungen wurden ungültig.</value>
+  </data>
+  <data name="InvalidResetToken" xml:space="preserve">
+    <value>Der Link ist ungültig, abgelaufen oder bereits verwendet. Fordere einen neuen Link an.</value>
+  </data>
+  <data name="RateLimited" xml:space="preserve">
+    <value>Zu viele Anfragen. Bitte versuche es in einer Minute erneut.</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="NotificationNote" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="PreferencesSaved" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="StreakReminder" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="StreakReminderTime" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="MorningReminder" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="MorningReminderTime" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="CutoffReminder" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="CutoffDose" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="ThresholdReminder" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="NotificationTimeNote" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="ThisDevice" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="IosPushNote" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="EnablePush" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="DisablePush" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="PushNotConfigured" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="PushEnabled" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="PushDisabled" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="PushFailed" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="PushUnsupported" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="DeviceCount" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="DisableAllDevices" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="DisableAllConfirm" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="PushStreak" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="PushSleep" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="PushCutoff" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="PushThreshold" xml:space="preserve">
+    <value>Benachrichtigungen deaktiviert</value>
+  </data>
+  <data name="SkipToContent" xml:space="preserve">
+    <value>Zum Inhalt springen</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Konto und Menü</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registrieren</value>
+  </data>
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>Konto löschen</value>
+  </data>
+  <data name="DeleteAccountConfirm" xml:space="preserve">
+    <value>Dein gesamtes Konto löschen? Das kann nicht rückgängig gemacht werden!</value>
+  </data>
+  <data name="GuestMode" xml:space="preserve">
+    <value>Du verwendest Koffi als Gast.</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Mehr erfahren</value>
+  </data>
+  <data name="HelpTitle" xml:space="preserve">
+    <value>Hilfe</value>
+  </data>
+  <data name="HelpIntro" xml:space="preserve">
+    <value>Koffi hilft dir, Koffein zu erfassen und Muster in deinem Tagebuch zu entdecken. Schätzungen sind keine gesundheitlichen Grenzwerte.</value>
+  </data>
+  <data name="HelpLog" xml:space="preserve">
+    <value>Mit + kannst du auf jeder Seite ein Getränk eintragen. Suche nach Namen, nutze Favoriten oder gib ein eigenes Getränk ein. Die Barcodesuche ist eine Betafunktion.</value>
+  </data>
+  <data name="HelpDaily" xml:space="preserve">
+    <value>Tagesaufnahme und geschätztes aktives Koffein sind unterschiedliche Werte. Mit der Datumsauswahl kannst du frühere Tage öffnen.</value>
+  </data>
+  <data name="HelpWeekly" xml:space="preserve">
+    <value>Die Wochenansicht zeigt deine tägliche Aufnahme. Ein leerer Tag ist kein bestätigter koffeinfreier Tag.</value>
+  </data>
+  <data name="HelpPlanning" xml:space="preserve">
+    <value>Probiere ein Getränk ohne Speichern aus. Der Planer berücksichtigt eingetragenes Koffein bei der Schätzung des Werts beim Zubettgehen und der spätesten Trinkzeit.</value>
+  </data>
+  <data name="HelpStats" xml:space="preserve">
+    <value>Die Gesamt- oder Jahresansicht fasst eingetragene Daten zusammen. Öffne einen Tag im Monatskalender. Eine hohe Aufnahme ist kein Rekord, den es zu schlagen gilt.</value>
+  </data>
+  <data name="RestartTutorial" xml:space="preserve">
+    <value>Kurze Einführung wiederholen</value>
+  </data>
+  <data name="TutorialTitle" xml:space="preserve">
+    <value>Willkommen bei Koffi!</value>
+  </data>
+  <data name="TutorialLogTitle" xml:space="preserve">
+    <value>Mit einem Tippen zum Eintrag</value>
+  </data>
+  <data name="TutorialLog" xml:space="preserve">
+    <value>Der feste + Button öffnet die Getränkeeingabe. Favoriten merken sich auch deine übliche Portion.</value>
+  </data>
+  <data name="TutorialExploreTitle" xml:space="preserve">
+    <value>Entdecke deine Tage</value>
+  </data>
+  <data name="TutorialExplore" xml:space="preserve">
+    <value>Sieh dir Tages- und Wochendaten an. Auch ein koffeinfreier Tag setzt die Serie fort – ohne Koffeinkonsum.</value>
+  </data>
+  <data name="TutorialSleepTitle" xml:space="preserve">
+    <value>Eintragen, planen, Muster entdecken</value>
+  </data>
+  <data name="TutorialSleep" xml:space="preserve">
+    <value>Bewerte morgens deinen Schlaf und probiere im Planer ein Getränk ohne Speichern aus. Die ? Buttons und Hilfe sind jederzeit verfügbar.</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Überspringen</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Fertig</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>Neuigkeiten</value>
+  </data>
+  <data name="ReleaseHeading" xml:space="preserve">
+    <value>Neu in Koffi {0}</value>
+  </data>
+  <data name="AllReleases" xml:space="preserve">
+    <value>Frühere Versionen</value>
+  </data>
+  <data name="Release4Ux" xml:space="preserve">
+    <value>Überarbeitete Navigation, fester + Button und Hilfe bei Bedarf.</value>
+  </data>
+  <data name="Release4Insights" xml:space="preserve">
+    <value>Übersichtlichere Statistik, Monatskalender und abgestufte Schlafauswertung.</value>
+  </data>
+  <data name="Release4Languages" xml:space="preserve">
+    <value>Deutsch, Installationshilfe und morgendliche Erinnerung in der App.</value>
+  </data>
+  <data name="Release4Barcode" xml:space="preserve">
+    <value>Getränkevorschläge per Barcode als Beta, immer vor dem Eintrag überprüft.</value>
+  </data>
+  <data name="Release3Sleep" xml:space="preserve">
+    <value>Schlaftagebuch und persönliche Muster.</value>
+  </data>
+  <data name="Release3Planner" xml:space="preserve">
+    <value>Späteste Koffeinzeit und Planer ohne Eintrag.</value>
+  </data>
+  <data name="Release3Stats" xml:space="preserve">
+    <value>Gesamtstatistik und sichere Passwortwiederherstellung.</value>
+  </data>
+  <data name="Release2History" xml:space="preserve">
+    <value>Wochenansicht, frühere Tage und Favoriten.</value>
+  </data>
+  <data name="Release2Guest" xml:space="preserve">
+    <value>Gastmodus und Übertragung ins Konto.</value>
+  </data>
+  <data name="MorningTitle" xml:space="preserve">
+    <value>Guten Morgen!</value>
+  </data>
+  <data name="MorningPrompt" xml:space="preserve">
+    <value>Möchtest du deinen Schlaf eintragen?</value>
+  </data>
+  <data name="NotNow" xml:space="preserve">
+    <value>Jetzt nicht</value>
+  </data>
+  <data name="InstallTitle" xml:space="preserve">
+    <value>Koffi installieren</value>
+  </data>
+  <data name="InstallIos" xml:space="preserve">
+    <value>In Safari: Teilen → Zum Home-Bildschirm. Öffne die App anschließend über das Koffi-Symbol.</value>
+  </data>
+  <data name="InstallBrowser" xml:space="preserve">
+    <value>Nutze Installieren, wenn verfügbar; andernfalls suche die Installationsoption im Browsermenü.</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installieren</value>
+  </data>
+  <data name="NeverShow" xml:space="preserve">
+    <value>Nicht mehr anzeigen</value>
+  </data>
+  <data name="InsightInsufficient" xml:space="preserve">
+    <value>Noch nicht genügend Daten</value>
+  </data>
+  <data name="InsightEarly" xml:space="preserve">
+    <value>Frühe Schätzung – wenige Daten</value>
+  </data>
+  <data name="InsightEmerging" xml:space="preserve">
+    <value>Dein persönliches Muster zeichnet sich ab</value>
+  </data>
+  <data name="InsightEstablished" xml:space="preserve">
+    <value>Persönliche Auswertung mit mehr Daten</value>
+  </data>
+  <data name="ConfidenceLow" xml:space="preserve">
+    <value>Geringe Datengrundlage</value>
+  </data>
+  <data name="ConfidenceMedium" xml:space="preserve">
+    <value>Mittlere Datengrundlage</value>
+  </data>
+  <data name="ConfidenceMoreData" xml:space="preserve">
+    <value>Mindestens 30 verwendbare Nächte</value>
+  </data>
+  <data name="DirectionUnknown" xml:space="preserve">
+    <value>Richtung noch nicht bewertbar</value>
+  </data>
+  <data name="DirectionUnclear" xml:space="preserve">
+    <value>Keine eindeutige lineare Richtung</value>
+  </data>
+  <data name="DirectionNegative" xml:space="preserve">
+    <value>Gegenläufiger Zusammenhang</value>
+  </data>
+  <data name="DirectionPositive" xml:space="preserve">
+    <value>Gleichgerichteter Zusammenhang</value>
+  </data>
+  <data name="StrengthUnknown" xml:space="preserve">
+    <value>Stärke nicht bewertbar</value>
+  </data>
+  <data name="StrengthWeak" xml:space="preserve">
+    <value>Schwacher linearer Zusammenhang</value>
+  </data>
+  <data name="StrengthModerate" xml:space="preserve">
+    <value>Mittlerer linearer Zusammenhang</value>
+  </data>
+  <data name="StrengthStrong" xml:space="preserve">
+    <value>Starker linearer Zusammenhang</value>
+  </data>
+  <data name="SleepInsightHelp" xml:space="preserve">
+    <value>10–19 Nächte: frühe Schätzung; 20–29: entstehendes Muster; ab 30: mehr Datengrundlage. Diese Stufen beschreiben die Stichprobengröße, keine statistische Gewissheit oder Kausalität.</value>
+  </data>
+  <data name="SleepInsightMethod" xml:space="preserve">
+    <value>Lineare Pearson-Korrelation der letzten 90 Nächte. Das Vorzeichen von r zeigt die Richtung, sein Betrag die lineare Stärke. Nicht alle möglichen Einflüsse werden damit erfasst.</value>
+  </data>
+  <data name="StatsPeriod" xml:space="preserve">
+    <value>Zeitraum</value>
+  </data>
+  <data name="AllTime" xml:space="preserve">
+    <value>Gesamter Zeitraum</value>
+  </data>
+  <data name="TrackingSince" xml:space="preserve">
+    <value>Erfasst seit:</value>
+  </data>
+  <data name="StreakAllTime" xml:space="preserve">
+    <value>Serien werden immer aus dem gesamten Tagebuch berechnet.</value>
+  </data>
+  <data name="MostFrequentCategory" xml:space="preserve">
+    <value>Häufigste Kategorie</value>
+  </data>
+  <data name="PreviousMonth" xml:space="preserve">
+    <value>Vorheriger Monat</value>
+  </data>
+  <data name="NextMonth" xml:space="preserve">
+    <value>Nächster Monat</value>
+  </data>
+  <data name="ChooseMonth" xml:space="preserve">
+    <value>Monat wählen</value>
+  </data>
+  <data name="FullYear" xml:space="preserve">
+    <value>Ganzes Jahr</value>
+  </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>Koffi unterstützen</value>
+  </data>
+  <data name="SupportIntro" xml:space="preserve">
+    <value>Ich entwickle Koffi unabhängig. Wenn die App dir hilft, kannst du die Weiterentwicklung mit einem Kaffee unterstützen.</value>
+  </data>
+  <data name="SupportFree" xml:space="preserve">
+    <value>Koffi ist kostenlos nutzbar. Unterstützung ist völlig freiwillig.</value>
+  </data>
+  <data name="SupportThanks" xml:space="preserve">
+    <value>Danke, dass du Koffi nutzt!</value>
+  </data>
+  <data name="BarcodeTitle" xml:space="preserve">
+    <value>Barcode scannen</value>
+  </data>
+  <data name="BarcodeHelp" xml:space="preserve">
+    <value>Koffi-Daten → Open Food Facts-Vorschlag → manuelle Eingabe. Externe Angaben können abweichen. Etikett immer prüfen. Die Kamera startet nur mit Erlaubnis; Bilder werden nicht hochgeladen.</value>
+  </data>
+  <data name="BarcodeIntro" xml:space="preserve">
+    <value>Scanne den Produktbarcode oder gib die darunter gedruckte Nummer ein.</value>
+  </data>
+  <data name="StartCamera" xml:space="preserve">
+    <value>Kamera starten</value>
+  </data>
+  <data name="StopCamera" xml:space="preserve">
+    <value>Kamera stoppen</value>
+  </data>
+  <data name="CameraPreview" xml:space="preserve">
+    <value>Kameravorschau für Barcode</value>
+  </data>
+  <data name="CameraFallback" xml:space="preserve">
+    <value>Die Kamera konnte nicht gestartet werden. Gib den Barcode manuell ein oder nutze die normale Eingabe.</value>
+  </data>
+  <data name="Scanning" xml:space="preserve">
+    <value>Halte den Barcode bei gutem Licht vor die Kamera.</value>
+  </data>
+  <data name="BarcodeCode" xml:space="preserve">
+    <value>Barcodenummer</value>
+  </data>
+  <data name="InvalidBarcode" xml:space="preserve">
+    <value>Ungültiger EAN-/UPC-/GTIN-Code. Prüfe die Ziffern.</value>
+  </data>
+  <data name="FindProduct" xml:space="preserve">
+    <value>Produkt suchen</value>
+  </data>
+  <data name="ManualEntry" xml:space="preserve">
+    <value>Getränk manuell eingeben</value>
+  </data>
+  <data name="ReviewProduct" xml:space="preserve">
+    <value>Getränkeangaben prüfen</value>
+  </data>
+  <data name="ProductReviewWarning" xml:space="preserve">
+    <value>Dies ist ein Vorschlag, keine bestätigte Angabe. Prüfe und korrigiere ihn anhand des Etiketts.</value>
+  </data>
+  <data name="ProductUnavailable" xml:space="preserve">
+    <value>Die Produktdatenbank ist nicht verfügbar. Du kannst das Getränk weiterhin manuell eintragen.</value>
+  </data>
+  <data name="ProductNotFound" xml:space="preserve">
+    <value>Kein Produkt für diesen Barcode gefunden. Nutze die manuelle Eingabe.</value>
+  </data>
+  <data name="ProductSource" xml:space="preserve">
+    <value>Quelle des Vorschlags</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Produktname</value>
+  </data>
+  <data name="CaffeinePer100" xml:space="preserve">
+    <value>Koffein (mg / 100 ml)</value>
+  </data>
+  <data name="MissingCaffeine" xml:space="preserve">
+    <value>Keine verlässliche Koffeinangabe pro ml. Übernimm sie vom Etikett; auch 0 mg muss ausdrücklich bestätigt werden.</value>
+  </data>
+  <data name="ConsumedAt" xml:space="preserve">
+    <value>Trinkzeit</value>
+  </data>
+  <data name="ConfirmAndLog" xml:space="preserve">
+    <value>Geprüft – Getränk eintragen</value>
+  </data>
+  <data name="ScanAgain" xml:space="preserve">
+    <value>Weiteren Barcode scannen</value>
+  </data>
+  <data name="ResetEmailSubject" xml:space="preserve">
+    <value>Koffi – Passwort zurücksetzen</value>
+  </data>
+  <data name="ResetEmailIntro" xml:space="preserve">
+    <value>Dein Link zum Zurücksetzen des Passworts ist 30 Minuten gültig und einmal verwendbar:</value>
+  </data>
+  <data name="ResetEmailIgnore" xml:space="preserve">
+    <value>Falls du dies nicht angefordert hast, ignoriere diese E-Mail. Dein Passwort bleibt unverändert.</value>
+  </data>
+  <data name="EmailAlreadyRegistered" xml:space="preserve">
+    <value>Diese E-Mail-Adresse wird bereits verwendet.</value>
+  </data>
+  <data name="InvalidLogin" xml:space="preserve">
+    <value>E-Mail oder Passwort ist ungültig.</value>
+  </data>
+  <data name="PrivacyTitle" xml:space="preserve">
+    <value>Datenschutzübersicht</value>
+  </data>
+  <data name="PrivacyText" xml:space="preserve">
+    <value>Koffi speichert Tagebuch und Einstellungen auf dem Server. Gastkennung und Anmeldung verwenden Cookies; der Installationsstatus wird lokal im Browser gespeichert. Die Barcodesuche kann den Code an Open Food Facts senden; Kamerabilder werden nicht hochgeladen. Dein Konto und Tagebuch kannst du im Kontomenü löschen.</value>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Ein Fehler ist aufgetreten</value>
+  </data>
+  <data name="ErrorText" xml:space="preserve">
+    <value>Die Anfrage konnte nicht abgeschlossen werden. Bitte versuche es später erneut.</value>
+  </data>
+  <data name="RequestId" xml:space="preserve">
+    <value>Anfrage-ID:</value>
+  </data>
+</root>
