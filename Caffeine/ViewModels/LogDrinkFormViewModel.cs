@@ -9,7 +9,7 @@ namespace Caffeine.ViewModels
     {
         public bool SaveAsFavorite { get; set; }
         public List<Caffeine.Models.Beverage> Beverages { get; set; } = [];
-
+        public string CustomCategory { get; set; } = "Custom";
         public bool IsCustomDrink { get; set; }
 
         [Display(Name = "Választott Ital")]
@@ -20,8 +20,7 @@ namespace Caffeine.ViewModels
         public string? CustomBeverageName { get; set; }
 
         [Display(Name = "Koffein (mg) / 100ml")]
-        [Microsoft.AspNetCore.Mvc.ModelBinder(
-            BinderType = typeof(Caffeine.Services.CaffeineAmountBinder))]
+        [Microsoft.AspNetCore.Mvc.ModelBinder(BinderType = typeof(Caffeine.Services.CaffeineAmountBinder))]
         [Range(0, 1000)]
         public double? CustomCaffeinePer100Ml { get; set; }
 
@@ -33,8 +32,6 @@ namespace Caffeine.ViewModels
         [Required]
         [Display(Name = "Mikor?")]
         public DateTime ConsumedAt { get; set; }
-
-        public IEnumerable<SelectListItem> BeverageOptions { get; set; }
-            = new List<SelectListItem>();
+        public IEnumerable<SelectListItem> BeverageOptions { get; set; } = new List<SelectListItem>();
     }
 }

@@ -15,6 +15,9 @@ public sealed class SleepLog
     public DateTime ActualBedtime { get; set; }
     public DateTime WakeTime { get; set; }
 
+    public DateTime? SleepStartedUtc { get; set; }
+    public DateTime? SleepEndedUtc { get; set; }
+
     public int SleepRating { get; set; }
     public int? FallingAsleep { get; set; }
     public int? Awakenings { get; set; }
@@ -26,5 +29,8 @@ public sealed class SleepLog
     public string? Notes { get; set; }
 
     [NotMapped]
-    public double DurationHours => (WakeTime - ActualBedtime).TotalHours;
+    public double DurationHours =>
+        (SleepStartedUtc.HasValue && SleepEndedUtc.HasValue
+            ? SleepEndedUtc.Value - SleepStartedUtc.Value
+            : WakeTime - ActualBedtime).TotalHours;
 }

@@ -8,6 +8,14 @@ public sealed record SleepInsight(
     int Count,
     double Correlation)
 {
+    public string ObservationKey =>
+        !HasRelationshipData
+            ? MessageKey
+            : Math.Abs(Correlation) < .3
+                ? "SleepObservationUnclear"
+                : "Observation_" + MetricKey +
+                  (Correlation < 0 ? "_Lower" : "_Higher");
+
     public string StageKey => Count < 10 ? "InsightInsufficient" : Count < 20 ? "InsightEarly" : Count < 30 ? "InsightEmerging" : "InsightEstablished";
     public string ConfidenceKey => Count < 20 ? "ConfidenceLow" : Count < 30 ? "ConfidenceMedium" : "ConfidenceMoreData";
     public bool HasRelationshipData => Count >= SleepInsightService.MinimumDays && MessageKey != "SleepNoVariation";

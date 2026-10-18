@@ -1,4 +1,4 @@
-﻿@model Caffeine.ViewModels.DashboardViewModel
+@model Caffeine.ViewModels.DashboardViewModel
 @using Caffeine.Services
 @using System.Text.Json
 
@@ -130,10 +130,10 @@
 
                 <div>
 
-                    <h2 id="streak-title"
+                    <div class="flex items-center justify-between gap-2"><h2 id="streak-title"
                         class="font-semibold">
                         @T["StreakTitle"]
-                    </h2>
+                    </h2><partial name="_InfoButton" model='@("StreakExplanation")' /></div>
 
                     <p class="text-3xl font-bold text-cyan-400 mt-1"
                        data-testid="streak-current">
@@ -163,7 +163,7 @@
         </p>
 
 
-        <partial name="_InfoButton" model='@("StreakExplanation")' />
+
 
 
         @if (Model.IsCaffeineFreeDay)
@@ -253,9 +253,9 @@ else if (Model.IsCaffeineFreeDay)
 {
     <section class="glass rounded-3xl p-7 text-center mb-5 shadow-2xl">
 
-        <h1 class="text-xs uppercase tracking-widest text-slate-400">
+        <div class="flex items-center justify-between gap-2"><h1 class="text-xs uppercase tracking-widest text-slate-400">
             @T["ActiveEstimate"]
-        </h1>
+        </h1><partial name="_InfoButton" model='@("ModelNote")' /></div>
 
 
         <div class="text-6xl font-black my-4 @Model.StatusColor">
@@ -335,7 +335,7 @@ else if (Model.IsCaffeineFreeDay)
         </p>
 
 
-        <partial name="_InfoButton" model='@("ModelNote")' />
+
 
     </section>
 

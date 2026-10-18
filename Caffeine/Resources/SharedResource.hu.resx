@@ -214,10 +214,10 @@
     <value>Még nincs alvásbejegyzésed.</value>
   </data>
   <data name="ActualBedtime" xml:space="preserve">
-    <value>Tényleges lefekvés</value>
+    <value>Tényleges elalvás időpontja</value>
   </data>
   <data name="WakeTime" xml:space="preserve">
-    <value>Ébredés</value>
+    <value>Végső ébredés időpontja</value>
   </data>
   <data name="PlannedBedtime" xml:space="preserve">
     <value>Tervezett lefekvés</value>
@@ -226,7 +226,7 @@
     <value>Alvásminőség (1–5)</value>
   </data>
   <data name="FallingAsleep" xml:space="preserve">
-    <value>Elalvási nehézség (1: könnyű, 5: nehéz)</value>
+    <value>Mennyire könnyen aludtál el? (1: könnyen, 5: nehezen)</value>
   </data>
   <data name="Awakenings" xml:space="preserve">
     <value>Felébredések száma</value>
@@ -244,7 +244,7 @@
     <value>Opcionális részletek</value>
   </data>
   <data name="SleepSnapshotNote" xml:space="preserve">
-    <value>A koffeinadatokat automatikusan kapcsoljuk az alváshoz. Mentéskori becslések: az italnapló későbbi módosítása csak az alvásbejegyzés újramentésekor frissíti őket. Az időtartam a megadott helyi időpontok különbsége.</value>
+    <value>A korábbi naplóid változatlanok. Új bejegyzésnél az elalvás az a körülbelüli időpont, amikor ténylegesen elaludtál, nem az ágyba fekvés ideje. A koffeinadat automatikus pillanatkép. Az időpontokat a tracker időzónájában add meg; óraátállításkor pontosításra lehet szükség.</value>
   </data>
   <data name="EstimatedAtBedtime" xml:space="preserve">
     <value>Becsült koffein lefekvéskor</value>
@@ -307,28 +307,28 @@
     <value>Személyes alvási összefüggések</value>
   </data>
   <data name="SleepInsightNote" xml:space="preserve">
-    <value>Az utolsó 90 rögzített éjszakát vizsgáljuk, mutatónként legalább 10 használható adattal. Összefüggések a saját naplóidban, nem orvosi vagy ok-okozati következtetések. Más körülmények is befolyásolhatják az alvást.</value>
+    <value>Ezek a saját naplóidban látható megfigyelések, nem bizonyított okok vagy orvosi következtetések. Más körülmények is számíthatnak.</value>
   </data>
   <data name="SleepSample" xml:space="preserve">
     <value>Felhasznált éjszakák: {0}</value>
   </data>
   <data name="BedtimeCaffeineVsRating" xml:space="preserve">
-    <value>Becsült lefekvéskori koffein → alvásértékelés</value>
+    <value>Koffein elalváskor és az alvásod értékelése</value>
   </data>
   <data name="DailyCaffeineVsRating" xml:space="preserve">
-    <value>Előző napi koffein → alvásértékelés</value>
+    <value>Napi koffein és az alvásod értékelése</value>
   </data>
   <data name="LateCaffeineVsDifficulty" xml:space="preserve">
-    <value>Lefekvéshez közelebbi koffein → elalvási nehézség</value>
+    <value>Későbbi koffein és az elalvásod</value>
   </data>
   <data name="DailyCaffeineVsDuration" xml:space="preserve">
-    <value>Előző napi koffein → alvás időtartama</value>
+    <value>Napi koffein és az alvásod hossza</value>
   </data>
   <data name="InsufficientSleepData" xml:space="preserve">
     <value>Még nincs elég adat személyes trend megjelenítéséhez. Legalább 10 használható éjszakára van szükség.</value>
   </data>
   <data name="SleepNoVariation" xml:space="preserve">
-    <value>A naplózott értékek túl hasonlóak ahhoz, hogy összehasonlítható trendet mutassunk.</value>
+    <value>A megadott értékek nagyon hasonlók, ezért egyelőre nem lehet jól összehasonlítani őket.</value>
   </data>
   <data name="SleepLowerAssociation" xml:space="preserve">
     <value>A saját naplóidban az első mutató magasabb értékeihez többnyire a második mutató alacsonyabb értékei társultak.</value>
@@ -484,7 +484,7 @@
     <value>Tea</value>
   </data>
   <data name="Category_Custom" xml:space="preserve">
-    <value>Saját ital</value>
+    <value>Egyéb</value>
   </data>
   <data name="Heatmap" xml:space="preserve">
     <value>Koffeinnaptár</value>
@@ -766,13 +766,13 @@
     <value>Még nincs elég adat</value>
   </data>
   <data name="InsightEarly" xml:space="preserve">
-    <value>Korai becslés – még kevés adat</value>
+    <value>Előzetes megfigyelés – még kevés éjszaka</value>
   </data>
   <data name="InsightEmerging" xml:space="preserve">
-    <value>Kezd kirajzolódni a személyes mintád</value>
+    <value>Kezd kirajzolódni egy személyes minta</value>
   </data>
   <data name="InsightEstablished" xml:space="preserve">
-    <value>Több adatból készült személyes elemzés</value>
+    <value>Részletesebb személyes megfigyelés</value>
   </data>
   <data name="ConfidenceLow" xml:space="preserve">
     <value>Alacsony adatbiztonság</value>
@@ -808,7 +808,7 @@
     <value>Erős lineáris kapcsolat</value>
   </data>
   <data name="SleepInsightHelp" xml:space="preserve">
-    <value>10–19 éjszaka: korai becslés; 20–29: kialakuló minta; 30-tól több adattal alátámasztott elemzés. Ezek adatméret szerinti szintek, nem statisztikai bizonyosság vagy ok-okozati állítás.</value>
+    <value>Minden megfigyelésnél látod a felhasznált éjszakák számát. 10 alatt még nincs elemzés, 10–19-nél előzetes megfigyelés, 20–29-nél kialakuló minta, 30-tól részletesebb kép jelenik meg. Több adat sem garantál összefüggést.</value>
   </data>
   <data name="SleepInsightMethod" xml:space="preserve">
     <value>Pearson-féle lineáris korreláció, a legutóbbi 90 éjszakából. Az r előjele irányt, abszolút értéke lineáris erősséget jelez. Ez nem méri az összes lehetséges hatást.</value>
@@ -953,5 +953,200 @@
   </data>
   <data name="RequestId" xml:space="preserve">
     <value>Kérés azonosítója:</value>
+  </data>
+  <data name="Release5Sleep" xml:space="preserve">
+    <value>Részletesebb alvásnapló, heti statisztikák és közérthető személyes megfigyelések.</value>
+  </data>
+  <data name="Release5Drinks" xml:space="preserve">
+    <value>Saját italok szerkesztése és kategorizálása, a korábbi naplóértékek megőrzésével.</value>
+  </data>
+  <data name="Release5Mail" xml:space="preserve">
+    <value>Email-megerősítés és választható heti összefoglalók/újdonságok.</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0} óra {1} perc</value>
+  </data>
+  <data name="SleepStatistics" xml:space="preserve">
+    <value>Alvásstatisztikák</value>
+  </data>
+  <data name="SleepAnalysis" xml:space="preserve">
+    <value>Elemzés</value>
+  </data>
+  <data name="SleepAverage" xml:space="preserve">
+    <value>Átlagos alvásidő</value>
+  </data>
+  <data name="SleepShortest" xml:space="preserve">
+    <value>Legrövidebb alvás</value>
+  </data>
+  <data name="SleepLongest" xml:space="preserve">
+    <value>Leghosszabb alvás</value>
+  </data>
+  <data name="SleepPlannedDifference" xml:space="preserve">
+    <value>Eltérés a tervezett elalvástól</value>
+  </data>
+  <data name="SleepDailyDuration" xml:space="preserve">
+    <value>Napi alvásidő</value>
+  </data>
+  <data name="OptionalSampleCounts" xml:space="preserve">
+    <value>Ébredésszám: {0}, elalvási nehézség: {1}, tervezett időpont: {2} kitöltött éjszaka.</value>
+  </data>
+  <data name="PreviousWeekComparison" xml:space="preserve">
+    <value>Összevetés az előző héttel</value>
+  </data>
+  <data name="ComparisonSample" xml:space="preserve">
+    <value>Ezen a héten {0}, az előző héten {1} rögzített éjszaka. Hiányzó napokat nem számolunk nullának.</value>
+  </data>
+  <data name="NotEnoughComparison" xml:space="preserve">
+    <value>Még nincs mindkét héthez összehasonlítható adat.</value>
+  </data>
+  <data name="SleepClockInvalid" xml:space="preserve">
+    <value>Ellenőrizd az időpontokat: az óraátállításkor kimaradó idő nem érvényes, az ismétlődő órához válassz UTC-eltolást.</value>
+  </data>
+  <data name="AmbiguousClock" xml:space="preserve">
+    <value>Ez az óra kétszer fordult elő. Melyik időszámítás szerint?</value>
+  </data>
+  <data name="HowCalculated" xml:space="preserve">
+    <value>Hogyan számoljuk?</value>
+  </data>
+  <data name="SleepObservationUnclear" xml:space="preserve">
+    <value>A jelenlegi naplóidból még nem rajzolódik ki egyértelmű minta e két adat között.</value>
+  </data>
+  <data name="OwnDrinks" xml:space="preserve">
+    <value>Saját italaim</value>
+  </data>
+  <data name="NoOwnDrinks" xml:space="preserve">
+    <value>Még nincs saját italod. Az italrögzítésnél adhatsz hozzá egyet.</value>
+  </data>
+  <data name="ArchiveDrinkConfirm" xml:space="preserve">
+    <value>Eltávolítod a saját italok és kedvencek közül? Korábbi naplóid megmaradnak.</value>
+  </data>
+  <data name="DrinkHistoryPreserved" xml:space="preserve">
+    <value>A módosítás az új rögzítésekre érvényes. A korábbi naplók mennyisége és koffeinértéke nem változik.</value>
+  </data>
+  <data name="GuestPromptTitle" xml:space="preserve">
+    <value>Vidd magaddal a naplódat!</value>
+  </data>
+  <data name="GuestPromptText" xml:space="preserve">
+    <value>Már rendszeresen használod a Koffit. Ingyenes fiókkal más eszközről is eléred az adataidat; a vendégként rögzített naplódat is átvisszük.</value>
+  </data>
+  <data name="EmailSettings" xml:space="preserve">
+    <value>Email-beállítások</value>
+  </data>
+  <data name="EmailVerified" xml:space="preserve">
+    <value>Email-cím megerősítve</value>
+  </data>
+  <data name="EmailNotVerified" xml:space="preserve">
+    <value>Email-cím még nincs megerősítve</value>
+  </data>
+  <data name="LegacyVerificationNote" xml:space="preserve">
+    <value>A Koffit tovább használhatod. A választható összefoglalókhoz és újdonságokhoz először erősítsd meg a címedet.</value>
+  </data>
+  <data name="ResendConfirmation" xml:space="preserve">
+    <value>Megerősítő email kérése</value>
+  </data>
+  <data name="ConfirmEmailTitle" xml:space="preserve">
+    <value>Email-cím megerősítése</value>
+  </data>
+  <data name="EmailVerificationComplete" xml:space="preserve">
+    <value>Email-címed megerősítve. Most már kérhetsz heti összefoglalót és újdonságokat.</value>
+  </data>
+  <data name="InvalidVerificationToken" xml:space="preserve">
+    <value>A link érvénytelen, lejárt vagy már felhasználták. Kérj új megerősítő emailt a beállításokban.</value>
+  </data>
+  <data name="VerifyMailIntro" xml:space="preserve">
+    <value>Kérlek erősítsd meg az email-címedet a Koffiban. A link után külön gombbal hagyhatod jóvá a megerősítést.</value>
+  </data>
+  <data name="VerifyMailExpiry" xml:space="preserve">
+    <value>A link 24 óráig érvényes és egyszer használható. Ha nem te regisztráltál, hagyd figyelmen kívül.</value>
+  </data>
+  <data name="VerifyBeforeSubscribe" xml:space="preserve">
+    <value>Feliratkozás előtt erősítsd meg az email-címedet.</value>
+  </data>
+  <data name="AnnouncementOptIn" xml:space="preserve">
+    <value>Koffi újdonságok és verziófrissítések</value>
+  </data>
+  <data name="WeeklyOptIn" xml:space="preserve">
+    <value>Személyes heti statisztikai emailek</value>
+  </data>
+  <data name="MailConsentNote" xml:space="preserve">
+    <value>Mindkét lehetőség önkéntes és egymástól független. A Koffit feliratkozás nélkül is használhatod. Bármikor kikapcsolhatod itt vagy az emailben található leiratkozással.</value>
+  </data>
+  <data name="MailPreferencesSaved" xml:space="preserve">
+    <value>Email-beállítások mentve.</value>
+  </data>
+  <data name="MailUnavailable" xml:space="preserve">
+    <value>A levelezés még nincs beállítva ezen a telepítésen. A naplózást tovább használhatod.</value>
+  </data>
+  <data name="AlreadyVerified" xml:space="preserve">
+    <value>Ez az email-cím már meg van erősítve.</value>
+  </data>
+  <data name="VerificationThrottled" xml:space="preserve">
+    <value>Nemrég már kértél levelet. Két perc múlva újra próbálhatod.</value>
+  </data>
+  <data name="VerificationQueued" xml:space="preserve">
+    <value>A megerősítő email küldésre vár. Nézd meg a postaládádat és a spam mappát is.</value>
+  </data>
+  <data name="Unsubscribe" xml:space="preserve">
+    <value>Leiratkozás</value>
+  </data>
+  <data name="UnsubscribeComplete" xml:space="preserve">
+    <value>Leiratkoztál erről az emailtípusról. A másik beállításod nem változott.</value>
+  </data>
+  <data name="UnsubscribeConfirm" xml:space="preserve">
+    <value>Leiratkozol erről az emailtípusról? A Koffi-fiókod és naplód megmarad.</value>
+  </data>
+  <data name="UnsubscribeInvalid" xml:space="preserve">
+    <value>A link érvénytelen vagy egy régi feliratkozáshoz tartozik. A fiókbeállításokban is leiratkozhatsz.</value>
+  </data>
+  <data name="WeeklyMailTitle" xml:space="preserve">
+    <value>A heti Koffi-összefoglalód</value>
+  </data>
+  <data name="WeeklyMailPeriod" xml:space="preserve">
+    <value>Lezárt hét: {0} – {1}</value>
+  </data>
+  <data name="MailLoggedDataNote" xml:space="preserve">
+    <value>A koffeinátlag 7 naptári nappal számol. Az üres nap nem bizonyítottan koffeinmentes, csak nincs rögzített fogyasztás.</value>
+  </data>
+  <data name="MailNoCaffeineData" xml:space="preserve">
+    <value>Erre a hétre nincs koffein- vagy koffeinmentes naplóadat.</value>
+  </data>
+  <data name="MailPreviousComparison" xml:space="preserve">
+    <value>Naplózott koffein ezen a héten: {0} mg, az előzőn: {1} mg. Mindkét héten legalább 3 rögzített nap volt.</value>
+  </data>
+  <data name="MailNoSleepData" xml:space="preserve">
+    <value>Ezen a héten még nem rögzítettél alvást.</value>
+  </data>
+  <data name="MailEstimateNote" xml:space="preserve">
+    <value>A Koffi a saját naplódból készít összesítést. A koffeinértékek becslések; az összefüggések nem orvosi vagy okozati megállapítások.</value>
+  </data>
+  <data name="OpenKoffi" xml:space="preserve">
+    <value>Megnyitás a Koffiban</value>
+  </data>
+  <data name="Observation_BedtimeCaffeineVsRating_Lower" xml:space="preserve">
+    <value>Magasabb becsült elalváskori koffeinszint mellett inkább alacsonyabb alvásértékelést adtál.</value>
+  </data>
+  <data name="Observation_BedtimeCaffeineVsRating_Higher" xml:space="preserve">
+    <value>Magasabb becsült elalváskori koffeinszint mellett inkább magasabb alvásértékelést adtál. Ez nem jelenti azt, hogy a koffein javítja az alvást.</value>
+  </data>
+  <data name="Observation_DailyCaffeineVsRating_Lower" xml:space="preserve">
+    <value>A több naplózott koffeint követő alvásokat inkább rosszabbra értékelted.</value>
+  </data>
+  <data name="Observation_DailyCaffeineVsRating_Higher" xml:space="preserve">
+    <value>A több naplózott koffeint követő alvásokat inkább jobbra értékelted. Ebből nem következik, hogy a koffein segített.</value>
+  </data>
+  <data name="Observation_LateCaffeineVsDifficulty_Lower" xml:space="preserve">
+    <value>Amikor az utolsó koffeines ital közelebb volt az elalváshoz, inkább könnyebb elalvást jelöltél. Ez nem igazolja a késői koffein előnyét.</value>
+  </data>
+  <data name="Observation_LateCaffeineVsDifficulty_Higher" xml:space="preserve">
+    <value>Amikor az utolsó koffeines ital közelebb volt az elalváshoz, inkább nehezebb elalvást jelöltél.</value>
+  </data>
+  <data name="Observation_DailyCaffeineVsDuration_Lower" xml:space="preserve">
+    <value>Több naplózott koffein után inkább rövidebb alvást rögzítettél.</value>
+  </data>
+  <data name="Observation_DailyCaffeineVsDuration_Higher" xml:space="preserve">
+    <value>Több naplózott koffein után inkább hosszabb alvást rögzítettél. Ez önmagában nem jelent kedvező hatást.</value>
+  </data>
+  <data name="StatsTabShort" xml:space="preserve">
+    <value>Statisztika</value>
   </data>
 </root>

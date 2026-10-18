@@ -8,33 +8,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Xunit;
 
 namespace Caffeine.Tests;
-
 public class StreakUpgradeTests
 {
     [Fact]
     public async Task CurrentVersionUpgradePreservesEveryExistingTableValueAndIsRepeatable()
     {
-        await using var connection =
-            new SqliteConnection(
-                "Data Source=:memory:");
-
+        await using var connection = new SqliteConnection("Data Source=:memory:");
         await connection.OpenAsync();
-
-
-        await using var db =
-            new AppDbContext(
-                new DbContextOptionsBuilder<AppDbContext>()
-                    .UseSqlite(connection)
-                    .Options);
-
-
-        await db.GetService<IMigrator>()
-            .MigrateAsync(
-                "20260821170905_3.0");
-
-
-        await db.Database.ExecuteSqlRawAsync(
-            """
+        await using var db = new AppDbContext(new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connection).Options);
+        await db.GetService<IMigrator>().MigrateAsync("20260821170905_3.0");
+        await db.Database.ExecuteSqlRawAsync("""
             ALTER TABLE CaffeineLogs
             ADD COLUMN UserId TEXT NOT NULL DEFAULT '';
 
@@ -48,17 +31,10 @@ public class StreakUpgradeTests
                 CreatedAt TEXT NOT NULL
             );
             """);
-
-
-        await db.GetService<IMigrator>()
-            .MigrateAsync(
-                "20260917112735_HistoryFavorites");
-
-
+        await db.GetService<IMigrator>().MigrateAsync("20260917112735_HistoryFavorites");
         // Seed the OLD schema directly:
         // it intentionally has no SecurityStamp yet.
-        await db.Database.ExecuteSqlRawAsync(
-            """
+        await db.Database.ExecuteSqlRawAsync("""
             INSERT INTO Users
                 (
                     Id,
@@ -76,143 +52,45 @@ public class StreakUpgradeTests
                     '2026-08-29 11:22:33'
                 );
             """);
-
-
-        db.Beverages.Add(
-            new()
-            {
-                Id = 123,
-                Name = "My existing drink",
-                Category = "Custom",
-                OwnerId = "8",
-                CaffeinePer100Ml = 38.4,
-                DefaultPortionMl = 250
-            });
-
-
-        db.CaffeineLogs.Add(
-            new()
-            {
-                Id = 456,
-                UserId = "8",
-                BeverageId = 123,
-
-                ConsumedAt =
-                    new DateTime(
-                        2026,
-                        9,
-                        16,
-                        11,
-                        22,
-                        33),
-
-                TotalCaffeineMg = 95.7,
-                ConsumedAmountMl = 250
-            });
-
-
-        db.FavoriteDrinks.Add(
-            new()
-            {
-                Id = 789,
-                UserId = "8",
-                BeverageId = 123,
-                AmountMl = 250
-            });
-
-
+        // Seed columns that existed before the new archive flag.
+        await db.Database.ExecuteSqlRawAsync("""
+            INSERT INTO Beverages (Id,Name,Category,OwnerId,CaffeinePer100Ml,DefaultPortionMl)
+            VALUES (123,'My existing drink','Custom','8',38.4,250);
+            """);
+        db.CaffeineLogs.Add(new() { Id = 456, UserId = "8", BeverageId = 123, ConsumedAt = new DateTime(2026, 9, 16, 11, 22, 33), TotalCaffeineMg = 95.7, ConsumedAmountMl = 250 });
+        db.FavoriteDrinks.Add(new() { Id = 789, UserId = "8", BeverageId = 123, AmountMl = 250 });
         await db.SaveChangesAsync();
-
-
-        var before =
-            await Snapshot(connection);
-
-
+        var before = await Snapshot(connection);
         await DatabaseUpgrade.ApplyAsync(db);
-
-
-        Assert.Equal(
-            before,
-            await Snapshot(connection));
-
-
-        Assert.Empty(
-            await db.CaffeineFreeDays
-                .ToListAsync());
-
-
-        Assert.Equal(
-            "",
-            (
-                await db.Users
-                    .SingleAsync()
-            ).SecurityStamp);
-
-
-        db.CaffeineFreeDays.Add(
-            new()
-            {
-                UserId = "8",
-
-                Day =
-                    new DateTime(
-                        2026,
-                        9,
-                        17)
-            });
-
-
+        Assert.Equal(before, await Snapshot(connection));
+        Assert.Empty(await db.CaffeineFreeDays.ToListAsync());
+        Assert.Equal("", (await db.Users.SingleAsync()).SecurityStamp);
+        db.CaffeineFreeDays.Add(new() { UserId = "8", Day = new DateTime(2026, 9, 17) });
         await db.SaveChangesAsync();
-
-
         // Upgrade must be safe to run again.
         await DatabaseUpgrade.ApplyAsync(db);
-
-
-        Assert.Equal(
-            before,
-            await Snapshot(connection));
-
-
-        Assert.Single(
-            await db.CaffeineFreeDays
-                .ToListAsync());
-
-
-        Assert.False(
-            db.Database
-                .HasPendingModelChanges());
+        Assert.Equal(before, await Snapshot(connection));
+        Assert.Single(await db.CaffeineFreeDays.ToListAsync());
+        Assert.False(db.Database.HasPendingModelChanges());
     }
 
-
-    private static async Task<string> Snapshot(
-        SqliteConnection connection)
+    private static async Task<string> Snapshot(SqliteConnection connection)
     {
-        var tables =
-            new Dictionary<
-                string,
-                List<object[]>>();
-
-
-        foreach (
-            var table in
-            new[]
-            {
-                "Users",
-                "Beverages",
-                "CaffeineLogs",
-                "FavoriteDrinks"
-            })
+        var tables = new Dictionary<string, List<object[]>>();
+        foreach (var table in new[]
         {
-            using var command =
-                connection.CreateCommand();
+            "Users",
+            "Beverages",
+            "CaffeineLogs",
+            "FavoriteDrinks"
+        }
 
-
+        )
+        {
+            using var command = connection.CreateCommand();
             // Compare every original column;
             // the newly added stamp is asserted separately.
-            command.CommandText =
-                table == "Users"
-                    ? """
+            command.CommandText = table == "Users" ? """
                       SELECT
                           Id,
                           Username,
@@ -221,43 +99,23 @@ public class StreakUpgradeTests
                           CreatedAt
                       FROM Users
                       ORDER BY Id
-                      """
-                    : $"""
-                       SELECT *
+                      """ : $"""
+                       SELECT {(table == "Beverages" ? "Id, OwnerId, Name, Category, CaffeinePer100Ml, DefaultPortionMl" : "*")}
                        FROM {table}
                        ORDER BY Id
                        """;
-
-
-            using var reader =
-                await command
-                    .ExecuteReaderAsync();
-
-
-            var rows =
-                new List<object[]>();
-
-
-            while (
-                await reader
-                    .ReadAsync())
+            using var reader = await command.ExecuteReaderAsync();
+            var rows = new List<object[]>();
+            while (await reader.ReadAsync())
             {
-                var values =
-                    new object[
-                        reader.FieldCount];
-
-
+                var values = new object[reader.FieldCount];
                 reader.GetValues(values);
-
                 rows.Add(values);
             }
-
 
             tables[table] = rows;
         }
 
-
-        return JsonSerializer.Serialize(
-            tables);
+        return JsonSerializer.Serialize(tables);
     }
 }

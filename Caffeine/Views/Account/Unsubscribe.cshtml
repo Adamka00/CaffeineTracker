@@ -1,0 +1,7 @@
+@model Caffeine.ViewModels.EmailTokenView
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{Layout="_RecoveryLayout";ViewData["Title"]=T["Unsubscribe"];}
+<h1>@T["Unsubscribe"]</h1>
+@if(Model.Complete){<p role="status">@T["UnsubscribeComplete"]</p>}
+else if(Model.Valid){<p>@T["UnsubscribeConfirm"]</p><form method="post"><input type="hidden" name="token" value="@Model.Token" /><button type="submit">@T["Unsubscribe"]</button></form>}
+else{<p role="alert">@T["UnsubscribeInvalid"]</p><a href="/Account/EmailSettings">@T["EmailSettings"]</a>}

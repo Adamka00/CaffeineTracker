@@ -1,0 +1,7 @@
+@model Caffeine.ViewModels.EmailTokenView
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{Layout="_RecoveryLayout";ViewData["Title"]=T["ConfirmEmailTitle"];}
+<h1>@T["ConfirmEmailTitle"]</h1>
+@if(Model.Complete){<p role="status">@T["EmailVerificationComplete"]</p><a href="/Account/EmailSettings">@T["EmailSettings"]</a>}
+else if(Model.Valid){<p>@T["VerifyMailIntro"]</p><form method="post"><input type="hidden" name="token" value="@Model.Token" /><button type="submit">@T["ConfirmEmailTitle"]</button></form>}
+else{<p role="alert">@T["InvalidVerificationToken"]</p><a href="/Account/EmailSettings">@T["ResendConfirmation"]</a>}

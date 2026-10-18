@@ -6,12 +6,19 @@ namespace Caffeine.Data
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-        
+
+        public DbSet<EmailConfirmationToken> EmailConfirmationTokens { get; set; }
+        public DbSet<MailingPreference> MailingPreferences { get; set; }
+        public DbSet<MailingConsent> MailingConsents { get; set; }
+        public DbSet<MailCampaign> MailCampaigns { get; set; }
+        public DbSet<MailJob> MailJobs { get; set; }
+        public DbSet<GuestPromptPreference> GuestPromptPreferences { get; set; }
+
         public DbSet<ExperiencePreference> ExperiencePreferences { get; set; }
-        public DbSet<BeverageBarcode> BeverageBarcodes { get; set; }    
+        public DbSet<BeverageBarcode> BeverageBarcodes { get; set; }
 
         public DbSet<FavoriteDrink> FavoriteDrinks { get; set; }
-        
+
         public DbSet<CaffeineFreeDay> CaffeineFreeDays { get; set; }
         public DbSet<SleepLog> SleepLogs { get; set; }
         public DbSet<NotificationPreference> NotificationPreferences { get; set; }
@@ -29,7 +36,58 @@ namespace Caffeine.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
+            modelBuilder.Entity<GuestPromptPreference>()
+                .HasKey(p => p.UserId);
+
+            modelBuilder.Entity<EmailConfirmationToken>()
+                .HasIndex(t => t.TokenHash)
+                .IsUnique();
+
+            modelBuilder.Entity<EmailConfirmationToken>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<MailingPreference>()
+                .HasKey(p => p.UserId);
+
+            modelBuilder.Entity<MailingPreference>()
+                .HasOne(p => p.User)
+                .WithMany()
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<MailingConsent>()
+                .HasOne(p => p.User)
+                .WithMany()
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<MailJob>()
+                .HasIndex(j => new { j.UserId, j.DeduplicationKey })
+                .IsUnique();
+
+            modelBuilder.Entity<MailJob>()
+                .HasIndex(j => new { j.State, j.NextAttemptUtc });
+
+            modelBuilder.Entity<MailJob>()
+                .HasOne(j => j.User)
+                .WithMany()
+                .HasForeignKey(j => j.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<MailJob>()
+                .HasOne(j => j.Campaign)
+                .WithMany()
+                .HasForeignKey(j => j.CampaignId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<MailCampaign>()
+                .HasIndex(c => c.Key)
+                .IsUnique();
+
             modelBuilder.Entity<ExperiencePreference>()
                 .HasKey(p => p.UserId);
 
@@ -41,7 +99,7 @@ namespace Caffeine.Data
                 .WithMany()
                 .HasForeignKey(p => p.BeverageId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             modelBuilder.Entity<NotificationPreference>()
                 .HasKey(p => p.UserId);
 

@@ -16,12 +16,25 @@ public sealed class SleepService(
     {
         var now = clock.Now;
 
+        if (form.ActualBedtime is { } localBed &&
+            form.WakeTime is { } localWake &&
+            (!clock.TryUtc(localBed, form.BedtimeOffsetMinutes, out _) ||
+             !clock.TryUtc(localWake, form.WakeOffsetMinutes, out _)))
+        {
+            return "SleepClockInvalid";
+        }
+
+        var bedUtc = default(DateTime);
+        var wakeUtc = default(DateTime);
+
         if (form.ActualBedtime is not { } bed ||
             form.WakeTime is not { } wake ||
             bed < new DateTime(2000, 1, 1) ||
-            wake > now ||
-            wake <= bed ||
-            (wake - bed).TotalHours > 24 ||
+            !clock.TryUtc(bed, form.BedtimeOffsetMinutes, out bedUtc) ||
+            !clock.TryUtc(wake, form.WakeOffsetMinutes, out wakeUtc) ||
+            wakeUtc > clock.UtcNow ||
+            wakeUtc <= bedUtc ||
+            (wakeUtc - bedUtc).TotalHours > 24 ||
             form.SleepRating is < 1 or > 5 ||
             form.FallingAsleep is < 1 or > 5 ||
             form.Awakenings is < 0 or > 50 ||
@@ -63,6 +76,8 @@ public sealed class SleepService(
                 l.ConsumedAt <= now)
             .ToListAsync();
 
+        entry.SleepStartedUtc = bedUtc;
+        entry.SleepEndedUtc = wakeUtc;
         entry.SleepDate = wake.Date;
         entry.ActualBedtime = bed;
         entry.WakeTime = wake;

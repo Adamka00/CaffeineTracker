@@ -3,8 +3,11 @@ namespace Caffeine.Models
     public class Beverage
     {
         public int Id { get; set; }
-        
-        
+
+
+        public bool IsArchived { get; set; }
+
+
         public string? OwnerId { get; set; }
 
 

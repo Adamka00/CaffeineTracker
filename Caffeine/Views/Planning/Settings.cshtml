@@ -5,9 +5,9 @@
     ViewData["Title"] = T["PlanningSettings"];
 }
 
-<h1 class="text-2xl font-bold mb-5">
+<div class="flex items-center justify-between gap-2"><h1 class="text-2xl font-bold mb-5">
     @T["PlanningSettings"]
-</h1>
+</h1><partial name="_InfoButton" model='@("PersonalTargetNote")' /></div>
 
 <form method="post"
       class="glass rounded-3xl p-5 feature-form">
@@ -36,7 +36,7 @@
            class="field"
            required />
 
-    <partial name="_InfoButton" model='@("PersonalTargetNote")' />
+
 
     <button type="submit"
             class="nav-tab">

@@ -1,0 +1,33 @@
+
+/* Only the help glyph changes; its 44px touch target remains. */
+.info-button {
+    font-size: .72rem;
+    font-weight: 600;
+    border-color: transparent;
+    background: transparent;
+    color: #94a3b8;
+    position: relative;
+}
+
+.info-button::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(148,163,184,.28);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.info-button:hover {
+    color: #67e8f9;
+}
+
+/* New sleep subnavigation uses the existing tab style within a mobile row. */
+.sleep-tabs .nav-tab {
+    flex: 1;
+    min-width: 0;
+    padding-inline: 8px;
+    font-size: .8rem;
+    overflow-wrap: anywhere;
+}

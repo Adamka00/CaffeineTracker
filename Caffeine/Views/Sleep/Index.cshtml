@@ -1,18 +1,20 @@
 @model Caffeine.ViewModels.SleepIndex
+@inject Caffeine.Services.DurationDisplay Duration
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
 
 @{
     ViewData["Title"] = T["SleepTitle"];
 }
 
-<div class="flex items-center justify-between gap-2 mb-5">
-    <h1 class="text-2xl font-bold">@T["SleepTitle"]</h1>
+<partial name="_SleepTabs" />
+<div class="flex flex-wrap items-center justify-between gap-2 mb-5">
+    <div class="flex items-center justify-between gap-2"><h1 class="text-2xl font-bold">@T["SleepTitle"]</h1><partial name="_InfoButton" model='@("SleepDateNote")' /></div>
     <a asp-action="Edit" class="nav-tab">
         ＋ @T["SleepCheckIn"]
     </a>
 </div>
 
-<partial name="_InfoButton" model='@("SleepDateNote")' />
+
 
 @if (Model.Logs.Count == 0)
 {
@@ -40,9 +42,11 @@
         </p>
 
         <p>
-            @Math.Round(row.DurationHours, 1) @T["Hours"]
+            @Duration.Hours(row.DurationHours)
         </p>
 
+        @if(row.Awakenings.HasValue){<p class="text-sm">@T["Awakenings"]: @row.Awakenings</p>}
+        @if(row.FallingAsleep.HasValue){<p class="text-sm">@T["FallingAsleep"]: @T["Difficulty"+row.FallingAsleep]</p>}
         <details class="text-sm mt-3">
             <summary>@T["Details"]</summary>
 
@@ -125,6 +129,3 @@
         </a>
     }
 </div>
-
-<partial name="_SleepInsights"
-         model="Model.Insights" />

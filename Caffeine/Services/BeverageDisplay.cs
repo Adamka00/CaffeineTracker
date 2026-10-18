@@ -65,7 +65,7 @@ public static class BeverageDisplay
         return culture is "en" or "de" && EnglishNames.TryGetValue(beverage.Id, out var name) ? name : beverage.Name;
     }
 
-    public static string EvidenceKey(Beverage beverage) => beverage.Category == "Custom" ? "UserProvided" :
+    public static string EvidenceKey(Beverage beverage) => beverage.OwnerId != null || beverage.Category == "Custom" ? "UserProvided" :
         beverage.Id is 1 or 2 or 3 or 4 or 6 or 7 or 10 or 11 ? "ManufacturerValue" :
         beverage.Category is "Coffee" or "Tea" or "Capsule" ? "PreparationEstimate" : "CheckLabel";
 }

@@ -3,6 +3,7 @@
 @inject ExperienceService Experience
 @inject CurrentTrackerUser TrackerUser
 @inject TrackerClock Clock
+@inject GuestPromptService GuestPrompt
 @{ var state = await Experience.GetAsync(TrackerUser.GetId());
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
     var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -19,6 +20,7 @@
     <script src="https://cdn.tailwindcss.com"></script><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="~/css/tracker.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/koffi4.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/koffi5.css" asp-append-version="true" />
 </head>
 <body class="bg-slate-900 text-slate-200 font-sans" data-client-key="@state.ClientKey">
 <a class="skip-link" href="#main-content">@T["SkipToContent"]</a>
@@ -36,12 +38,14 @@
         <details class="account-menu"><summary aria-label="@T["Account"]">☰</summary><div class="account-panel glass">
             @if (User.Identity?.IsAuthenticated == true) {
                 <p class="account-name">@User.Identity.Name</p>
+                <a asp-controller="Account" asp-action="EmailSettings">@T["EmailSettings"]</a>
                 <form asp-controller="Account" asp-action="Logout" method="post"><button type="submit" class="nav-tab">@T["Logout"]</button></form>
                 <form asp-controller="Account" asp-action="DeleteAccount" method="post" data-confirm="@T["DeleteAccountConfirm"]"><button type="submit" class="danger-button">@T["DeleteAccount"]</button></form>
             } else {
                 <a asp-controller="Account" asp-action="Login">@T["Login"]</a><a asp-controller="Account" asp-action="Register">@T["Register"]</a>
                 <small>@T["GuestMode"]</small>
             }
+            <a asp-controller="Drinks" asp-action="Index">@T["OwnDrinks"]</a>
             <a asp-controller="Planning" asp-action="Settings">@T["PlanningSettings"]</a>
             <a asp-controller="Help" asp-action="WhatsNew">@T["WhatsNew"]</a>
             <a asp-controller="Help" asp-action="Support">@T["SupportTitle"]</a>
@@ -61,7 +65,13 @@
             <button type="button" class="quiet-button" data-dismiss-morning>@T["NotNow"]</button>
         </aside>
     }
+    @if(TempData["EmailNotice"] is string emailNotice && User.Identity?.IsAuthenticated==true && controller!="Account") {
+        <aside class="glass panel"><p role="status">@T[emailNotice]</p><a asp-controller="Account" asp-action="EmailSettings">@T["EmailSettings"]</a></aside>
+    }
     @RenderBody()
+    @if(controller is not ("Account" or "Barcode") && await GuestPrompt.ShowAsync(TrackerUser.GetId(),User.Identity?.IsAuthenticated==true)) {
+        <aside class="glass panel mt-5" id="guest-registration-prompt"><h2>@T["GuestPromptTitle"]</h2><p>@T["GuestPromptText"]</p><a asp-controller="Account" asp-action="Register" class="nav-tab">@T["Register"]</a><form asp-controller="GuestPrompt" asp-action="Dismiss" method="post" class="inline"><button type="submit" class="quiet-button">@T["NotNow"]</button></form></aside>
+    }
     <footer class="app-footer"><a asp-controller="Home" asp-action="Privacy">@T["PrivacyTitle"]</a><a asp-controller="Help" asp-action="WhatsNew">@T["WhatsNew"]</a><a asp-controller="Help" asp-action="Support">@T["SupportTitle"] ☕</a></footer>
 </main>
 <a asp-controller="Tracker" asp-action="LogDrink" class="add-drink-fab" aria-label="@T["AddDrink"]"><span aria-hidden="true">＋</span><span class="fab-text">@T["AddDrink"]</span></a>

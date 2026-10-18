@@ -143,11 +143,13 @@
         </div>
 
 
+        <a asp-controller="Drinks" asp-action="Index" class="text-cyan-400">@T["OwnDrinks"]</a>
         <!-- CUSTOM DRINK -->
 
         <div id="custom-section"
              class="hidden space-y-5 mb-5 bg-slate-800/40 p-4 rounded-xl border border-slate-700">
 
+            <label asp-for="CustomCategory">@T["Categories"]</label><select asp-for="CustomCategory" class="field">@foreach(var c in OwnDrinkService.Categories){<option value="@c">@T["Category_"+c]</option>}</select>
             <div>
 
                 <label asp-for="CustomBeverageName"

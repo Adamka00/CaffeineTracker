@@ -1,13 +1,14 @@
 @model Caffeine.ViewModels.SleepForm
+@inject Caffeine.Services.TrackerClock Clock
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
 
 @{
     ViewData["Title"] = T["SleepCheckIn"];
 }
 
-<h1 class="text-2xl font-bold mb-5">
+<div class="flex items-center justify-between gap-2"><h1 class="text-2xl font-bold mb-5">
     @T["SleepCheckIn"]
-</h1>
+</h1><partial name="_InfoButton" model='@("SleepSnapshotNote")' /></div>
 
 <p class="text-sm text-slate-400 mb-5">
     @T["SleepDateNote"]
@@ -59,6 +60,16 @@
         }
     </select>
 
+    @foreach(var field in new[]{("BedtimeOffsetMinutes",Model.ActualBedtime,Model.BedtimeOffsetMinutes),("WakeOffsetMinutes",Model.WakeTime,Model.WakeOffsetMinutes)}) {
+        @if(field.Item2.HasValue && Clock.Zone.IsAmbiguousTime(DateTime.SpecifyKind(field.Item2.Value,DateTimeKind.Unspecified))) {
+            <label for="@field.Item1">@T["AmbiguousClock"] (@field.Item2.Value.ToString("g"))</label>
+            <select name="@field.Item1" id="@field.Item1" class="field" required><option value="">—</option>
+                @foreach(var offset in Clock.Zone.GetAmbiguousTimeOffsets(DateTime.SpecifyKind(field.Item2.Value,DateTimeKind.Unspecified))) {
+                    <option value="@((int)offset.TotalMinutes)" selected="@(field.Item3==(int)offset.TotalMinutes)">UTC @offset</option>
+                }
+            </select>
+        }
+    }
     <details class="my-4">
         <summary>@T["OptionalDetails"]</summary>
 
@@ -108,7 +119,7 @@
                   class="field"></textarea>
     </details>
 
-    <partial name="_InfoButton" model='@("SleepSnapshotNote")' />
+
 
     <button type="submit"
             class="nav-tab">

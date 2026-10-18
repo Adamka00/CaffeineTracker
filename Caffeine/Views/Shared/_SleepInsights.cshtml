@@ -7,13 +7,9 @@
         <article class="insight-card">
             <h3>@T[item.MetricKey]</h3>
             <p class="insight-stage">@T[item.StageKey]</p>
-            <div class="insight-meta"><span class="insight-pill">@T["SleepSample", item.Count]</span><span class="insight-pill">@T[item.ConfidenceKey]</span></div>
-            @if (item.HasRelationshipData) {
-                <p>@T[item.DirectionKey] · @T[item.StrengthKey]</p>
-                <div class="insight-strength" aria-hidden="true"><span style="width:@((int)(Math.Abs(item.Correlation)*100))%"></span></div>
-            }
-            <p class="text-sm mt-2">@T[item.MessageKey]</p>
-            <details class="insight-details"><summary>@T["Details"]</summary>
+            <p class="muted text-sm">@T["SleepSample", item.Count]</p>
+            <p class="text-sm mt-2">@T[item.ObservationKey]</p>
+            <details class="insight-details"><summary>@T["HowCalculated"]</summary>
                 <p>@T["SleepInsightMethod"]</p>
                 @if (item.HasRelationshipData) { <p>r = @item.Correlation.ToString("0.00", System.Globalization.CultureInfo.CurrentCulture)</p> }
                 <p>@T["SleepInsightNote"]</p>

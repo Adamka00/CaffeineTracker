@@ -22,10 +22,12 @@
       </PackageReference>
 
       <PackageReference Include="MailKit" Version="4.17.0" />
+	<PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Views\Barcode\" />
+      <Folder Include="Views\Drinks\" />
     </ItemGroup>
 
     <ItemGroup>

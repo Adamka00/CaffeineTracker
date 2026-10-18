@@ -1,4 +1,5 @@
 using Caffeine.Services;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Authorization;
 using Caffeine.Data;
@@ -24,12 +25,7 @@ namespace Caffeine.Controllers
         private readonly AppDbContext _context;
         private readonly ICaffeineLogRepository _logRepository;
         private readonly PasswordHasher<AppUser> _passwordHasher;
-
-        public AccountController(
-            AppDbContext context,
-            ICaffeineLogRepository logRepository,
-            CurrentTrackerUser currentUser,
-            IStringLocalizer<SharedResource> text)
+        public AccountController(AppDbContext context, ICaffeineLogRepository logRepository, CurrentTrackerUser currentUser, IStringLocalizer<SharedResource> text)
         {
             _text = text;
             _context = context;
@@ -38,231 +34,123 @@ namespace Caffeine.Controllers
             _passwordHasher = new PasswordHasher<AppUser>();
         }
 
-
         [HttpGet]
-        public IActionResult Register() =>
-            View(new RegisterViewModel());
-
-
+        public IActionResult Register() => View(new RegisterViewModel());
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        [EnableRateLimiting("registration")]
+        public async Task<IActionResult> Register(RegisterViewModel model, [FromServices] EmailConfirmationService confirmation)
         {
             if (!ModelState.IsValid)
                 return View(model);
-
-            if (await _context.Users.AnyAsync(u => u.Email == model.Email))
+            await using var registrationTransaction = await _context.Database.BeginTransactionAsync();
+            model.Email = model.Email.Trim().ToLowerInvariant();
+            if (await _context.Users.AnyAsync(u => u.Email.ToLower() == model.Email))
             {
-                ModelState.AddModelError(
-                    "Email",
-                    _text["EmailAlreadyRegistered"]);
-
+                ModelState.AddModelError("Email", _text["EmailAlreadyRegistered"]);
                 return View(model);
             }
 
             var user = new AppUser
             {
                 Username = model.Username,
-                Email = model.Email
+                Email = model.Email,
+                EmailVerificationRequired = true,
+                CreatedAt = HttpContext.RequestServices.GetRequiredService<TimeProvider>().GetUtcNow().UtcDateTime
             };
-
-            user.PasswordHash =
-                _passwordHasher.HashPassword(
-                    user,
-                    model.Password);
-
+            user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
             _context.Users.Add(user);
-
             await _context.SaveChangesAsync();
-
+            await registrationTransaction.CommitAsync();
+            await registrationTransaction.DisposeAsync();
             await SignInUserAsync(user);
-
-            await TransferGuestLogs(
-                user.Id.ToString());
-
-            return RedirectToAction(
-                "Index",
-                "Tracker");
+            await TransferGuestLogs(user.Id.ToString());
+            // Logging and legacy sign-in remain usable while email is unconfirmed.
+            TempData["EmailNotice"] = await confirmation.RequestAsync(user.Id, System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
+            return RedirectToAction("Index", "Tracker");
         }
 
-
         [HttpGet]
-        public IActionResult Login() =>
-            View(new LoginViewModel());
-
-
+        public IActionResult Login() => View(new LoginViewModel());
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
-
-            var user =
-                await _context.Users
-                    .FirstOrDefaultAsync(
-                        u => u.Email == model.Email);
-
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
             if (user == null)
             {
-                ModelState.AddModelError(
-                    "",
-                    _text["InvalidLogin"]);
-
+                ModelState.AddModelError("", _text["InvalidLogin"]);
                 return View(model);
             }
 
-            var result =
-                _passwordHasher.VerifyHashedPassword(
-                    user,
-                    user.PasswordHash,
-                    model.Password);
-
-            if (result ==
-                PasswordVerificationResult.Failed)
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
+            if (result == PasswordVerificationResult.Failed)
             {
-                ModelState.AddModelError(
-                    "",
-                    _text["InvalidLogin"]);
-
+                ModelState.AddModelError("", _text["InvalidLogin"]);
                 return View(model);
             }
 
             await SignInUserAsync(user);
-
-            await TransferGuestLogs(
-                user.Id.ToString());
-
-            return RedirectToAction(
-                "Index",
-                "Tracker");
+            await TransferGuestLogs(user.Id.ToString());
+            return RedirectToAction("Index", "Tracker");
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            var deviceHash =
-                Request.Cookies["KoffiPushDevice"];
-
+            var deviceHash = Request.Cookies["KoffiPushDevice"];
             if (!string.IsNullOrEmpty(deviceHash))
             {
-                await _context
-                    .BrowserPushSubscriptions
-                    .Where(s =>
-                        s.UserId ==
-                        _currentUser.GetId() &&
-                        s.EndpointHash ==
-                        deviceHash)
-                    .ExecuteDeleteAsync();
+                await _context.BrowserPushSubscriptions.Where(s => s.UserId == _currentUser.GetId() && s.EndpointHash == deviceHash).ExecuteDeleteAsync();
             }
 
-            Response.Cookies.Delete(
-                "KoffiPushDevice");
-
-            await HttpContext.SignOutAsync(
-                CookieAuthenticationDefaults
-                    .AuthenticationScheme);
-
-            return RedirectToAction(
-                "Index",
-                "Tracker");
+            Response.Cookies.Delete("KoffiPushDevice");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Tracker");
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> DeleteAccount()
         {
-            var userId =
-                User.FindFirstValue(
-                    ClaimTypes.NameIdentifier);
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId != null)
             {
-                await _logRepository
-                    .DeleteAllLogsForUserAsync(userId);
-
-                var user =
-                    await _context.Users.FindAsync(
-                        int.Parse(userId));
-
+                await _logRepository.DeleteAllLogsForUserAsync(userId);
+                var user = await _context.Users.FindAsync(int.Parse(userId));
                 if (user != null)
                 {
                     _context.Users.Remove(user);
-
-                    await _context
-                        .SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
 
-                await HttpContext.SignOutAsync(
-                    CookieAuthenticationDefaults
-                        .AuthenticationScheme);
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
 
-            return RedirectToAction(
-                "Index",
-                "Tracker");
+            return RedirectToAction("Index", "Tracker");
         }
 
-
-        private async Task SignInUserAsync(
-            AppUser user)
+        private async Task SignInUserAsync(AppUser user)
         {
             var claims = new List<Claim>
             {
-                new(
-                    "SecurityStamp",
-                    user.SecurityStamp),
-
-                new(
-                    ClaimTypes.NameIdentifier,
-                    user.Id.ToString()),
-
-                new(
-                    ClaimTypes.Name,
-                    user.Username),
-
-                new(
-                    ClaimTypes.Email,
-                    user.Email)
+                new("SecurityStamp", user.SecurityStamp),
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Name, user.Username),
+                new(ClaimTypes.Email, user.Email)
             };
-
-            var identity =
-                new ClaimsIdentity(
-                    claims,
-                    CookieAuthenticationDefaults
-                        .AuthenticationScheme);
-
-            var principal =
-                new ClaimsPrincipal(identity);
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults
-                    .AuthenticationScheme,
-                principal,
-                new AuthenticationProperties
-                {
-                    IsPersistent = true,
-                    ExpiresUtc =
-                        DateTimeOffset.UtcNow
-                            .AddDays(30)
-                });
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30) });
         }
 
-
-        private async Task TransferGuestLogs(
-            string newUserId)
+        private async Task TransferGuestLogs(string newUserId)
         {
-            var guestId =
-                _currentUser.GetGuestId();
-
+            var guestId = _currentUser.GetGuestId();
             if (!string.IsNullOrEmpty(guestId))
             {
-                await _logRepository
-                    .TransferLogsAsync(
-                        guestId,
-                        newUserId);
-
+                await _logRepository.TransferLogsAsync(guestId, newUserId);
                 _currentUser.ClearGuest();
             }
         }

@@ -21,6 +21,7 @@
             <input id="product-caffeine" name="CustomCaffeinePer100Ml" type="number" step="0.1" class="field" value="@(product.CaffeinePer100Ml?.ToString("0.###", CultureInfo.InvariantCulture))" min="0" max="1000" required />
             @if (!product.CaffeinePer100Ml.HasValue) { <p>@T["MissingCaffeine"]</p> }
             <p id="product-total" role="status" data-label="@T["TotalCaffeine"]"></p>
+            <label for="product-category">@T["Categories"]</label><select id="product-category" name="CustomCategory" class="field">@foreach(var c in Caffeine.Services.OwnDrinkService.Categories){<option value="@c">@T["Category_"+c]</option>}</select>
             <label for="product-time">@T["ConsumedAt"]</label>
             <input id="product-time" name="ConsumedAt" type="datetime-local" value="@Model.ConsumedAt.ToString("yyyy-MM-ddTHH:mm")" class="field" required />
             <label><input type="checkbox" name="SaveAsFavorite" value="true" /> @T["SaveFavorite"]</label>

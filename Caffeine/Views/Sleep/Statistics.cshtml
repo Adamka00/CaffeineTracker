@@ -1,0 +1,23 @@
+@model Caffeine.Services.SleepStatistics
+@inject Caffeine.Services.DurationDisplay Duration
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{ViewData["Title"]=T["SleepStatistics"];var s=Model.Current;}
+<partial name="_SleepTabs" /><h1>@T["SleepStatistics"]</h1>
+<div class="flex justify-between gap-2 mb-5">
+@if(s.Start.AddDays(-7).Year>=2000){<a asp-route-week="@s.Start.AddDays(-7).ToString("yyyy-MM-dd")" class="nav-tab">@T["PreviousWeek"]</a>}
+<span>@s.Start.ToString("d") – @s.Start.AddDays(6).ToString("d")</span>
+@if(s.Start.AddDays(7)<=Model.Today){<a asp-route-week="@s.Start.AddDays(7).ToString("yyyy-MM-dd")" class="nav-tab">@T["NextWeek"]</a>}
+</div>
+<form method="get" class="flex gap-2 mb-5"><label for="sleep-week" class="sr-only">@T["ChooseDate"]</label><input id="sleep-week" name="week" type="date" class="field" min="2000-01-01" max="@Model.Today.ToString("yyyy-MM-dd")" value="@s.Start.ToString("yyyy-MM-dd")" /><button class="nav-tab">@T["Go"]</button></form>
+<p class="muted mb-5">@T["SleepSample",s.Count]</p>
+<div class="grid grid-cols-2 gap-3 mb-5">
+@foreach(var item in new[]{("SleepAverage",Duration.Hours(s.AverageHours)),("SleepShortest",Duration.Hours(s.MinHours)),("SleepLongest",Duration.Hours(s.MaxHours)),("SleepRating",s.AverageRating?.ToString("0.0")+ (s.Count>0?" / 5":"—")),("Awakenings",s.AverageAwakenings?.ToString("0.0")??"—"),("FallingAsleep",s.AverageDifficulty?.ToString("0.0")??"—"),("SleepPlannedDifference",s.PlannedDifferenceMinutes.HasValue?Duration.Minutes(s.PlannedDifferenceMinutes.Value):"—")}){
+<section class="glass panel"><h2 class="stat-label">@T[item.Item1]</h2><p>@item.Item2</p></section>}
+</div>
+<p class="muted text-sm mb-5">@T["OptionalSampleCounts",s.AwakeningCount,s.DifficultyCount,s.PlannedCount]</p>
+<section class="glass panel"><h2>@T["SleepDailyDuration"]</h2>
+@foreach(var d in s.Days){<div class="mb-3"><div class="flex justify-between text-sm"><span>@d.Day.ToString("ddd d")</span><span>@Duration.Hours(d.Hours)</span></div>@if(d.Hours.HasValue){<div class="category-bar"><div class="category-fill" style="width:@((int)Math.Clamp(d.Hours.Value/24*100,0,100))%"></div></div>}else{<span class="muted text-xs">@T["NoEntry"]</span>}</div>}
+</section>
+<section class="glass panel"><h2>@T["PreviousWeekComparison"]</h2>
+@if(s.Count>0&&Model.Previous.Count>0){<p>@T["SleepAverage"]: @Duration.Hours(s.AverageHours) · @T["PreviousWeek"]: @Duration.Hours(Model.Previous.AverageHours)</p><p>@T["SleepRating"]: @s.AverageRating?.ToString("0.0") / @Model.Previous.AverageRating?.ToString("0.0")</p><p class="muted">@T["ComparisonSample",s.Count,Model.Previous.Count]</p>}else{<p>@T["NotEnoughComparison"]</p>}
+</section>

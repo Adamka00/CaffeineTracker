@@ -10,8 +10,9 @@ public sealed class DrinkCatalog(AppDbContext db)
         db.Beverages
             .AsNoTracking()
             .Where(b =>
-                (b.OwnerId == null && b.Category != "Custom") ||
-                b.OwnerId == userId);
+                !b.IsArchived &&
+                ((b.OwnerId == null && b.Category != "Custom") ||
+                 b.OwnerId == userId));
 
     public async Task<List<Beverage>> ListAsync(string userId) =>
         (await ForUser(userId).ToListAsync())

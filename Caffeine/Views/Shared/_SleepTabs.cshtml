@@ -1,0 +1,22 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+
+@{
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<nav class="sleep-tabs flex gap-2 mb-5" aria-label="@T["SleepTitle"]">
+    @foreach (var tab in new[]
+              {
+                  ("Index", "Diary"),
+                  ("Statistics", "StatsTabShort"),
+                  ("Analysis", "SleepAnalysis")
+              })
+    {
+        <a asp-controller="Sleep"
+           asp-action="@tab.Item1"
+           class="nav-tab @(action == tab.Item1 ? "active" : "")"
+           aria-current="@(action == tab.Item1 ? "page" : null)">
+            @T[tab.Item2]
+        </a>
+    }
+</nav>

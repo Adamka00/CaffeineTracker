@@ -1,0 +1,9 @@
+@model Caffeine.ViewModels.OwnDrinkForm
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{ViewData["Title"]=T["OwnDrinks"];}
+<h1>@T["OwnDrinks"]</h1><form method="post" class="glass panel feature-form"><div asp-validation-summary="All" role="alert"></div><input asp-for="Id" type="hidden" />
+<label asp-for="Name">@T["ProductName"]</label><input asp-for="Name" maxlength="120" class="field" required />
+<label asp-for="CaffeinePer100Ml">@T["CaffeinePer100"]</label><input asp-for="CaffeinePer100Ml" type="number" step="0.1" min="0" max="1000" class="field" required />
+<label asp-for="AmountMl">@T["AmountMl"]</label><input asp-for="AmountMl" type="number" min="1" max="2000" class="field" required />
+<label asp-for="Category">@T["Categories"]</label><select asp-for="Category" class="field">@foreach(var c in Caffeine.Services.OwnDrinkService.Categories){<option value="@c">@T["Category_"+c]</option>}</select>
+<p class="muted">@T["DrinkHistoryPreserved"]</p><button class="primary-button" type="submit">@T["Save"]</button><a asp-action="Index">@T["Cancel"]</a></form>

@@ -14,6 +14,9 @@ public sealed class SleepForm
     [Required]
     public DateTime? WakeTime { get; set; }
 
+    public int? BedtimeOffsetMinutes { get; set; }
+    public int? WakeOffsetMinutes { get; set; }
+
     public DateTime? PlannedBedtime { get; set; }
 
     [Range(1, 5)]

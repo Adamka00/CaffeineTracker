@@ -1,0 +1,11 @@
+@model Caffeine.ViewModels.EmailSettingsForm
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{ViewData["Title"]=T["EmailSettings"];}
+<h1>@T["EmailSettings"]</h1>
+@if(TempData["EmailNotice"] is string notice){<p class="notice mb-5" role="status">@T[notice]</p>}
+<section class="glass panel"><h2>@T[Model.Confirmed?"EmailVerified":"EmailNotVerified"]</h2>
+@if(!Model.Confirmed){<p>@T["LegacyVerificationNote"]</p><form asp-action="ResendConfirmation" method="post"><button class="nav-tab" type="submit">@T["ResendConfirmation"]</button></form>}
+</section>
+<form method="post" class="glass panel feature-form"><div asp-validation-summary="All" role="alert"></div>
+<label><input asp-for="Announcements" type="checkbox" /> @T["AnnouncementOptIn"]</label>
+<label><input asp-for="Weekly" type="checkbox" /> @T["WeeklyOptIn"]</label><p class="muted">@T["MailConsentNote"]</p><button class="primary-button" type="submit">@T["Save"]</button></form>

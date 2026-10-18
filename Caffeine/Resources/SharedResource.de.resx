@@ -214,10 +214,10 @@
     <value>Noch keine Schlafeinträge.</value>
   </data>
   <data name="ActualBedtime" xml:space="preserve">
-    <value>Tatsächliche Schlafenszeit</value>
+    <value>Tatsächliche Einschlafzeit</value>
   </data>
   <data name="WakeTime" xml:space="preserve">
-    <value>Aufwachzeit</value>
+    <value>Endgültige Aufwachzeit</value>
   </data>
   <data name="PlannedBedtime" xml:space="preserve">
     <value>Geplante Schlafenszeit</value>
@@ -226,7 +226,7 @@
     <value>Schlafqualität (1–5)</value>
   </data>
   <data name="FallingAsleep" xml:space="preserve">
-    <value>Einschlafschwierigkeit (1: leicht, 5: schwierig)</value>
+    <value>Wie leicht bist du eingeschlafen? (1: leicht, 5: schwer)</value>
   </data>
   <data name="Awakenings" xml:space="preserve">
     <value>Anzahl der Wachphasen</value>
@@ -244,7 +244,7 @@
     <value>Optionale Angaben</value>
   </data>
   <data name="SleepSnapshotNote" xml:space="preserve">
-    <value>Koffeindaten werden automatisch als Momentaufnahme verknüpft. Spätere Getränkänderungen aktualisieren sie erst beim erneuten Speichern dieses Schlafeintrags. Die Dauer ergibt sich aus den eingegebenen lokalen Uhrzeiten.</value>
+    <value>Frühere Einträge bleiben unverändert. Bei neuen Einträgen bedeutet Schlafbeginn ungefähr den tatsächlichen Einschlafzeitpunkt, nicht das Zubettgehen. Koffein wird automatisch als Momentaufnahme verknüpft. Gib Zeiten in der Tracker-Zeitzone ein; bei Zeitumstellungen kann eine Präzisierung nötig sein.</value>
   </data>
   <data name="EstimatedAtBedtime" xml:space="preserve">
     <value>Geschätztes Koffein beim Zubettgehen</value>
@@ -307,28 +307,28 @@
     <value>Persönliche Schlafmuster</value>
   </data>
   <data name="SleepInsightNote" xml:space="preserve">
-    <value>Wir betrachten die letzten 90 eingetragenen Nächte mit mindestens 10 verwendbaren Einträgen je Kennzahl. Das sind Zusammenhänge im Tagebuch, keine medizinischen oder kausalen Schlussfolgerungen. Andere Faktoren können den Schlaf beeinflussen.</value>
+    <value>Diese Beobachtungen stammen aus deinem Tagebuch und sind keine bewiesenen Ursachen oder medizinischen Schlussfolgerungen. Andere Umstände können eine Rolle spielen.</value>
   </data>
   <data name="SleepSample" xml:space="preserve">
     <value>Verwendete Nächte: {0}</value>
   </data>
   <data name="BedtimeCaffeineVsRating" xml:space="preserve">
-    <value>Geschätztes Koffein beim Zubettgehen → Schlafqualität</value>
+    <value>Koffein beim Einschlafen und deine Schlafbewertung</value>
   </data>
   <data name="DailyCaffeineVsRating" xml:space="preserve">
-    <value>Koffein am Vortag → Schlafqualität</value>
+    <value>Tägliches Koffein und deine Schlafbewertung</value>
   </data>
   <data name="LateCaffeineVsDifficulty" xml:space="preserve">
-    <value>Koffein näher an der Schlafenszeit → Einschlafschwierigkeit</value>
+    <value>Späteres Koffein und Einschlafen</value>
   </data>
   <data name="DailyCaffeineVsDuration" xml:space="preserve">
-    <value>Koffein am Vortag → Schlafdauer</value>
+    <value>Tägliches Koffein und Schlafdauer</value>
   </data>
   <data name="InsufficientSleepData" xml:space="preserve">
     <value>Noch nicht genügend Daten für einen persönlichen Trend. Mindestens 10 verwendbare Nächte sind erforderlich.</value>
   </data>
   <data name="SleepNoVariation" xml:space="preserve">
-    <value>Die eingetragenen Werte sind für einen aussagekräftigen Vergleich zu ähnlich.</value>
+    <value>Deine Angaben sind sehr ähnlich; ein hilfreicher Vergleich ist noch nicht möglich.</value>
   </data>
   <data name="SleepLowerAssociation" xml:space="preserve">
     <value>In deinem Tagebuch gingen höhere Werte der ersten Kennzahl tendenziell mit niedrigeren Werten der zweiten einher.</value>
@@ -484,7 +484,7 @@
     <value>Tee</value>
   </data>
   <data name="Category_Custom" xml:space="preserve">
-    <value>Eigenes Getränk</value>
+    <value>Sonstiges</value>
   </data>
   <data name="Category_Ice Coffee" xml:space="preserve">
     <value>Eiskaffee</value>
@@ -769,13 +769,13 @@
     <value>Noch nicht genügend Daten</value>
   </data>
   <data name="InsightEarly" xml:space="preserve">
-    <value>Frühe Schätzung – wenige Daten</value>
+    <value>Vorläufige Beobachtung – noch wenige Nächte</value>
   </data>
   <data name="InsightEmerging" xml:space="preserve">
-    <value>Dein persönliches Muster zeichnet sich ab</value>
+    <value>Ein persönliches Muster zeichnet sich ab</value>
   </data>
   <data name="InsightEstablished" xml:space="preserve">
-    <value>Persönliche Auswertung mit mehr Daten</value>
+    <value>Ausführlichere persönliche Beobachtung</value>
   </data>
   <data name="ConfidenceLow" xml:space="preserve">
     <value>Geringe Datengrundlage</value>
@@ -811,7 +811,7 @@
     <value>Starker linearer Zusammenhang</value>
   </data>
   <data name="SleepInsightHelp" xml:space="preserve">
-    <value>10–19 Nächte: frühe Schätzung; 20–29: entstehendes Muster; ab 30: mehr Datengrundlage. Diese Stufen beschreiben die Stichprobengröße, keine statistische Gewissheit oder Kausalität.</value>
+    <value>Jede Beobachtung zeigt die Zahl verwendbarer Nächte. Unter 10: keine Analyse; 10–19: vorläufig; 20–29: entstehendes Muster; ab 30: ausführlicher. Mehr Daten garantieren keinen Zusammenhang.</value>
   </data>
   <data name="SleepInsightMethod" xml:space="preserve">
     <value>Lineare Pearson-Korrelation der letzten 90 Nächte. Das Vorzeichen von r zeigt die Richtung, sein Betrag die lineare Stärke. Nicht alle möglichen Einflüsse werden damit erfasst.</value>
@@ -953,5 +953,200 @@
   </data>
   <data name="RequestId" xml:space="preserve">
     <value>Anfrage-ID:</value>
+  </data>
+  <data name="Release5Sleep" xml:space="preserve">
+    <value>Ausführlicheres Schlaftagebuch, Wochenstatistik und verständliche persönliche Beobachtungen.</value>
+  </data>
+  <data name="Release5Drinks" xml:space="preserve">
+    <value>Eigene Getränke bearbeiten und zuordnen, ohne frühere Koffeinwerte zu verändern.</value>
+  </data>
+  <data name="Release5Mail" xml:space="preserve">
+    <value>E-Mail-Bestätigung und optionale Wochenübersichten und Neuigkeiten.</value>
+  </data>
+  <data name="DurationHoursMinutes" xml:space="preserve">
+    <value>{0} Std. {1} Min.</value>
+  </data>
+  <data name="SleepStatistics" xml:space="preserve">
+    <value>Schlafstatistik</value>
+  </data>
+  <data name="SleepAnalysis" xml:space="preserve">
+    <value>Auswertung</value>
+  </data>
+  <data name="SleepAverage" xml:space="preserve">
+    <value>Durchschnittliche Schlafdauer</value>
+  </data>
+  <data name="SleepShortest" xml:space="preserve">
+    <value>Kürzester Schlaf</value>
+  </data>
+  <data name="SleepLongest" xml:space="preserve">
+    <value>Längster Schlaf</value>
+  </data>
+  <data name="SleepPlannedDifference" xml:space="preserve">
+    <value>Abweichung von der geplanten Einschlafzeit</value>
+  </data>
+  <data name="SleepDailyDuration" xml:space="preserve">
+    <value>Tägliche Schlafdauer</value>
+  </data>
+  <data name="OptionalSampleCounts" xml:space="preserve">
+    <value>Aufwachhäufigkeit: {0}, Einschlafen: {1}, geplante Zeit: {2} ausgefüllte Nächte.</value>
+  </data>
+  <data name="PreviousWeekComparison" xml:space="preserve">
+    <value>Vergleich mit der Vorwoche</value>
+  </data>
+  <data name="ComparisonSample" xml:space="preserve">
+    <value>{0} Nächte diese Woche, {1} in der Vorwoche. Fehlende Tage zählen nicht als null.</value>
+  </data>
+  <data name="NotEnoughComparison" xml:space="preserve">
+    <value>Es liegen noch nicht für beide Wochen Daten vor.</value>
+  </data>
+  <data name="SleepClockInvalid" xml:space="preserve">
+    <value>Prüfe die Zeiten: Übersprungene Uhrzeiten sind ungültig; wähle bei einer wiederholten Stunde den UTC-Versatz.</value>
+  </data>
+  <data name="AmbiguousClock" xml:space="preserve">
+    <value>Diese Stunde kam zweimal vor. Welcher UTC-Versatz gilt?</value>
+  </data>
+  <data name="HowCalculated" xml:space="preserve">
+    <value>Wie wird das berechnet?</value>
+  </data>
+  <data name="SleepObservationUnclear" xml:space="preserve">
+    <value>Dein aktuelles Tagebuch zeigt noch kein eindeutiges Muster zwischen diesen beiden Angaben.</value>
+  </data>
+  <data name="OwnDrinks" xml:space="preserve">
+    <value>Meine Getränke</value>
+  </data>
+  <data name="NoOwnDrinks" xml:space="preserve">
+    <value>Noch keine eigenen Getränke. Füge eines beim Eintragen hinzu.</value>
+  </data>
+  <data name="ArchiveDrinkConfirm" xml:space="preserve">
+    <value>Aus deinen Getränken und Favoriten entfernen? Frühere Einträge bleiben erhalten.</value>
+  </data>
+  <data name="DrinkHistoryPreserved" xml:space="preserve">
+    <value>Änderungen gelten für neue Einträge. Frühere Mengen und Koffeinwerte bleiben unverändert.</value>
+  </data>
+  <data name="GuestPromptTitle" xml:space="preserve">
+    <value>Nimm dein Tagebuch mit!</value>
+  </data>
+  <data name="GuestPromptText" xml:space="preserve">
+    <value>Du nutzt Koffi regelmäßig. Mit einem kostenlosen Konto erreichst du deine Daten auf anderen Geräten; dein Gasttagebuch wird übernommen.</value>
+  </data>
+  <data name="EmailSettings" xml:space="preserve">
+    <value>E-Mail-Einstellungen</value>
+  </data>
+  <data name="EmailVerified" xml:space="preserve">
+    <value>E-Mail bestätigt</value>
+  </data>
+  <data name="EmailNotVerified" xml:space="preserve">
+    <value>E-Mail noch nicht bestätigt</value>
+  </data>
+  <data name="LegacyVerificationNote" xml:space="preserve">
+    <value>Du kannst Koffi weiter nutzen. Bestätige deine Adresse vor der Anmeldung zu optionalen Übersichten oder Neuigkeiten.</value>
+  </data>
+  <data name="ResendConfirmation" xml:space="preserve">
+    <value>Bestätigungs-E-Mail anfordern</value>
+  </data>
+  <data name="ConfirmEmailTitle" xml:space="preserve">
+    <value>E-Mail-Adresse bestätigen</value>
+  </data>
+  <data name="EmailVerificationComplete" xml:space="preserve">
+    <value>Deine E-Mail ist bestätigt. Du kannst jetzt Wochenübersichten und Neuigkeiten abonnieren.</value>
+  </data>
+  <data name="InvalidVerificationToken" xml:space="preserve">
+    <value>Der Link ist ungültig, abgelaufen oder verwendet. Fordere in den Einstellungen eine neue E-Mail an.</value>
+  </data>
+  <data name="VerifyMailIntro" xml:space="preserve">
+    <value>Bitte bestätige deine E-Mail-Adresse für Koffi. Der Link öffnet eine Seite mit einem Bestätigungsknopf.</value>
+  </data>
+  <data name="VerifyMailExpiry" xml:space="preserve">
+    <value>Der Link ist 24 Stunden gültig und einmal verwendbar. Wenn du dich nicht registriert hast, ignoriere ihn.</value>
+  </data>
+  <data name="VerifyBeforeSubscribe" xml:space="preserve">
+    <value>Bestätige deine E-Mail vor dem Abonnieren.</value>
+  </data>
+  <data name="AnnouncementOptIn" xml:space="preserve">
+    <value>Koffi-Neuigkeiten und Versionsupdates</value>
+  </data>
+  <data name="WeeklyOptIn" xml:space="preserve">
+    <value>Persönliche wöchentliche Statistik-E-Mails</value>
+  </data>
+  <data name="MailConsentNote" xml:space="preserve">
+    <value>Beide Optionen sind freiwillig und unabhängig. Koffi funktioniert ohne Abonnement. Du kannst sie hier oder per Link in einer E-Mail jederzeit abbestellen.</value>
+  </data>
+  <data name="MailPreferencesSaved" xml:space="preserve">
+    <value>E-Mail-Einstellungen gespeichert.</value>
+  </data>
+  <data name="MailUnavailable" xml:space="preserve">
+    <value>E-Mail ist auf dieser Installation noch nicht eingerichtet. Du kannst weiter Einträge erstellen.</value>
+  </data>
+  <data name="AlreadyVerified" xml:space="preserve">
+    <value>Diese E-Mail ist bereits bestätigt.</value>
+  </data>
+  <data name="VerificationThrottled" xml:space="preserve">
+    <value>Du hast kürzlich eine E-Mail angefordert. Versuche es in zwei Minuten erneut.</value>
+  </data>
+  <data name="VerificationQueued" xml:space="preserve">
+    <value>Die Bestätigungs-E-Mail wartet auf den Versand. Prüfe Posteingang und Spamordner.</value>
+  </data>
+  <data name="Unsubscribe" xml:space="preserve">
+    <value>Abbestellen</value>
+  </data>
+  <data name="UnsubscribeComplete" xml:space="preserve">
+    <value>Du hast diese E-Mail-Art abbestellt. Die andere Einstellung bleibt unverändert.</value>
+  </data>
+  <data name="UnsubscribeConfirm" xml:space="preserve">
+    <value>Diese E-Mail-Art abbestellen? Dein Koffi-Konto und Tagebuch bleiben erhalten.</value>
+  </data>
+  <data name="UnsubscribeInvalid" xml:space="preserve">
+    <value>Der Link ist ungültig oder gehört zu einem älteren Abonnement. Du kannst es in den Kontoeinstellungen abbestellen.</value>
+  </data>
+  <data name="WeeklyMailTitle" xml:space="preserve">
+    <value>Deine Koffi-Wochenübersicht</value>
+  </data>
+  <data name="WeeklyMailPeriod" xml:space="preserve">
+    <value>Abgeschlossene Woche: {0} – {1}</value>
+  </data>
+  <data name="MailLoggedDataNote" xml:space="preserve">
+    <value>Der Koffeindurchschnitt verwendet 7 Kalendertage. Ein leerer Tag bedeutet keinen Eintrag, keinen bestätigten koffeinfreien Tag.</value>
+  </data>
+  <data name="MailNoCaffeineData" xml:space="preserve">
+    <value>Für diese Woche gibt es keine Koffein- oder koffeinfreien Tagebucheinträge.</value>
+  </data>
+  <data name="MailPreviousComparison" xml:space="preserve">
+    <value>Eingetragenes Koffein diese Woche: {0} mg; Vorwoche: {1} mg. Beide Wochen haben mindestens 3 erfasste Tage.</value>
+  </data>
+  <data name="MailNoSleepData" xml:space="preserve">
+    <value>Für diese Woche gibt es keine Schlafeinträge.</value>
+  </data>
+  <data name="MailEstimateNote" xml:space="preserve">
+    <value>Koffi fasst dein eigenes Tagebuch zusammen. Koffeinwerte sind Schätzungen; Beobachtungen sind keine medizinischen oder kausalen Aussagen.</value>
+  </data>
+  <data name="OpenKoffi" xml:space="preserve">
+    <value>In Koffi öffnen</value>
+  </data>
+  <data name="Observation_BedtimeCaffeineVsRating_Lower" xml:space="preserve">
+    <value>Bei höherem geschätztem Koffein zum Einschlafen war deine Schlafbewertung tendenziell niedriger.</value>
+  </data>
+  <data name="Observation_BedtimeCaffeineVsRating_Higher" xml:space="preserve">
+    <value>Bei höherem geschätztem Koffein zum Einschlafen war deine Schlafbewertung tendenziell höher. Das bedeutet nicht, dass Koffein den Schlaf verbessert.</value>
+  </data>
+  <data name="Observation_DailyCaffeineVsRating_Lower" xml:space="preserve">
+    <value>Nach Tagen mit mehr eingetragenem Koffein hast du deinen Schlaf tendenziell schlechter bewertet.</value>
+  </data>
+  <data name="Observation_DailyCaffeineVsRating_Higher" xml:space="preserve">
+    <value>Nach Tagen mit mehr eingetragenem Koffein hast du deinen Schlaf tendenziell besser bewertet. Daraus folgt nicht, dass Koffein geholfen hat.</value>
+  </data>
+  <data name="Observation_LateCaffeineVsDifficulty_Lower" xml:space="preserve">
+    <value>Wenn das letzte Koffein näher am Einschlafen lag, hast du tendenziell leichteres Einschlafen angegeben. Das belegt keinen Vorteil von spätem Koffein.</value>
+  </data>
+  <data name="Observation_LateCaffeineVsDifficulty_Higher" xml:space="preserve">
+    <value>Wenn das letzte Koffein näher am Einschlafen lag, hast du tendenziell schwierigeres Einschlafen angegeben.</value>
+  </data>
+  <data name="Observation_DailyCaffeineVsDuration_Lower" xml:space="preserve">
+    <value>Nach mehr eingetragenem Koffein hast du tendenziell kürzeren Schlaf erfasst.</value>
+  </data>
+  <data name="Observation_DailyCaffeineVsDuration_Higher" xml:space="preserve">
+    <value>Nach mehr eingetragenem Koffein hast du tendenziell längeren Schlaf erfasst. Das allein bedeutet keine positive Wirkung.</value>
+  </data>
+  <data name="StatsTabShort" xml:space="preserve">
+    <value>Statistik</value>
   </data>
 </root>

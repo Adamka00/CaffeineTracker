@@ -1,0 +1,4 @@
+@model IEnumerable<Caffeine.Services.SleepInsight>
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{ViewData["Title"]=T["SleepAnalysis"];}
+<partial name="_SleepTabs" /><h1>@T["SleepAnalysis"]</h1><partial name="_SleepInsights" model="Model" />

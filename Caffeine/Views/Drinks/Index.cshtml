@@ -1,0 +1,6 @@
+@model List<Caffeine.Models.Beverage>
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Caffeine.SharedResource> T
+@{ViewData["Title"]=T["OwnDrinks"];}
+<h1>@T["OwnDrinks"]</h1><a asp-controller="Tracker" asp-action="LogDrink" class="nav-tab mb-5">@T["AddDrink"]</a>
+@if(Model.Count==0){<p>@T["NoOwnDrinks"]</p>}
+@foreach(var b in Model){<article class="glass panel"><h2>@b.Name</h2><p>@T["Category_"+b.Category] · @b.CaffeinePer100Ml mg / 100 ml · @b.DefaultPortionMl ml</p><a asp-action="Edit" asp-route-id="@b.Id" class="nav-tab">@T["Edit"]</a><form asp-action="Delete" method="post" class="inline" data-confirm="@T["ArchiveDrinkConfirm"]"><input type="hidden" name="id" value="@b.Id" /><button class="danger-button" type="submit">@T["Delete"]</button></form></article>}

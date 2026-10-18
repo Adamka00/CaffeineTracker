@@ -8,11 +8,11 @@
     ViewData["Title"] = T["PlanningTitle"];
 }
 
-<h1 class="text-2xl font-bold mb-3">
+<div class="flex items-center justify-between gap-2"><h1 class="text-2xl font-bold mb-3">
     @T["PlanningTitle"]
-</h1>
+</h1><partial name="_InfoButton" model='@("WhatIfNote")' /></div>
 
-<partial name="_InfoButton" model='@("WhatIfNote")' />
+
 
 <a asp-action="Settings"
    class="text-cyan-400">
@@ -141,9 +141,9 @@
     <section class="glass rounded-3xl p-5 my-5"
              aria-live="polite">
 
-        <h2 class="font-bold mb-3">
+        <div class="flex items-center justify-between gap-2"><h2 class="font-bold mb-3">
             @T["Estimate"]
-        </h2>
+        </h2><partial name="_InfoButton" model='@("CutoffNote")' /></div>
 
         <p>
             @T["Dose"]:
@@ -179,7 +179,7 @@
         }
 
 
-        <partial name="_InfoButton" model='@("CutoffNote")' />
+
 
         <p>
             @T["UnderTargetAt"]:

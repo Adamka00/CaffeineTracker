@@ -5,6 +5,10 @@ namespace Caffeine.Models
     public class AppUser
     {
         public int Id { get; set; }
+
+        public bool EmailConfirmed { get; set; }
+        public bool EmailVerificationRequired { get; set; }
+
         public string SecurityStamp { get; set; } = "";
         public string Username { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
