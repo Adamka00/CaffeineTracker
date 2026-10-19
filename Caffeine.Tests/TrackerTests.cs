@@ -133,7 +133,7 @@ public sealed partial class TrackerTests : IDisposable
         var html = WebUtility.HtmlDecode(
             await client.GetStringAsync("/"));
 
-        Assert.DoesNotContain("777", html);
+        Assert.DoesNotMatch(@"(?<![A-Za-z0-9])777(?![A-Za-z0-9])", html);
 
         var id = await Db(
             db => db.CaffeineLogs

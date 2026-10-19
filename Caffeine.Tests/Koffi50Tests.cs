@@ -223,6 +223,13 @@ public sealed class Koffi50IntegrationTests : IDisposable
             var job = await db.MailJobs.AsNoTracking().SingleAsync();
             var message = await s.GetRequiredService<MailContentRenderer>().RenderAsync(job);
             Assert.NotNull(message);
+            // Verification emails use a dedicated CTA, exclude the statistics disclaimer,
+            // and start with a light palette for clients that recolor dark-mode emails.
+            Assert.Contains("class=\"koffi-button\"", message.Html);
+            Assert.Contains(">" + WebUtility.HtmlEncode(message.Subject) + "</a>", message.Html);
+            Assert.Contains("name=\"color-scheme\" content=\"light dark\"", message.Html);
+            Assert.Contains("background-color:#f1f5f9", message.Html);
+            Assert.Equal(2, Regex.Matches(message.Html, "class=\"koffi-copy\"").Count);
             var url = Regex.Match(message.PlainText, @"https://[^\s]+ConfirmEmail\?[^\s]+").Value;
             Assert.NotEmpty(url);
             var token = QueryHelpers.ParseQuery(new Uri(url).Query)["token"].ToString();
@@ -257,6 +264,89 @@ public sealed class Koffi50IntegrationTests : IDisposable
             Assert.NotNull((await db.EmailConfirmationTokens.AsNoTracking().SingleAsync(t => t.Id == old.Id)).UsedAtUtc);
             Assert.Equal(2, await db.EmailConfirmationTokens.CountAsync());
             Assert.Equal(1, await db.MailJobs.CountAsync(j => j.State == "Cancelled"));
+            return 0;
+        });
+    }
+
+    [Fact]
+    public async Task EmailLanguageSelectorIsSavedIndependentlyOfInterfaceLanguage()
+    {
+        // Register through HTTP so the test client has a genuine authentication cookie.
+        var registered = await Post(client, "/Account/Register", new()
+        {
+            { "Username", "mail-language" },
+            { "Email", "mail-language@example.test" },
+            { "Password", "Password-12345" }
+        });
+        Assert.Equal(HttpStatusCode.Redirect, registered.StatusCode);
+
+        await Work(async (_, db) =>
+        {
+            var user = await db.Users.SingleAsync();
+            user.EmailConfirmed = true;
+            await db.SaveChangesAsync();
+            return 0;
+        });
+
+        // A user without saved settings inherits the site language on first visit.
+        var first = await client.GetStringAsync("/Account/EmailSettings?culture=de");
+        Assert.Contains("name=\"Culture\"", first);
+        Assert.Matches("(?s)<option(?=[^>]*value=\"de\")(?=[^>]*selected)[^>]*>", first);
+
+        // Save Hungarian emails while browsing in German.
+        var saved = await Post(client, "/Account/EmailSettings?culture=de", new()
+        {
+            { "Announcements", "true" },
+            { "Weekly", "true" },
+            { "Culture", "hu" }
+        }, "/Account/EmailSettings?culture=de");
+        Assert.Equal(HttpStatusCode.Redirect, saved.StatusCode);
+        await Work(async (_, db) =>
+        {
+            var pref = await db.MailingPreferences.AsNoTracking().SingleAsync();
+            Assert.Equal("hu", pref.Culture);
+            Assert.True(pref.Weekly);
+            Assert.True(pref.Announcements);
+            return 0;
+        });
+
+        // Changing the site language must not silently reset the email preference.
+        var persisted = await client.GetStringAsync("/Account/EmailSettings?culture=en");
+        Assert.Matches("(?s)<option(?=[^>]*value=\"hu\")(?=[^>]*selected)[^>]*>", persisted);
+
+        // Tampered values are rejected without changing opt-ins or the saved language.
+        var invalid = await Post(client, "/Account/EmailSettings?culture=en", new()
+        {
+            { "Announcements", "true" },
+            { "Weekly", "true" },
+            { "Culture", "fr" }
+        }, "/Account/EmailSettings?culture=en");
+        Assert.Equal(HttpStatusCode.OK, invalid.StatusCode);
+        Assert.Contains("Choose a supported email language", await invalid.Content.ReadAsStringAsync());
+        await Work(async (_, db) =>
+        {
+            var pref = await db.MailingPreferences.AsNoTracking().SingleAsync();
+            Assert.Equal("hu", pref.Culture);
+            Assert.True(pref.Weekly);
+            Assert.True(pref.Announcements);
+            return 0;
+        });
+
+        // Changing only the email language does not unsubscribe either category.
+        var switched = await Post(client, "/Account/EmailSettings?culture=hu", new()
+        {
+            { "Announcements", "true" },
+            { "Weekly", "true" },
+            { "Culture", "de" }
+        }, "/Account/EmailSettings?culture=hu");
+        Assert.Equal(HttpStatusCode.Redirect, switched.StatusCode);
+        await Work(async (_, db) =>
+        {
+            var pref = await db.MailingPreferences.AsNoTracking().SingleAsync();
+            Assert.Equal("de", pref.Culture);
+            Assert.True(pref.Weekly);
+            Assert.True(pref.Announcements);
+            Assert.Equal(2, await db.MailingConsents.CountAsync());
             return 0;
         });
     }

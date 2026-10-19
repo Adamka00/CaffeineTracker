@@ -1149,4 +1149,13 @@
   <data name="StatsTabShort" xml:space="preserve">
     <value>Statistics</value>
   </data>
+  <data name="MailLanguageLabel" xml:space="preserve">
+    <value>Email language</value>
+  </data>
+  <data name="MailLanguageHelp" xml:space="preserve">
+    <value>Weekly summaries and product updates will arrive in this language, independently of the Koffi interface language.</value>
+  </data>
+  <data name="MailLanguageInvalid" xml:space="preserve">
+    <value>Choose a supported email language: Hungarian, English, or German.</value>
+  </data>
 </root>

@@ -1149,4 +1149,13 @@
   <data name="StatsTabShort" xml:space="preserve">
     <value>Statisztika</value>
   </data>
+  <data name="MailLanguageLabel" xml:space="preserve">
+    <value>E-mailek nyelve</value>
+  </data>
+  <data name="MailLanguageHelp" xml:space="preserve">
+    <value>A heti összefoglalókat és az újdonságértesítőket ezen a nyelven küldjük, függetlenül a Koffi felületének nyelvétől.</value>
+  </data>
+  <data name="MailLanguageInvalid" xml:space="preserve">
+    <value>Válassz egy támogatott e-mail-nyelvet: magyar, angol vagy német.</value>
+  </data>
 </root>

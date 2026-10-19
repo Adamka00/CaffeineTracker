@@ -17,14 +17,26 @@ public partial class AccountController
     {
         var p = await _context.MailingPreferences.AsNoTracking().SingleOrDefaultAsync(p => p.UserId == AccountId);
         var confirmed = await _context.Users.Where(u => u.Id == AccountId).Select(u => u.EmailConfirmed).SingleAsync();
-        return View(new EmailSettingsForm { Announcements = p?.Announcements ?? false, Weekly = p?.Weekly ?? false, Confirmed = confirmed });
+        return View(new EmailSettingsForm
+        {
+            Announcements = p?.Announcements ?? false,
+            Weekly = p?.Weekly ?? false,
+            Confirmed = confirmed,
+            // First visit follows the current site language; subsequent visits honor the saved selection.
+            Culture = MailingPreferenceService.Culture(p?.Culture ?? CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
+        });
     }
 
     [HttpPost, Authorize]
     public async Task<IActionResult> EmailSettings(EmailSettingsForm form, [FromServices] MailingPreferenceService preferences)
     {
         form.Confirmed = await _context.Users.Where(u => u.Id == AccountId).Select(u => u.EmailConfirmed).SingleAsync();
-        if (!ModelState.IsValid || !await preferences.SaveAsync(AccountId, form.Announcements, form.Weekly, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName))
+        if (form.Culture is not ("hu" or "en" or "de"))
+            ModelState.AddModelError(nameof(form.Culture), _text["MailLanguageInvalid"]);
+        if (!ModelState.IsValid)
+            return View(form);
+
+        if (!await preferences.SaveAsync(AccountId, form.Announcements, form.Weekly, form.Culture))
         {
             ModelState.AddModelError("", _text["VerifyBeforeSubscribe"]);
             return View(form);

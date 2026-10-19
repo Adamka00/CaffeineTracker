@@ -106,13 +106,18 @@ public sealed class MailContentRenderer(AppDbContext db, WeeklySummaryService we
                 }
             }
 
-            lines.Add(text["MailEstimateNote"]);
-            var plain = subject + "\n\n" + string.Join("\n\n", lines) + "\n\n" + text["OpenKoffi"] + ": " + cta;
+            // The general caffeine disclaimer belongs in statistics and announcement emails,
+            // not in the email-address confirmation message.
+            if (job.Kind != "verify")
+                lines.Add(text["MailEstimateNote"]);
+
+            var buttonLabel = job.Kind == "verify" ? (string)text["ConfirmEmailTitle"] : (string)text["OpenKoffi"];
+            var plain = subject + "\n\n" + string.Join("\n\n", lines) + "\n\n" + buttonLabel + ": " + cta;
             if (unsubscribe != null)
                 plain += "\n\n" + text["Unsubscribe"] + ": " + unsubscribe;
-            static string Esc(string s) => WebUtility.HtmlEncode(s);
-            var body = string.Join("", lines.Select(l => "<p style=\"line-height:1.6;margin:16px 0;color:#cbd5e1\">" + Esc(l).Replace("\n", "<br>") + "</p>"));
-            var html = "<!doctype html><html lang=\"" + MailingPreferenceService.Culture(job.Culture) + "\"><body style=\"margin:0;background:#0f172a;font-family:Arial,sans-serif;color:#f8fafc\"><table role=\"presentation\" width=\"100%\"><tr><td align=\"center\" style=\"padding:24px 12px\"><table role=\"presentation\" width=\"100%\" style=\"max-width:560px;background:#1e293b;border-radius:20px\"><tr><td style=\"padding:28px\"><p style=\"color:#67e8f9;font-size:24px;font-weight:bold\">☕ Koffi</p><h1 style=\"font-size:24px;color:#f8fafc\">" + Esc(subject) + "</h1>" + body + "<p><a style=\"display:inline-block;background:#22d3ee;color:#083344;padding:14px 22px;border-radius:12px;text-decoration:none;font-weight:bold\" href=\"" + Esc(cta) + "\">" + Esc(text["OpenKoffi"]) + "</a></p>" + (unsubscribe == null ? "" : "<p style=\"font-size:12px\"><a style=\"color:#94a3b8\" href=\"" + Esc(unsubscribe) + "\">" + Esc(text["Unsubscribe"]) + "</a></p>") + "</td></tr></table></td></tr></table></body></html>";
+
+            var html = BuildHtml(MailingPreferenceService.Culture(job.Culture), subject, lines, cta,
+                buttonLabel, unsubscribe, text["Unsubscribe"]);
             return new(user.Email, subject, plain, html, unsubscribe, "koffi-job-" + job.Id + "@koffi.hu");
         }
         finally
@@ -120,5 +125,60 @@ public sealed class MailContentRenderer(AppDbContext db, WeeklySummaryService we
             CultureInfo.CurrentUICulture = old;
             CultureInfo.CurrentCulture = oldCulture;
         }
+    }
+
+    private static string BuildHtml(string culture, string subject, IEnumerable<string> lines,
+        string cta, string buttonLabel, string? unsubscribe, string unsubscribeLabel)
+    {
+        static string Esc(string value) => WebUtility.HtmlEncode(value);
+        var paragraphs = string.Join("", lines.Select(line =>
+            "<p class=\"koffi-copy\" style=\"line-height:1.6;margin:16px 0;color:#475569\">" +
+            Esc(line).Replace("\n", "<br>") + "</p>"));
+        var unsubscribeHtml = unsubscribe == null ? "" :
+            "<p style=\"font-size:12px;line-height:1.5\"><a class=\"koffi-muted\" style=\"color:#64748b\" href=\"" +
+            Esc(unsubscribe) + "\">" + Esc(unsubscribeLabel) + "</a></p>";
+
+        // Light defaults are intentional. Gmail for iOS may recolor HTML messages
+        // automatically in dark mode and can disregard media queries. Starting from
+        // a dark-only template resulted in Gmail rendering it light in dark mode.
+        // Clients honoring prefers-color-scheme get the explicit dark palette.
+        return $$"""
+            <!doctype html>
+            <html lang="{{Esc(culture)}}">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <meta name="color-scheme" content="light dark">
+              <meta name="supported-color-schemes" content="light dark">
+              <style>
+                :root { color-scheme: light dark; supported-color-schemes: light dark; }
+                @media (prefers-color-scheme: dark) {
+                  .koffi-shell { background-color: #0f172a !important; }
+                  .koffi-card { background-color: #1e293b !important; }
+                  .koffi-brand { color: #67e8f9 !important; }
+                  .koffi-title { color: #f8fafc !important; }
+                  .koffi-copy { color: #cbd5e1 !important; }
+                  .koffi-button { background-color: #22d3ee !important; color: #083344 !important; }
+                  .koffi-muted { color: #94a3b8 !important; }
+                }
+              </style>
+            </head>
+            <body class="koffi-shell" style="margin:0;padding:0;background-color:#f1f5f9;font-family:Arial,Helvetica,sans-serif;color:#0f172a">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f1f5f9" class="koffi-shell" style="background-color:#f1f5f9">
+                <tr><td align="center" style="padding:24px 12px">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="koffi-card" style="max-width:560px;background-color:#ffffff;border-radius:20px">
+                    <tr><td style="padding:28px">
+                      <p class="koffi-brand" style="color:#0e7490;font-size:24px;font-weight:bold;margin:0 0 28px">☕ Koffi</p>
+                      <h1 class="koffi-title" style="font-size:24px;line-height:1.3;color:#0f172a;margin:0 0 22px">{{Esc(subject)}}</h1>
+                      {{paragraphs}}
+                      <p style="margin:28px 0 20px"><a class="koffi-button" style="display:inline-block;background-color:#0891b2;color:#ffffff;padding:14px 22px;border-radius:12px;text-decoration:none;font-weight:bold" href="{{Esc(cta)}}">{{Esc(buttonLabel)}}</a></p>
+                      {{unsubscribeHtml}}
+                    </td></tr>
+                  </table>
+                </td></tr>
+              </table>
+            </body>
+            </html>
+            """;
     }
 }
