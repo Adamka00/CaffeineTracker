@@ -1,148 +1,137 @@
 # ☕ Koffi
 
-💙 **Support:** [buymeacoffee.com](https://buymeacoffee.com/adamka00)
+**More than caffeine tracking. / Több mint koffeinkövetés.**
 
-🌍 **Live App:** [koffi.hu](https://koffi.hu)
+[![Version](https://img.shields.io/badge/version-5.0-0891b2)](https://koffi.hu) [![.NET](https://img.shields.io/badge/.NET-10-512bd4)](https://dotnet.microsoft.com/) [![Languages](https://img.shields.io/badge/languages-HU%20%7C%20EN%20%7C%20DE-0e7490)](https://koffi.hu)
 
-**Current Version: 5.0**
+🌍 **Live app / Éles alkalmazás:** [koffi.hu](https://koffi.hu)  
+💙 **Support / Támogatás:** [Buy Me a Coffee](https://buymeacoffee.com/adamka00)  
+🚀 **Current release / Aktuális verzió:** **5.0**
 
-*(Scroll down for the Hungarian version / Magyar verzió lejjebb)*
+**English** · [Magyar változat](#magyar)
 
-A modern, mobile-first ASP.NET Core MVC Progressive Web App (PWA) for tracking caffeine intake, estimating how caffeine levels change in your body over time, planning caffeine consumption around sleep, and discovering personal patterns between caffeine and sleep.
+---
 
-Koffi combines a biological caffeine model with daily and weekly history, favorites, editable custom drinks, streaks, caffeine-free days, detailed sleep tracking, weekly sleep statistics, planning tools, long-term statistics, barcode-assisted drink lookup, guided onboarding, guest mode, and user accounts.
+## 🇬🇧 English
 
-**Koffi 5.0** expands the sleep diary, introduces categorized and editable personal drinks, improves the guest-to-account experience, and adds an email verification and opt-in mailing system.
+Koffi is a modern, mobile-first **ASP.NET Core MVC Progressive Web App (PWA)** for recording caffeine intake, estimating how caffeine levels change over time, planning consumption around sleep, and exploring individual patterns between caffeine habits and sleep.
 
-The new email infrastructure is implemented, but **automated mailing is currently disabled in production** pending final configuration and verification.
+It brings together a biological caffeine model, daily and weekly history, favorites, personal drinks, caffeine-free days, streaks, an advanced sleep diary, lifetime statistics, barcode-assisted drink discovery, guest access, secure accounts, and a multilingual email system.
 
-## ✨ Features
+**Koffi 5.0** introduces a redesigned sleep diary with analysis and statistics, editable and categorized personal drinks, a smarter guest-to-account experience, and secure email confirmation with optional weekly reports and product announcements.
 
-* **User Accounts & Seamless Guest Mode:** Start tracking immediately without registration using a cookie-based guest identity. When you create an account, supported guest data can be transferred to your new profile.
-* **Smart Guest Registration Suggestion (5.0):** After 10 logged drinks or 5 active tracking days, guest users may see a subtle, non-blocking suggestion to create an account. The suggestion can be dismissed for 14 days.
-* **Secure Authentication:** Cookie-based authentication with ASP.NET Core password hashing, security stamps, and user-specific data separation.
-* **Password Recovery by Email:** Registered users can securely request a password reset using expiring, single-use reset tokens delivered through the configured SMTP service.
-* **Email Address Verification (5.0):** New accounts can verify their email addresses through secure, single-use links. Verification is not required to continue using the caffeine tracker.
-* **Optional Email Subscriptions (5.0):** Verified users can independently subscribe to product updates and personalized weekly summaries. Both subscriptions are disabled by default and require explicit consent.
-* **Email Preferences & Unsubscription (5.0):** Manage subscriptions separately, select the preferred email language, and unsubscribe from an individual email category without affecting the other.
-* **Progressive Web App (PWA):** Installable on supported devices for an app-like mobile experience.
-* **Smart PWA Install Guidance:** Koffi can suggest installation after repeated use and includes iOS-specific instructions for adding the app to the Home Screen.
-* **Guided Onboarding:** Progressive onboarding introduces the main features without blocking normal use. It can be skipped and opened again later.
-* **Help, Feature Explanations & What's New:** Built-in help pages, contextual `?` explanations, a version-aware What's New experience, and a dedicated support page make the app easier to discover and understand. Version 5.0 refines the placement and appearance of contextual help.
-* **In-App Morning Sleep Reminder:** If the previous night's sleep entry is missing, Koffi can show a morning reminder inside the app. Dismissing it suppresses the reminder for the rest of the day.
-* **Active Caffeine Calculation:** Estimates the amount of caffeine currently active in your body while accounting for multiple drinks consumed at different times.
-* **Biological Caffeine Model:** Models caffeine using a 45-minute absorption phase followed by exponential elimination with a 5-hour half-life.
-* **Sleep Readiness Indicator:** Estimates when your active caffeine level will fall below your configured personal target.
-* **Planned Sleep Forecast:** Set your planned bedtime and see the estimated amount of caffeine that may still be active at that time.
-* **Caffeine Planning:** Explore how a drink would affect your later caffeine level before deciding whether to log it.
-* **Caffeine Cutoff Estimation:** Estimate how late you could consume a selected drink while staying near your configured caffeine target by bedtime.
-* **What-If Calculator:** Simulate caffeine intake without modifying your diary unless you explicitly choose to save it.
-* **Sleep Diary 2.0 (5.0):** A redesigned sleep section with three dedicated tabs: **Diary, Statistics, and Analysis**.
-* **Detailed Sleep Logging (5.0):** Record actual sleep onset, final wake time, sleep quality, optional planned bedtime, difficulty falling asleep, number of nighttime awakenings, and personal notes.
-* **Weekly Sleep Statistics (5.0):** Explore Monday-to-Sunday sleep statistics, including average, shortest and longest sleep duration, sleep quality, awakenings, difficulty falling asleep, and differences between planned and actual sleep onset.
-* **Sleep Week Comparison (5.0):** Navigate between calendar weeks and compare available sleep data with the previous week.
-* **Readable Sleep Durations (5.0):** Sleep duration is displayed in hours and minutes instead of decimal-hour values.
-* **Time Zone-Aware Sleep Duration (5.0):** New sleep entries support accurate elapsed-time calculations across daylight-saving time changes, while preserving the meaning of previously stored records.
-* **Automatic Sleep Context:** Sleep entries are automatically connected with relevant caffeine data from the previous day.
-* **Personal Sleep Insights:** Compare your own caffeine habits with recorded sleep quality and duration using observation levels that become more informative as more nights are logged.
-* **Plain-Language Sleep Analysis (5.0):** Personal observations are presented in understandable language, with technical calculation details available separately.
-* **Careful Insight Wording:** Sleep insights describe associations, direction, and strength in your own data instead of making causal or medical claims.
-* **Streak Tracking:** Track your current and longest logging streak.
-* **Caffeine-Free Days:** Explicitly mark a day as caffeine-free without breaking your streak.
-* **Daily History & Date Navigation:** Browse previous days using previous/next controls or a built-in date picker.
-* **Weekly Overview:** View caffeine consumption across calendar weeks, including weeks that cross month or year boundaries.
-* **Redesigned Lifetime Statistics:** Explore long-term caffeine statistics using clearer cards, trends, charts, frequent drinks, caffeine-free days, streaks, average caffeine timing, and year-based views where available.
-* **Mobile-Friendly Activity Heatmap:** A redesigned activity overview keeps the GitHub-style heatmap concept while remaining practical on smaller screens.
-* **Favorites & Quick Add:** Save frequently consumed drinks with their usual serving size and add them instantly from the daily dashboard.
-* **Global Quick Add Button:** A fixed, safe-area-aware `+` action keeps drink logging within easy reach throughout the app.
-* **Undo Quick Add:** Accidentally added a favorite? Quickly undo the latest Quick Add action.
-* **Custom Drink Creator:** Create your own beverages by entering their caffeine content in mg/100 ml.
-* **Personal Drink Management (5.0):** Edit the name, caffeine content, default serving size, and category of previously created personal drinks.
-* **Custom Drink Categories (5.0):** Organize personal drinks as energy drinks, coffee, tea, soda, or other beverages. Category selection is also supported during manual and barcode-assisted drink creation.
-* **Safe Drink Archiving (5.0):** Archive personal drinks instead of permanently deleting them. Archived drinks are removed from active selection while historical log entries and their recorded caffeine amounts remain intact.
-* **Built-in Drink Database:** Quickly select common caffeinated drinks with localized names.
-* **Barcode Scanner (Beta):** Scan product barcodes on supported secure browsers, review and edit the detected product before logging it, or fall back to manual entry when camera access is unavailable.
-* **Open Food Facts Integration:** Barcode lookups can use Open Food Facts as an external suggestion source. External data is reviewable and Koffi remains usable if the service is unavailable.
-* **Safe Product Lookup Fallbacks:** Missing or unreliable caffeine data is never guessed automatically; the user can review and complete the information manually.
-* **Drink Search:** Quickly filter the drink list using case- and accent-insensitive search.
-* **Interactive Caffeine Curve:** Chart.js visualizes how your estimated active caffeine level changes throughout the selected day.
-* **Detailed Drink Diary:** See logged drinks, serving sizes, caffeine amounts, and consumption times for each day.
-* **Personalized Weekly Email Summaries (5.0):** An opt-in system can generate weekly summaries of caffeine intake and available sleep data for completed calendar weeks.
-* **Product Update Emails (5.0):** An opt-in announcement system supports localized product news and release notifications, with administrative preview and test-delivery workflows.
-* **Persistent Email Queue (5.0):** Email jobs are stored in SQLite and processed by a background worker, with retry handling, deduplication, and delivery-state tracking.
-* **Safe Data Migration:** Entity Framework Core migrations and a dedicated database-upgrade path preserve existing data while upgrading older database schemas.
-* **Account & Data Deletion:** Permanently delete your account and its associated tracking data directly from the application.
-* **Cookie Consent:** Built-in cookie consent notice for application cookies.
-* **Localization:** Full Hungarian, English, and German (HU/EN/DE) interface with an integrated language switcher. The 5.0 sleep, drink, and email experiences are localized as well.
-* **Modern Mobile-First UI:** Refined responsive dark interface with glassmorphism styling, consistent components, and improved phone-first usability. Version 5.0 preserves the established visual identity rather than replacing the 4.0 design.
+### ✨ Features
 
-## 🛠️ Tech Stack
+#### ☕ Caffeine tracking and planning
 
-* **Language / Runtime:** C# / .NET 10
-* **Backend:** ASP.NET Core MVC
-* **Database:** SQLite
-* **ORM:** Entity Framework Core with Code-First migrations
-* **Authentication:** ASP.NET Core Cookie Authentication
-* **Password Security:** ASP.NET Core `PasswordHasher`
-* **Email Transport:** MailKit / SMTP with STARTTLS
-* **Production Mail Infrastructure:** Postfix with OpenDKIM
-* **Email Security:** SHA-256-hashed verification tokens, single-use links, ASP.NET Core Data Protection, CSRF protection, and rate limiting
-* **Email Processing:** SQLite-backed persistent mail queue, hosted background worker, and administrative CLI
-* **Frontend:** Razor Views, HTML5, JavaScript, Tailwind CSS
-* **Charts:** Chart.js
-* **Barcode Scanning:** ZXing JavaScript
-* **External Product Data:** Open Food Facts
-* **Localization:** ASP.NET Core Localization & localized Razor resources (HU/EN/DE)
-* **PWA:** Web App Manifest & Service Worker
-* **Architecture:** Repository Pattern, Strategy Pattern, Dependency Injection
-* **Data Upgrade:** EF Core migrations with custom legacy database reconciliation
-* **Testing:** Automated ASP.NET Core integration tests and frontend JavaScript tests
-* **Production:** Docker container deployment behind a Caddy reverse proxy with HTTPS
-* **Production Database:** Persistent SQLite database mounted outside the application container
-* **Container Runtime:** Stable .NET 10 SDK and ASP.NET Core runtime images
+- **Active caffeine calculation:** Estimate caffeine still active in your body, combining multiple drinks consumed at different times.
+- **Biological model:** Approximate a 45-minute absorption phase followed by exponential elimination with a 5-hour half-life.
+- **Interactive caffeine curve:** Visualize estimated caffeine levels throughout a selected day using Chart.js.
+- **Sleep readiness:** Estimate when caffeine may fall below your configured personal target.
+- **Planned bedtime forecast:** See estimated active caffeine at a chosen bedtime.
+- **Cutoff planner:** Estimate the latest suitable time for a selected drink relative to your bedtime target.
+- **What-if simulator:** Explore hypothetical caffeine intake without modifying your diary unless you choose to save it.
+- **Daily diary and history:** Review drink names, quantities, caffeine amounts, consumption times, and previous dates.
+- **Weekly overview:** Browse calendar weeks, including month and year boundaries.
+- **Lifetime statistics:** Review trends, popular drinks, caffeine-free days, streaks, usual consumption times, and available yearly views.
+- **Mobile-friendly activity heatmap:** Explore recorded activity in a compact, GitHub-inspired layout.
 
-## 🧪 Testing
+#### 🥤 Drinks and quick actions
 
-The project currently includes **166 automated .NET tests** and **7 frontend JavaScript tests**, covering important application workflows such as:
+- **Built-in drink catalog:** Choose from common caffeinated beverages, with localized names.
+- **Custom drinks:** Define your own drinks using caffeine content in mg/100 ml.
+- **Editable personal drinks (5.0):** Update names, caffeine values, serving sizes, and categories.
+- **Custom categories (5.0):** Organize drinks as energy drinks, coffee, tea, soda, or other beverages.
+- **Safe archiving (5.0):** Remove a personal drink from active selection while preserving previously recorded caffeine amounts and history.
+- **Favorites and Quick Add:** Save a drink with its usual serving size, then log it immediately.
+- **Global Quick Add:** Use the safe-area-aware `+` button from across the application.
+- **Undo Quick Add:** Reverse an accidental recent Quick Add action.
+- **Drink search:** Filter the catalog with case- and accent-insensitive search.
+- **Barcode scanning (beta):** Scan supported product barcodes, review suggestions, and adjust data before logging; manual entry remains available.
+- **Open Food Facts:** Use external product information as a reviewable suggestion, not as an unquestioned source of caffeine data. Missing or unreliable values are not invented.
 
-* guest tracking and guest identity handling
-* registration and login
-* guest-to-account data transfer
-* guest registration suggestions and dismissal periods
-* account deletion and data cleanup
-* caffeine logging and calculations
-* streak calculation
-* caffeine-free days
-* daily and weekly history
-* favorites and Quick Add
-* personal drink creation, editing, categorization, and archiving
-* archived-drink restrictions and preservation of historical caffeine values
-* drink search and filtering
-* barcode lookup and product review flows
-* Open Food Facts fallbacks
-* sleep diary creation, editing, and user isolation
-* sleep duration calculations, including daylight-saving time cases
-* weekly sleep statistics and week comparisons
-* optional sleep metrics and missing-data handling
-* plain-language personal sleep observations
-* caffeine planning and cutoff calculations
-* what-if calculations without unintended data persistence
-* lifetime statistics
-* password reset security and expiry
-* email verification token security, expiry, and single-use behavior
-* email subscription consent and independent unsubscription
-* weekly email summary generation
-* email campaign previews and test-send restrictions
-* email rendering and HTML escaping
-* persistent email queue behavior, retries, and deduplication
-* onboarding and experience-state behavior
-* localization, including German
-* invalid or tampered input handling
-* database upgrades and preservation of existing data
+#### 🌙 Sleep diary and analysis
 
-The 5.0 release was also tested against a copy of an existing 4.0 production database. The migration completed successfully, and all existing values across **13 legacy data tables** were preserved.
+- **Sleep Diary 2.0 (5.0):** Dedicated **Diary**, **Statistics**, and **Analysis** sections.
+- **Detailed sleep logging (5.0):** Record actual sleep onset, final wake-up time, subjective sleep quality, optional planned bedtime, difficulty falling asleep, nighttime awakenings, and notes.
+- **Weekly sleep statistics (5.0):** Explore Monday-to-Sunday averages, shortest and longest duration, sleep rating, awakenings, difficulty falling asleep, and planned-versus-actual timing.
+- **Week comparison (5.0):** Navigate between weeks and compare available information with a previous week.
+- **Readable durations (5.0):** Show hours and minutes instead of decimal-hour values.
+- **Daylight-saving awareness (5.0):** Calculate elapsed time correctly across time changes for new entries, while retaining the meaning of legacy records.
+- **Automatic caffeine context:** Link sleep records with relevant caffeine consumption from the preceding day.
+- **Personal sleep insights:** Explore associations between your consumption habits, sleep timing, duration, and recorded quality.
+- **Plain-language insights (5.0):** Show understandable explanations with technical details available separately.
+- **Morning sleep reminder:** Display an optional in-app reminder when the previous night's entry is missing; dismissing it suppresses the reminder for that day.
 
-### Run Tests
+Insights describe *associations*, not proven causes. Koffi does not provide medical diagnoses or advice.
+
+#### 🔥 Habits, accounts, and experience
+
+- **Logging streaks:** Track your current and longest streak. A day counts when you log a drink **or explicitly mark the day caffeine-free**.
+- **Caffeine-free days:** Maintain a tracking habit without requiring caffeine consumption.
+- **Guest mode:** Start immediately without registration using a cookie-based guest identity.
+- **Guest-to-account migration:** Transfer supported guest data when creating an account.
+- **Smart guest suggestion (5.0):** Suggest registration after 10 logged drinks or 5 active tracking days; dismiss for 14 days.
+- **Account security:** ASP.NET Core cookie authentication, password hashing, security stamps, and user-specific data separation.
+- **Password recovery:** Reset a password through expiring, single-use email tokens.
+- **Account and data deletion:** Delete your account and associated tracking data within the application.
+- **Guided onboarding:** A non-blocking walkthrough that can be skipped or reopened.
+- **Help and What's New:** Built-in help, contextual `?` explanations, release-aware highlights, and a support page.
+- **PWA installation:** Install on supported devices, with contextual prompts and iOS Home Screen guidance.
+- **Cookie notice:** Explain the application cookies used by Koffi.
+- **Three interface languages:** Hungarian, English, and German (HU/EN/DE).
+- **Mobile-first UI:** Responsive dark, glassmorphism-inspired design refined for phones while preserving the Koffi 4.0 visual identity.
+
+#### 📧 Email communication — live in Koffi 5.0
+
+- **Email verification:** Confirm a registered address with a 24-hour, single-use link. Email verification is not mandatory for normal diary use.
+- **Independent opt-in subscriptions:** Separately enable release announcements and personalized weekly summaries, **off by default** and available only to verified accounts.
+- **Independent email language:** Select **HU, EN, or DE** for emails, regardless of the interface language.
+- **Category-specific unsubscribe links:** Leave either mailing category without affecting the other.
+- **HTML and plain-text email:** Responsive, localized messages designed for light and dark email-client appearances.
+- **Personal weekly reports:** Summarize available caffeine and sleep data for a completed calendar week.
+- **Release announcements:** Prepare, preview, test, and explicitly launch localized product updates from the operator CLI.
+- **Reliable processing:** SQLite-backed mail queue, a background worker, controlled retries, delivery-state tracking, and per-recipient deduplication.
+
+**Production status:** The mailing worker is **enabled** in production. Email-confirmation delivery and the first Koffi 5.0 announcement were successfully tested in live operation. Weekly summaries are configured to become due on **Mondays at 08:00, Europe/Budapest**, for eligible subscribers; the first scheduled production run is still to be observed. Announcement campaigns are **not sent automatically** and require a separate administrative launch.
+
+### 🛠️ Technology stack
+
+| Layer | Technology |
+|---|---|
+| Language and runtime | C# · .NET 10 |
+| Backend | ASP.NET Core MVC · Razor Views |
+| Database and ORM | SQLite · Entity Framework Core · Code-First migrations |
+| Authentication | ASP.NET Core cookie authentication · `PasswordHasher` · security stamps |
+| Email transport | MailKit · SMTP/STARTTLS · Postfix · OpenDKIM |
+| Email safety | SHA-256-hashed tokens · ASP.NET Core Data Protection · CSRF protection · rate limiting |
+| Email processing | SQLite-backed outbox · hosted background worker · operator CLI |
+| Frontend | HTML5 · JavaScript · Tailwind CSS |
+| Charts | Chart.js |
+| Barcode and product data | ZXing JavaScript · Open Food Facts |
+| Localization | ASP.NET Core Localization · HU/EN/DE resource files |
+| PWA | Web App Manifest · Service Worker |
+| Architecture | Dependency injection · Repository Pattern · Strategy Pattern |
+| Hosting | Docker · Linux VPS · Caddy reverse proxy · HTTPS |
+| Testing | ASP.NET Core integration tests · Node.js frontend tests |
+
+### 🧪 Tests
+
+The latest completed local verification covered **167 .NET tests and 7 frontend JavaScript tests**. Coverage includes:
+
+- Guest tracking, account creation, login, guest migration, and account deletion.
+- Caffeine calculations, daily/weekly history, streaks, caffeine-free days, favorites, and Quick Add.
+- Personal drinks, categories, editing, archiving, and preservation of historic caffeine values.
+- Drink search, barcode suggestions, Open Food Facts fallback behavior, and input validation.
+- Sleep entry creation and editing, user isolation, DST-related calculations, weekly comparisons, and personal insights.
+- Planning, cutoff calculations, what-if simulations, and long-term statistics.
+- Password-reset and email-confirmation token security, expiry, and single-use behavior.
+- Consent, independent unsubscribe, mail-language preferences, rendering, HTML escaping, preview restrictions, queueing, and deduplication.
+- Onboarding, localized resources, and legacy database migrations.
+
+The 5.0 upgrade was also validated against a copy of a 4.0 production database, preserving existing values across **13 legacy data tables**.
+
+Run the tests from the repository root:
 
 ```bash
 dotnet build
@@ -150,231 +139,251 @@ dotnet test Caffeine.Tests/Caffeine.Tests.csproj
 node --test Caffeine.Tests/Frontend/*.test.cjs
 ```
 
-## 🧠 Caffeine Model
+*Test counts describe the last confirmed local run and may increase with future changes.*
 
-Each consumed drink contributes independently to the estimated active caffeine level.
+### 🧠 How the caffeine model works
 
-The model uses:
+Each logged drink contributes separately to the estimated active caffeine amount. Koffi approximates a **45-minute absorption period**, followed by exponential elimination using a **5-hour half-life**. It adds the estimated contribution from all recorded drinks to create the combined caffeine curve.
 
-1. a **45-minute absorption phase**, during which the caffeine contribution rises toward its peak;
-2. an **exponential elimination phase** after the peak;
-3. a **5-hour caffeine half-life**;
-4. superposition of all logged drinks to calculate the combined active level.
+The same model powers the bedtime estimate, cutoff calculation, and what-if planning tools. Actual caffeine metabolism varies between individuals; results are approximations, **not medical advice**.
 
-The same model is also used by Koffi's planning features to estimate caffeine remaining at a future time or at planned bedtime.
+### 🌙 How sleep insights work
 
-The model is intended as an estimate and should not be treated as medical advice.
+Koffi analyzes available personal sleep entries rather than claiming that caffeine *caused* a particular night of sleep. It can compare estimated caffeine at bedtime, previous-day intake, timing of the last drink, sleep ratings, difficulty falling asleep, and sleep duration.
 
-## 🌙 Sleep Insights
+| Nights recorded | Insight detail |
+|---|---|
+| Fewer than 10 | Insufficient data for a personal relationship conclusion |
+| 10–19 | Early estimate with limited data |
+| 20–29 | Emerging pattern |
+| 30 or more | More detailed personal observations |
 
-Koffi 5.0 organizes sleep tracking into three dedicated sections:
+The application communicates observed direction and strength where data supports it, and makes technical details accessible separately.
 
-* **Diary:** Record and review individual nights, including actual sleep onset, final wake time, subjective sleep quality, nighttime awakenings, difficulty falling asleep, and optional notes.
-* **Statistics:** Review sleep duration in hours and minutes, average sleep quality, minimum and maximum duration, optional averages, daily sleep duration, and comparisons between completed or selected calendar weeks.
-* **Analysis:** Explore personal relationships between caffeine consumption and sleep with easy-to-understand explanations.
+### 📧 Email, subscriptions, and delivery
 
-Koffi can examine relationships between:
+**Verification.** The app uses securely generated, one-time confirmation links with a **24-hour validity period**. The database stores SHA-256 hashes of verification tokens rather than plaintext tokens. A token is consumed on successful confirmation. Existing accounts remain usable even when unverified.
 
-* estimated caffeine at bedtime and sleep rating;
-* previous-day caffeine intake and sleep rating;
-* last caffeine timing and difficulty falling asleep;
-* caffeine consumption and sleep duration.
+**Consent.** Product announcements and weekly statistics are independent, **opt-in** categories requiring a confirmed email address. Users choose their email language independently of the site's interface language. Consent history is stored, and unsubscribe links work per category.
 
-The insight system adapts its presentation to the amount of personal sleep data available:
+**Weekly reports.** The default schedule is **Monday, 08:00 (Europe/Budapest)**. Reports cover the last eligible completed Monday-to-Sunday week. Depending on available data, they include total logged caffeine, a seven-day average, drink counts, prior-week comparison, and sleep statistics. Missing entries are not treated as proven zero consumption or zero sleep.
 
-* **Fewer than 10 nights:** insufficient data for personal relationship conclusions;
-* **10–19 nights:** early estimate / limited data;
-* **20–29 nights:** pattern emerging;
-* **30+ nights:** more detailed personal observations.
+**Campaigns.** Product-update campaigns require operator-managed localized content, a preview and successful test delivery, followed by an explicit start command. The queue checks the user's verified status and subscription at send time. A completed campaign does not automatically go out to people who subscribe afterward.
 
-Technical calculation details are available separately for users who want to understand the methodology.
+**Queue and safety.** Outgoing jobs are persisted in SQLite with states including pending, sent, cancelled, failed, and uncertain. Retriable failures are handled conservatively; ambiguous SMTP outcomes are not blindly resent. The system deduplicates messages per user and campaign.
 
-Koffi intentionally describes these results as **associations rather than causes**, communicates the direction and strength of observed relationships, and avoids medical conclusions.
-
-## 📧 Email & Notifications
-
-Koffi 5.0 introduces an optional email communication system built on the existing MailKit and Postfix infrastructure.
-
-### Email Verification
-
-New accounts can request and confirm ownership of their email address using secure, expiring, single-use links.
-
-Verification tokens are stored as SHA-256 hashes, have a 24-hour validity period, and are consumed only after explicit confirmation.
-
-Email verification does not block ordinary caffeine tracking. Existing accounts are not automatically marked as verified and can continue using their accounts normally.
-
-### Optional Subscriptions
-
-Two independent subscriptions are available:
-
-* **Product Updates:** News, important changes, and release announcements.
-* **Weekly Personal Statistics:** A summary of the user's caffeine intake and available sleep statistics for the preceding completed calendar week.
-
-Both subscriptions are **off by default**, and both require a verified email address.
-
-Users can manage their preferences independently and unsubscribe from one category without disabling the other.
-
-Emails support Hungarian, English, and German, with both HTML and plain-text versions.
-
-### Weekly Summaries
-
-Weekly summaries use Monday-to-Sunday periods and are designed to run on a configurable schedule, defaulting to Monday at 08:00 in the `Europe/Budapest` time zone.
-
-The summaries can include total logged caffeine intake, a seven-day average based on recorded intake, logged drink counts, comparisons with the previous week where enough data exists, and available sleep statistics.
-
-Missing sleep entries and unrecorded days are handled carefully rather than being presented as confirmed zero values.
-
-### Delivery & Administration
-
-Emails are processed through a persistent SQLite-backed queue with delivery-state tracking, deduplication, and controlled retries.
-
-Release campaigns are managed through local administrative commands, not a public campaign-sending endpoint. The workflow supports preparing localized content, previewing emails, sending a test message, and explicitly confirming a campaign before scheduling it for subscribed recipients.
-
-### Current Production Status
-
-**The email features are implemented in Koffi 5.0, but automated mailing is currently disabled in production.**
+**Current production configuration:**
 
 ```env
-Mailing__Enabled=false
+Mailing__Enabled=true
 ```
 
-The mailing worker must be enabled explicitly after production verification of SMTP delivery, email confirmation, subscription preferences, and test messages.
+The operational value is provided by the server's private environment configuration, not committed to the repository. Password-recovery mail uses its own existing delivery flow.
 
-The existing password-recovery email mechanism is maintained separately.
+### 🚀 Deployment notes
 
-No product update or weekly-summary campaign is sent automatically while the mailing worker is disabled.
+Koffi is hosted on a Linux VPS using Docker and stable .NET 10 runtime images. **Caddy** provides HTTPS reverse proxying. The production **SQLite data directory** and **ASP.NET Core Data Protection keys** are persisted outside the application container so data and authentication-related keys survive upgrades.
 
-## 🔥 Streak Philosophy
+Production updates should:
 
-Koffi's streak system rewards consistent tracking rather than caffeine consumption.
+1. Back up the live SQLite database consistently, including any active WAL state, and preserve the Data Protection keys.
+2. Build and test the updated application, then apply EF Core migrations using the project's established database upgrade path.
+3. Deploy using the existing persistent database directory and private environment settings.
+4. Verify HTTP availability, database integrity, and background-service health before treating the release as complete.
+5. Preserve a rollback path. Enabling a mailing worker in a different environment requires a separate deliberate decision.
 
-A day counts toward the streak when the user either:
+Koffi 5.0 uses the `Koffi50SleepMailing` migration for additional sleep tracking, personal-drink archiving, verification, subscriptions, and persistent mail jobs.
 
-* logs at least one caffeinated drink; or
-* explicitly marks the day as caffeine-free.
-
-This allows users to take caffeine-free days without losing their tracking streak.
-
-## 🚀 Deployment
-
-The production application runs in a Docker container on a Linux VPS using stable .NET 10 images.
-
-Caddy acts as the reverse proxy and provides HTTPS, while the SQLite database and ASP.NET Core Data Protection keys are stored persistently outside the application container.
-
-The existing SMTP infrastructure uses Postfix, OpenDKIM, and MailKit, with the email transport configuration supplied through private environment variables.
-
-Database schema changes are handled through Entity Framework Core migrations and the application's dedicated upgrade path, allowing existing production data to be preserved during version upgrades.
-
-Version 5.0 introduces the `Koffi50SleepMailing` migration for additional sleep timestamps, personal drink archiving, email verification, subscription preferences, and persistent email jobs.
-
-A production upgrade should preserve the existing database and Data Protection keys, create a consistent database backup, apply migrations, and verify the application before enabling new mailing functionality.
-
-Automated mailing remains disabled unless explicitly configured:
-
-```env
-Mailing__Enabled=false
-```
-
-Sensitive settings, SMTP credentials, encryption keys, and production databases must remain outside version control.
+**Never commit** production databases, secrets, SMTP credentials, Data Protection keys, or private environment files.
 
 ---
 
+<a id="magyar"></a>
+
+## 🇭🇺 Koffi – Magyar változat
+
+A Koffi egy modern, mobilra optimalizált **ASP.NET Core MVC Progressive Web App (PWA)**, amellyel követheted a koffeinbeviteledet, megbecsülheted a szervezetedben még aktív koffein mennyiségét, megtervezheted a fogyasztásodat az alvásodhoz igazítva, és megfigyelheted a saját koffein- és alvási szokásaid közötti összefüggéseket.
+
+Egy alkalmazásban ötvözi a koffeinmodellt, a napi és heti előzményeket, a kedvenceket, a saját italokat, a koffeinmentes napokat, a streak rendszert, a részletes alvásnaplót, az élettartam-statisztikákat, a vonalkódos italkeresést, a vendégmódot, a felhasználói fiókokat és a háromnyelvű levelezést.
+
+A **Koffi 5.0** újratervezett alvásnaplót és alváselemzést, szerkeszthető és kategorizálható saját italokat, intelligensebb vendégregisztrációt, valamint biztonságos e-mail-cím-megerősítést és önkéntesen kérhető heti összefoglalókat és újdonságértesítőket vezet be.
+
+### ✨ Funkciók
+
+#### ☕ Koffeinkövetés és tervezés
+
+- **Aktív koffeinszint becslése:** Több, eltérő időpontban elfogyasztott ital együttes hatásának becslése.
+- **Biológiai modell:** Körülbelül 45 perces felszívódási szakasszal és 5 órás felezési idejű, exponenciális kiürüléssel számol.
+- **Interaktív koffeingörbe:** Chart.js alapú grafikon a kiválasztott nap becsült koffeinszintjéről.
+- **Alvási küszöb:** Megbecsüli, mikor csökkenhet az aktív koffein a beállított célérték alá.
+- **Tervezett lefekvés:** Megmutatja, mennyi koffein lehet még aktív a kiválasztott időpontban.
+- **Koffein-cutoff:** Becsült utolsó alkalmas fogyasztási időpont a kiválasztott ital és a lefekvési cél alapján.
+- **What-if kalkulátor:** Különböző fogyasztási forgatókönyvek kipróbálása automatikus naplómentés nélkül.
+- **Napi napló és előzmények:** Italok, mennyiségek, koffeintartalom, fogyasztási időpontok és korábbi napok áttekintése.
+- **Heti nézet:** Naptári hetek böngészése hónap- és évhatárokon át is.
+- **Élettartam-statisztikák:** Trendek, gyakori italok, koffeinmentes napok, streakek, fogyasztási időpontok és elérhető éves kimutatások.
+- **Mobilbarát aktivitási heatmap:** Kompakt, GitHub által ihletett aktivitási áttekintés.
+
+#### 🥤 Italok és gyorsműveletek
+
+- **Beépített itallista:** Gyakori koffeines italok lokalizált nevekkel.
+- **Saját italok:** Egyéni italok megadása mg/100 ml koffeintartalommal.
+- **Saját italok szerkesztése (5.0):** Név, koffeintartalom, alapértelmezett adag és kategória módosítása.
+- **Italkategóriák (5.0):** Energiaital, kávé, tea, üdítő és egyéb kategóriák.
+- **Biztonságos archiválás (5.0):** A már nem használt saját ital eltüntethető az aktív listából, miközben a korábbi bejegyzések adatai megmaradnak.
+- **Kedvencek és gyors hozzáadás:** Gyakran fogyasztott italok mentése megszokott mennyiséggel.
+- **Globális `+` gomb:** Gyors italrögzítés az alkalmazás különböző részeiből.
+- **Gyors hozzáadás visszavonása:** A legutóbbi véletlen gyors rögzítés visszavonható.
+- **Italkereső:** Kis- és nagybetűktől, illetve ékezetektől független szűrés.
+- **Vonalkódolvasó (béta):** Termékkódok kamerás beolvasása, a találatok ellenőrzése és szerkesztése; kézi bevitelre is van lehetőség.
+- **Open Food Facts:** Külső termékadatok ellenőrizhető javaslatként. A Koffi nem talál ki hiányzó vagy megbízhatatlan koffeinértékeket.
+
+#### 🌙 Alvásnapló és elemzés
+
+- **Alvásnapló 2.0 (5.0):** Három külön fül: **Napló**, **Statisztika**, **Elemzés**.
+- **Részletes alvásrögzítés (5.0):** Tényleges elalvás és ébredés, szubjektív alvásminőség, opcionális tervezett lefekvés, elalvási nehézség, éjszakai ébredések száma és megjegyzések.
+- **Heti alvásstatisztikák (5.0):** Hétfőtől vasárnapig számított átlagok, legrövidebb és leghosszabb alvásidő, minőség, ébredések, elalvási nehézség és tervezett/tényleges időpontok különbsége.
+- **Hetek összehasonlítása (5.0):** Naptári hetek közötti navigáció és összevetés az előző héttel.
+- **Óra–perc megjelenítés (5.0):** Az alvás hossza tizedes órák helyett érthető formátumban látható.
+- **Óraátállítás kezelése (5.0):** Az új bejegyzések az időszámítás-váltásnál is helyes eltelt idővel számolnak, a régi rekordok értelmét megőrizve.
+- **Automatikus koffeinkontextus:** Az alvásbejegyzések kapcsolata az előző napi releváns koffeinfogyasztással.
+- **Személyes megfigyelések:** Összefüggések keresése a koffeinfogyasztás, az elalvás, az alvásidő és a rögzített minőség között.
+- **Közérthető elemzés (5.0):** Egyszerű magyarázatok, külön elérhető technikai részletekkel.
+- **Reggeli alvásnapló-emlékeztető:** Hiányzó előző éjszakai bejegyzésnél alkalmazáson belüli emlékeztető, amely aznapra elnémítható.
+
+Az elemzések *együttjárásokat*, nem bizonyított ok-okozati kapcsolatokat írnak le. A Koffi nem ad orvosi diagnózist vagy tanácsot.
+
+#### 🔥 Szokások, fiókok és felhasználói élmény
+
+- **Streak rendszer:** Az aktuális és a leghosszabb naplózási sorozat követése. Egy nap akkor is beleszámít, ha **kifejezetten koffeinmentesnek jelölöd**.
+- **Koffeinmentes napok:** A naplózási szokás fenntartása koffeinfogyasztás nélkül is.
+- **Vendégmód:** Azonnali használat regisztráció nélkül, sütialapú vendégazonosítóval.
+- **Vendégadatok átvitele:** A támogatott adatok átvezetése a létrehozott fiókba.
+- **Intelligens regisztrációs ajánló (5.0):** Javaslat 10 rögzített ital vagy 5 aktív nap után; 14 napra elrejthető.
+- **Fiókbiztonság:** ASP.NET Core cookie authentication, jelszó-hashelés, security stamp és felhasználónként elkülönített adatok.
+- **Jelszó-visszaállítás:** Lejáró, egyszer használható e-mailes tokenek.
+- **Fiók- és adattörlés:** A fiók és a hozzá tartozó követési adatok törlése az alkalmazásból.
+- **Interaktív bevezető:** Átugorható és később újra megnyitható onboarding.
+- **Súgó és újdonságok:** Beépített segítség, kontextusos `?` magyarázatok, verzióhoz kötött újdonságok és támogatási oldal.
+- **PWA telepítés:** Telepíthető webalkalmazás támogatott eszközökön, iOS-es főképernyőre helyezési útmutatóval.
+- **Sütitájékoztató:** A Koffi működéséhez használt sütik ismertetése.
+- **Háromnyelvű felület:** Magyar, angol és német (HU/EN/DE).
+- **Mobilra optimalizált dizájn:** Reszponzív, sötét, glassmorphism ihletésű felület a 4.0 arculatának megőrzésével.
+
+#### 📧 Levelezés – éles a Koffi 5.0-ban
+
+- **E-mail-cím-megerősítés:** 24 órán át érvényes, egyszer használatos link. A napló továbbra is használható megerősítés nélkül.
+- **Külön feliratkozások:** Újdonságértesítők és személyre szabott heti összefoglalók egymástól függetlenül kapcsolhatók be. **Alapértelmezetten ki vannak kapcsolva**, és megerősített cím szükséges hozzájuk.
+- **Önálló e-mail-nyelvválasztó:** A levelek nyelve **HU, EN vagy DE** lehet, függetlenül az alkalmazás felületének nyelvétől.
+- **Kategóriánkénti leiratkozás:** Az egyik levéltípusról a másik megtartásával is le lehet iratkozni.
+- **HTML- és egyszerű szöveges levelek:** Reszponzív, lokalizált sablonok világos és sötét levelezőkörnyezettel.
+- **Heti személyes összefoglalók:** A lezárt naptári hét rögzített koffein- és elérhető alvásadatai alapján.
+- **Újdonságértesítők:** Lokalizált kampányok adminisztrátori előnézettel, tesztküldéssel és külön jóváhagyott indítással.
+- **Megbízható levélsor:** SQLite-adatbázisban tárolt feladatok, háttérfolyamat, ellenőrzött újrapróbálkozások, állapotkövetés és ismétlődésvédelem.
+
+**Éles állapot:** Az automatikus levélfeldolgozó **be van kapcsolva**. Az e-mail-cím-megerősítési folyamatot és az első Koffi 5.0 újdonságkampányt éles környezetben sikeresen teszteltük. A heti összefoglalók **hétfőn, magyar idő szerint 08:00-kor** válnak esedékessé a jogosult feliratkozóknál; az első ütemezett éles futás ellenőrzése még hátravan. Az újdonságkampányok **nem indulnak automatikusan**, külön adminisztrátori parancs szükséges hozzájuk.
+
+### 🛠️ Használt technológiák
+
+| Terület | Technológia |
+|---|---|
+| Nyelv és futtatókörnyezet | C# · .NET 10 |
+| Backend | ASP.NET Core MVC · Razor Views |
+| Adatbázis és ORM | SQLite · Entity Framework Core · Code-First migrációk |
+| Autentikáció | ASP.NET Core Cookie Authentication · `PasswordHasher` · security stamp |
+| E-mail-küldés | MailKit · SMTP/STARTTLS · Postfix · OpenDKIM |
+| E-mail-biztonság | SHA-256 tokenhashelés · ASP.NET Core Data Protection · CSRF-védelem · rate limiting |
+| Levélfeldolgozás | SQLite-alapú levélsor · háttér-worker · adminisztrátori CLI |
+| Frontend | HTML5 · JavaScript · Tailwind CSS |
+| Grafikonok | Chart.js |
+| Vonalkód és külső termékadatok | ZXing JavaScript · Open Food Facts |
+| Lokalizáció | ASP.NET Core Localization · HU/EN/DE erőforrásfájlok |
+| PWA | Web App Manifest · Service Worker |
+| Architektúra | Dependency Injection · Repository Pattern · Strategy Pattern |
+| Üzemeltetés | Docker · Linux VPS · Caddy reverse proxy · HTTPS |
+| Tesztelés | ASP.NET Core integrációs tesztek · Node.js frontendtesztek |
+
+### 🧪 Tesztelés
+
+A legutóbbi sikeres helyi ellenőrzés során **167 .NET-teszt és 7 JavaScript frontendteszt** futott le. A tesztek többek között a következőket fedik le:
+
+- Vendégmód, regisztráció, bejelentkezés, vendégadatok átvitele és fióktörlés.
+- Koffeinszámítások, napi/heti előzmények, streakek, koffeinmentes napok, kedvencek és gyors hozzáadás.
+- Saját italok létrehozása, kategorizálása, szerkesztése, archiválása és a korábbi adatok megőrzése.
+- Italkeresés, vonalkódos termékjavaslatok, Open Food Facts tartalék működése és bemenetellenőrzés.
+- Alvásbejegyzések, felhasználói adatok elkülönítése, óraátállítás, heti összehasonlítások és személyes elemzések.
+- Koffeintervezés, cutoff, what-if kalkulátor és élettartam-statisztikák.
+- Jelszó-visszaállítási és e-mail-megerősítési tokenek biztonsága, lejárata és egyszer használhatósága.
+- Feliratkozási hozzájárulások, külön leiratkozás, e-mail-nyelvválasztás, HTML-kódolás, előnézetek, levélsor és ismétlődésvédelem.
+- Onboarding, lokalizáció és korábbi adatbázisverziók frissítése.
+
+Az 5.0-s verziót egy korábbi 4.0-s éles adatbázis másolatával is ellenőriztük: a migráció sikerült, és **13 régi adattábla** meglévő értékei megmaradtak.
+
+Tesztelés a repository gyökérkönyvtárából:
+
+```bash
+dotnet build
+dotnet test Caffeine.Tests/Caffeine.Tests.csproj
+node --test Caffeine.Tests/Frontend/*.test.cjs
+```
+
+*A tesztszám az utolsó igazolt helyi futást tükrözi, és a későbbi fejlesztésekkel változhat.*
+
+### 🧠 A koffeinmodell működése
+
+Minden rögzített ital külön-külön járul hozzá a becsült aktív koffeinmennyiséghez. A Koffi körülbelül **45 perces felszívódási szakasszal**, majd **5 órás felezési idejű exponenciális kiürüléssel** számol. Az egyes italok becsült hozzájárulásait összeadva állítja elő az összesített koffeingörbét.
+
+Ugyanez a modell szolgál a lefekvéskor várható koffeinszint, a cutoff és a what-if kalkulátor becsléseinek alapjául. Az egyéni koffeinlebontás eltérhet a modelltől, ezért az eredmények **becslések, nem orvosi tanácsok**.
+
+### 🌙 Hogyan működik az alváselemzés?
+
+A Koffi a rendelkezésre álló személyes alvásadatokat elemzi, és nem állítja, hogy a koffein *okozta* valamelyik éjszaka alvásminőségét. Figyelembe veheti a lefekvéskor becsült koffeinszintet, az előző napi fogyasztást, az utolsó ital időpontját, az alvásértékelést, az elalvási nehézséget és az alvás hosszát.
+
+| Rögzített éjszakák | Az elemzés részletessége |
+|---|---|
+| 10-nél kevesebb | Nincs elegendő adat személyes összefüggés kimondásához |
+| 10–19 | Korai becslés, kevés adat |
+| 20–29 | Kirajzolódó mintázat |
+| 30 vagy több | Részletesebb személyes megfigyelések |
+
+Az alkalmazás az adatok által alátámasztott irányt és erősséget mutatja be, a technikai részleteket külön is elérhetővé téve.
+
+### 📧 E-mail-megerősítés, feliratkozások és kézbesítés
+
+**E-mail-cím-megerősítés.** A rendszer biztonságos, egyszer használható, **24 óráig érvényes** megerősítő hivatkozást állít elő. A tokeneknek csak a SHA-256 hash-e kerül az adatbázisba. A token a sikeres megerősítéskor felhasználttá válik. A régi fiókok megerősítés nélkül is használhatók.
+
+**Hozzájárulás.** Az újdonságértesítő és a heti statisztikai összefoglaló két külön **önkéntes** feliratkozás. Mindkettőhöz megerősített e-mail-cím szükséges. A levelek nyelve külön állítható, a leiratkozó linkek pedig kategóriánként működnek; a hozzájárulások változásait a rendszer naplózza.
+
+**Heti összefoglaló.** Az alapértelmezett ütemezés **hétfő 08:00, Europe/Budapest időzóna**. A jelentés a legutóbbi jogosult, lezárt hétfő–vasárnap időszakot foglalja össze. A meglévő adatoktól függően összes koffeinmennyiséget, hétnapos napi átlagot, italszámot, előző heti összehasonlítást és alvásstatisztikákat tartalmazhat. A hiányzó bejegyzések nem jelentenek automatikusan nulla fogyasztást vagy nulla alvást.
+
+**Újdonságkampányok.** A kiküldéshez adminisztrátori felületen kívül kezelt, lokalizált kampánytartalom, előnézet, sikeres tesztküldés és külön indítóparancs kell. A sorba állított levél küldésekor a rendszer újra ellenőrzi a felhasználó megerősítését és feliratkozását. A már lefutott kampány nem megy ki visszamenőleg a később feliratkozóknak.
+
+**Levélküldési sor és biztonság.** Az e-mail-feladatok SQLite-adatbázisban tárolódnak. A rendszer többek között várakozó, elküldött, visszavont, sikertelen és bizonytalan állapotokat különböztet meg. Bizonytalan SMTP-eredménynél nem küld automatikusan újabb példányt; az ismétlődésvédelem felhasználónként és kampányonként is működik.
+
+**Jelenlegi éles beállítás:**
+
+```env
+Mailing__Enabled=true
+```
+
+A valódi konfiguráció a szerver privát környezeti változóiban van, nem a GitHubon. A jelszó-visszaállítás a már meglévő, külön levélküldési folyamatot használja.
+
+### 🚀 Üzemeltetés és telepítés
+
+A Koffi Linux VPS-en fut Docker-konténerben, stabil .NET 10 futtatókörnyezettel. A **Caddy** HTTPS reverse proxyként működik. Az éles **SQLite-adatkönyvtár** és az **ASP.NET Core Data Protection kulcsai** a konténeren kívül tartósan vannak tárolva, így a frissítések során is megmaradnak.
+
+Éles frissítésnél ajánlott:
+
+1. Konzisztens SQLite-mentést készíteni, figyelembe véve az esetleges aktív WAL-állapotot, és megőrizni a Data Protection kulcsokat.
+2. Lefordítani és letesztelni az új verziót, majd az EF Core migrációkat a projekt meglévő adatbázis-frissítési folyamatával alkalmazni.
+3. A friss konténert az eredeti tartós adatkönyvtárral és privát konfigurációval elindítani.
+4. Ellenőrizni a HTTP-elérhetőséget, az adatbázis integritását és a háttérszolgáltatásokat.
+5. Visszaállítási lehetőséget fenntartani. Más környezetben a levelező worker bekapcsolása mindig külön megfontolt döntés legyen.
+
+Az 5.0 a `Koffi50SleepMailing` migrációt használja a bővített alvásnaplóhoz, a saját italok archiválásához, az e-mail-megerősítéshez, a feliratkozásokhoz és a tartós levélsorhoz.
+
+**Soha ne kerüljön verziókezelésbe** éles adatbázis, jelszó, SMTP-hozzáférés, Data Protection kulcs vagy privát környezeti fájl.
+
 ---
 
-# ☕ Koffi – Magyar verzió
-
-💙 **Támogatás:** [buymeacoffee.com](https://buymeacoffee.com/adamka00)
-
-🌍 **Éles alkalmazás:** [koffi.hu](https://koffi.hu)
-
-**Aktuális verzió: 5.0**
-
-A Koffi egy modern, mobilra optimalizált ASP.NET Core MVC Progressive Web App (PWA) a koffeinbevitel követésére, a szervezetben lévő aktív koffeinszint időbeli becslésére, a koffeinfogyasztás alváshoz történő tervezésére és a saját koffein- és alvási szokások közötti mintázatok megfigyelésére.
-
-A Koffi a biológiai koffeinmodellt napi és heti előzményekkel, kedvencekkel, szerkeszthető saját italokkal, streak rendszerrel, koffeinmentes napokkal, részletes alvásnaplóval, heti alvásstatisztikákkal, tervezési eszközökkel, hosszú távú statisztikákkal, vonalkódos italkereséssel, onboardinggal, vendégmóddal és felhasználói fiókokkal egészíti ki.
-
-A **Koffi 5.0** kibővített alvásnaplót, kategorizálható és szerkeszthető saját italokat, intelligensebb vendégregisztrációs ajánlót, valamint e-mail-cím-megerősítést és önkéntes feliratkozásokon alapuló levelezési rendszert vezet be.
-
-Az új e-mailes infrastruktúra elkészült, de az **automatikus levélküldés jelenleg még ki van kapcsolva az éles környezetben**, amíg a végső beállítás és ellenőrzés meg nem történik.
-
-## ✨ Funkciók
-
-* **Felhasználói Fiókok és Vendégmód:** Regisztráció nélkül azonnal elkezdheted a koffein követését egy sütialapú vendégazonosítóval. Későbbi regisztrációnál a támogatott vendégadatok átvihetők az új profilba.
-* **Intelligens Regisztrációs Ajánló (5.0):** Vendégként 10 rögzített ital vagy 5 aktív nap után diszkrét, a használatot nem akadályozó regisztrációs javaslat jelenhet meg. Az ajánló 14 napra elrejthető.
-* **Biztonságos Bejelentkezés:** Sütialapú autentikáció, ASP.NET Core jelszó-hashelés, biztonsági stamp és felhasználónként elkülönített adatok.
-* **Jelszó-visszaállítás E-mailben:** A regisztrált felhasználók biztonságos, lejáró és egyszer használható tokennel, SMTP-n kézbesített levél segítségével állíthatják vissza jelszavukat.
-* **E-mail-cím Megerősítése (5.0):** Az új felhasználók biztonságos, egyszer használható hivatkozással erősíthetik meg e-mail-címüket. A naplózás és a fiók használata megerősítés nélkül is lehetséges.
-* **Önkéntes E-mail-feliratkozások (5.0):** A megerősített e-mail-címmel rendelkező felhasználók egymástól függetlenül kérhetnek újdonságértesítéseket és személyes heti összefoglalókat. Mindkét lehetőség alapértelmezetten ki van kapcsolva.
-* **E-mail-beállítások és Leiratkozás (5.0):** A két feliratkozás külön kezelhető, megadható a levelek nyelve, és az egyik értesítési csatornáról a másik megtartásával is le lehet iratkozni.
-* **Progressive Web App (PWA):** Támogatott eszközökön telepíthető, így mobilon alkalmazásszerű élményt nyújt.
-* **Intelligens PWA Telepítési Javaslat:** A Koffi több használat után felajánlhatja a telepítést, iOS-en pedig külön útmutatót ad a Megosztás → Hozzáadás a Főképernyőhöz lépésekhez.
-* **Interaktív Bevezető:** A fő funkciókat fokozatos onboarding mutatja be. Átugorható, és később újra megnyitható.
-* **Súgó, Funkciómagyarázatok és Újdonságok:** Beépített súgóoldalak, kontextusos `?` magyarázatok, verzióhoz kötött újdonságok és külön támogatási oldal segíti az eligazodást. Az 5.0 finomítja a súgóikonok elhelyezését és megjelenését.
-* **Reggeli Alvásnapló Emlékeztető:** Ha az előző éjszakához nincs alvásbejegyzés, a Koffi reggel az alkalmazáson belül emlékeztethet rá. A „Most nem” választás aznapra elnémítja.
-* **Aktív Koffeinszint Számítás:** Megbecsüli az aktuálisan aktív koffein mennyiségét, egyszerre több, különböző időpontban elfogyasztott italt is figyelembe véve.
-* **Biológiai Koffeinmodell:** 45 perces felszívódási szakasszal, majd 5 órás felezési idejű exponenciális kiürüléssel számol.
-* **Alvásküszöb Előrejelzés:** Megbecsüli, mikor csökken az aktív koffeinszint a beállított személyes célérték alá.
-* **Tervezett Alvásidő:** Beállíthatod, mikor tervezel lefeküdni, az alkalmazás pedig megmutatja az arra az időpontra becsült aktív koffeinszintedet.
-* **Koffeintervező:** Rögzítés előtt megnézheted, hogyan befolyásolna egy ital egy későbbi koffeinszintet.
-* **Koffein Cutoff:** A Koffi megbecsülheti, hogy egy adott italt körülbelül meddig fogyaszthatsz el úgy, hogy lefekvésre a beállított célérték közelébe kerülj.
-* **What-If Kalkulátor:** Kipróbálhatsz különböző fogyasztási forgatókönyveket anélkül, hogy azok automatikusan bekerülnének a naplóba.
-* **Alvásnapló 2.0 (5.0):** Az alváskövetés három különálló fülre tagolódik: **Napló, Statisztika és Elemzés**.
-* **Részletes Alvásrögzítés (5.0):** Rögzíthető a tényleges elalvás és végső ébredés időpontja, az alvásminőség, az opcionális tervezett lefekvés, az elalvási nehézség, az éjszakai felébredések száma és a megjegyzés.
-* **Heti Alvásstatisztikák (5.0):** Hétfőtől vasárnapig áttekinthető az átlagos, legrövidebb és leghosszabb alvásidő, az alvásminőség, a felébredések, az elalvási nehézség és a tervezett időponttól való eltérés.
-* **Hetek Összehasonlítása (5.0):** A korábbi naptári hetek között is lehet navigálni, és az elérhető adatok az előző héttel összevethetők.
-* **Óra–Perc Alapú Alvásidő (5.0):** Az alvás hossza mindenhol érthető, például „7 óra 30 perc” formában jelenik meg.
-* **Időzóna- és Óraátállítás-kezelés (5.0):** Az új alvásbejegyzések a nyári és téli időszámítás közötti váltásnál is pontos eltelt időt tudnak számolni, miközben a korábbi bejegyzések jelentése változatlan marad.
-* **Automatikus Alvási Kontextus:** A Koffi automatikusan összekapcsolja az alvásbejegyzést az előző napi releváns koffeinadatokkal.
-* **Személyes Alvási Trendek:** A saját koffein- és alvásadatok alapján fokozatosan részletesebbé váló megfigyelések jelenhetnek meg.
-* **Közérthető Alváselemzés (5.0):** A személyes összefüggéseket egyszerűbb, magyarázó szövegek mutatják be, a technikai számítási részletek külön érhetők el.
-* **Óvatos Következtetések:** A Koffi összefüggéseket, irányt és erősséget ír le, nem állít ok-okozati vagy orvosi következtetést.
-* **Streak Rendszer:** Követhető az aktuális és a valaha elért leghosszabb naplózási sorozat.
-* **Koffeinmentes Nap:** Egy nap explicit koffeinmentesként jelölhető meg úgy, hogy közben a streak folytatódik.
-* **Napi Előzmények és Dátumválasztás:** A nyilakkal vagy a beépített dátumválasztóval korábbi napokra is visszanézhetsz.
-* **Heti Áttekintés:** Naptári hetek szerint is áttekintheted a koffeinbeviteledet, beleértve a hónap- és évhatáron átnyúló heteket.
-* **Újratervezett Lifetime Statisztikák:** Átláthatóbb kártyákon, trendeken és grafikonokon jelennek meg a hosszú távú adatok, gyakori italok, koffeinmentes napok, streakek és fogyasztási időzítések.
-* **Mobilbarát Aktivitási Heatmap:** Megmaradt a GitHub-szerű aktivitási nézet, de mobilon nem kényszerít hatalmas vízszintes görgetésre.
-* **Kedvencek és Gyors Hozzáadás:** A gyakran fogyasztott italokat a megszokott mennyiséggel együtt kedvencként mentheted, majd közvetlenül a napi nézetből egy mozdulattal rögzítheted őket.
-* **Globális Gyors Hozzáadás:** A fix, safe-area-aware `+` gombbal az italrögzítés az alkalmazás több pontjáról is gyorsan elérhető.
-* **Gyors Hozzáadás Visszavonása:** Ha véletlenül rögzítettél egy kedvenc italt, a legutóbbi gyors hozzáadás visszavonható.
-* **Saját Italok Létrehozása:** Saját italokat hozhatsz létre a koffeintartalom mg/100 ml értékének megadásával.
-* **Saját Italok Kezelése (5.0):** A már létrehozott italok neve, koffeintartalma, alapértelmezett kiszerelése és kategóriája utólag szerkeszthető.
-* **Saját Italkategóriák (5.0):** Az italok energiaital, kávé, tea, üdítő és egyéb kategóriába sorolhatók. Kategória választható kézi vagy vonalkódos rögzítésnél is.
-* **Biztonságos Italarchiválás (5.0):** A saját italok végleges törlés helyett archiválhatók. Eltűnnek az aktív listákból, de a korábbi naplóbejegyzések és azok rögzített koffeinmennyiségei megmaradnak.
-* **Beépített Itallista:** Gyakori koffeintartalmú italok gyors kiválasztása lokalizált elnevezésekkel.
-* **Vonalkódolvasó (Béta):** Támogatott, biztonságos böngészőkben a kamera segítségével beolvasható a termék vonalkódja. A találat mentés előtt ellenőrizhető és szerkeszthető, kamera nélkül pedig kézi bevitelre lehet váltani.
-* **Open Food Facts Integráció:** A vonalkódos keresés külső javaslatként használhatja az Open Food Facts adatbázisát. A Koffi nem tekinti automatikusan hitelesnek a külső adatot, és akkor is használható marad, ha a szolgáltatás nem érhető el.
-* **Biztonságos Termékkeresési Fallback:** Ha a koffeintartalom nem megbízható vagy hiányzik, a Koffi nem talál ki helyette értéket; a felhasználó ellenőrizheti és kiegészítheti az adatokat.
-* **Italkeresés:** Az itallista gyorsan szűrhető kis- és nagybetűktől, illetve magyar ékezetektől független kereséssel.
-* **Interaktív Koffeingörbe:** A Chart.js grafikonon jeleníti meg a kiválasztott nap becsült aktív koffeinszintjének alakulását.
-* **Részletes Italnapló:** Naponként megtekintheted a rögzített italokat, mennyiségeket, koffeintartalmat és fogyasztási időpontokat.
-* **Személyes Heti E-mail-összefoglalók (5.0):** Az önkéntesen bekapcsolható rendszer a lezárt naptári hetek koffein- és elérhető alvásadataiból állít össze személyre szabott összefoglalókat.
-* **Újdonságértesítő E-mailek (5.0):** Önálló feliratkozáson alapuló kiadási és újdonságértesítések, adminisztrátori előnézeti és tesztküldési folyamattal.
-* **Tartós Levélküldési Sor (5.0):** Az e-mail-feladatok SQLite-adatbázisban tárolódnak, háttérfolyamat dolgozza fel őket, állapotkövetéssel, ismétlődésvédelemmel és ellenőrzött újrapróbálkozással.
-* **Biztonságos Adatbázis-frissítés:** Az Entity Framework Core migrációi és a külön adatbázis-upgrade folyamat lehetővé teszik a régebbi adatbázisok frissítését a meglévő adatok megőrzésével.
-* **Fiók- és Adattörlés:** Az alkalmazásból véglegesen törölhető a felhasználói fiók és a hozzá tartozó követési adat.
-* **Sütikezelés:** Beépített tájékoztató az alkalmazás által használt sütikről.
-* **Többnyelvűség:** Teljes magyar, angol és német (HU/EN/DE) felület beépített nyelvváltóval. Az 5.0 új alvás-, ital- és e-mailes felületei is lokalizáltak.
-* **Modern, Mobile-First UI:** Finomhangolt reszponzív, sötét, glassmorphism stílusú felület, egységesebb komponensekkel és javított mobilos használhatósággal. Az 5.0 a megszokott 4.0-s arculatot megőrizte.
-
-## 🛠️ Használt Technológiák
-
-* **Nyelv / Runtime:** C# / .NET 10
-* **Backend:** ASP.NET Core MVC
-* **Adatbázis:** SQLite
-* **ORM:** Entity Framework Core, Code-First migrációkkal
-* **Autentikáció:** ASP.NET Core Cookie Authentication
-* **Jelszóbiztonság:** ASP.NET Core `PasswordHasher`
-* **E-mail-küldés:** MailKit / SMTP, STARTTLS kapcsolattal
-* **Éles Levelezési Infrastruktúra:** Postfix és OpenDKIM
-* **E-mail-biztonság:** SHA-256-tal hashelt megerősítő tokenek, egyszer használható linkek, ASP.NET Core Data Protection, CSRF-védelem és rate limiting
-* **Levélfeldolgozás:** Tartós SQLite-alapú levélsor, háttérben futó worker és adminisztrátori CLI
-* **Frontend:** Razor Views, HTML5, JavaScript, Tailwind CSS
-* **Grafikonok:** Chart.js
-* **Vonalkódolvasás:** ZXing JavaScript
-* **Külső Termékadatok:** Open Food Facts
-* **Lokalizáció:** ASP.NET Core Localization és lokalizált Razor erőforrások (HU/EN/DE)
-* **PWA:** Web App Manifest és Service Worker
-* **Architektúra:** Repository Pattern, Strategy Pattern, Dependency Injection
-* **Adatbázis-frissítés:** EF Core migrációk egyedi legacy adatbázis-kompatibilitási logikával
-* **Tesztelés:** Automatizált
+**Made with ☕ and C# · Koffi 5.0**
